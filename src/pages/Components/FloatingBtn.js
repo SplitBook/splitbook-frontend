@@ -23,16 +23,26 @@ const useStyles = makeStyles((theme) => ({
   
 export default function FloatingBtn({history}) {
     const classes = useStyles();
+    console.log('lyam',history.location.pathname);
 
     function redirectToNewReq(){
       history.push('/app/new/request')
     }
-
-    return(
+    if (history.location.pathname!=='/app/new/request'){
+      return(
         <Tooltip title="Novo requisito" aria-label="add">
             <Fab className={classes.absolute} onClick={redirectToNewReq}>
                <AddIcon />
             </Fab>
         </Tooltip>
     );
+    }
+    else{
+      return (
+        <>
+        </>
+      );
+    }
+    
+    
 }
