@@ -43,12 +43,12 @@ export default function MenuLayout({history}) {
       aria-labelledby="nested-list-subheader"
       className={classes.root}
     >
-    <Link to="/app/ee/home">
+    <Link to="/app/ee/home" >
       <ListItem button >
         <ListItemIcon >
           <HomeIcon />
         </ListItemIcon>
-        <ListItemText primary="Página Inícial" />
+        <ListItemText primary="Página Inícial" className="BtnMenu"/>
       </ListItem>
     </Link>
     <Link to="/app/new/request">
