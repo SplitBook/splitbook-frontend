@@ -12,13 +12,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import AccountBox from '@material-ui/icons/AccountBox';
-
-
-
-
-import {
-  Link,
-} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +83,7 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Editoras" />
       </ListItem>
     </Link>
-    <Link to="/app/add/publisher">
+    <Link to="/app/account">
       <ListItem button>
         <ListItemIcon>
           <AccountBox />

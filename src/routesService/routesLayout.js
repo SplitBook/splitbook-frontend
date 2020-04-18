@@ -6,6 +6,7 @@ import Main from '../pages/app/MainPageEE';
 import NewRequest from '../pages/app/NewRequest';
 import Manual from '../pages/app/Manuals';
 import Publisher from '../pages/app/Publishers';
+import AccountPage from '../pages/app/AccountPage';
 
 export default function RoutesLayout(){
     return(
@@ -14,6 +15,7 @@ export default function RoutesLayout(){
             <Route path="/app/ee/home" component={Main}/>
             <Route path="/app/add/manual" component={Manual}/>
             <Route path="/app/add/publisher" component={Publisher}/>
+            <Route path="/app/account" component={AccountPage}/>
         </BrowserRouter>
     );
     

@@ -5,15 +5,15 @@ import Card from '../Components/Card';
 
 
 export default function MainPageEE(){
-
+  const [idStatus, setIdStatus] = React.useState(2);
     return (
       <div >
       <Grid container spacing={2}>
         <Grid item xs={7}>
-          <Table/>
+          <Table idStatus={idStatus}/>
         </Grid>
         <Grid item xs={5}>
-          <Card num={1}/>
+          <Card idStatus={idStatus}/>
         </Grid>
       </Grid>
     </div>

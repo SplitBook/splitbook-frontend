@@ -8,10 +8,10 @@ import './ComponentsStyles.css'
 
 
 
-export default function SimpleCard({num}) {
+export default function SimpleCard({idStatus}) {
   return (
     <Card className="card">
-      {num===1 && (
+      {idStatus===1 && (
         <CardContent>
             <Typography variant="h5" component="h2">
             Status<FiberManualRecordIcon className="status1"/>
@@ -20,7 +20,7 @@ export default function SimpleCard({num}) {
             <p>A sua requisição está a aguardar validação </p>
       </CardContent>
       )}
-      {num===2 && (
+      {idStatus===2 && (
         <CardContent>
             <Typography variant="h5" component="h2">
             Status<FiberManualRecordIcon className="status2"/>
@@ -29,7 +29,7 @@ export default function SimpleCard({num}) {
             <p>A aguardar...</p>
       </CardContent>
       )}
-      {num===3 && (
+      {idStatus===3 && (
         <CardContent>
             <Typography variant="h5" component="h2">
             Status<FiberManualRecordIcon className="status3"/>
