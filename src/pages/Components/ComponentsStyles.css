@@ -1,0 +1,33 @@
+.card{
+    max-width: fit-content;
+}
+
+.status1{
+    color: red;
+}
+
+.status2{
+    color: orange;
+}
+
+.status3{
+    color: green;
+}
+
+.SnackBarBtn{
+    width: 100%;
+}
+
+.btnRecoverPass{
+    height: 48px;
+    background: #0988e2;
+}
+
+.btnRecoverPass:hover{
+    background: #0876c4;
+}
+
+p{
+    margin-top: 10px;
+}
+
