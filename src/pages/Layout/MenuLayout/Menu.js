@@ -12,6 +12,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import AccountBox from '@material-ui/icons/AccountBox';
+import VpnKey from '@material-ui/icons/VpnKey';
 import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,6 +90,14 @@ export default function MenuLayout({history}) {
           <AccountBox />
         </ListItemIcon>
         <ListItemText primary="Conta" />
+      </ListItem>
+    </Link>
+    <Link to="/app/permissions">
+      <ListItem button>
+        <ListItemIcon>
+          <VpnKey />
+        </ListItemIcon>
+        <ListItemText primary="Gestor de permissões" />
       </ListItem>
     </Link>
     <Link to="/login">

@@ -18,6 +18,7 @@ export default function Routes(){
                 <Route path="/app/add/manual" component={App}/>
                 <Route path="/app/add/publisher" component={App}/>
                 <Route path="/app/account" component={App}/>
+                <Route path="/app/permissions" component={App}/>
             </Route>
         </BrowserRouter>
     );
