@@ -26,23 +26,23 @@ export default function CardPermissions() {
   const classes = useStyles();
 
   return (
-      <>
-    <Card className={classes.root} >
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary"  gutterBottom>
-            <i>Legenda:</i>
-        </Typography>
-        <Typography variant="body2" component="p">
-            <b>Tipo I:</b> Criação e edição e visualização de requisiçoes e criação de livros e editoras
-        </Typography>
-        <Typography variant="body2" component="p">
-            <b>Tipo II:</b> Criação e edição e visualização de requisiçoes
-        </Typography>
-        <Typography variant="body2" component="p">
-            <b>Tipo III:</b> Criação e edição de requisiçoes
-        </Typography>
-      </CardContent>
-    </Card>
+    <>
+      <Card className={classes.root} >
+        <CardContent>
+          <Typography className={classes.title} color="textSecondary"  gutterBottom>
+              <i>Legenda:</i>
+          </Typography>
+          <Typography variant="body2" component="p">
+              <b>Tipo I:</b> Criação e edição e visualização de requisiçoes e criação de livros e editoras
+          </Typography>
+          <Typography variant="body2" component="p">
+              <b>Tipo II:</b> Criação e edição e visualização de requisiçoes
+          </Typography>
+          <Typography variant="body2" component="p">
+              <b>Tipo III:</b> Criação e edição de requisiçoes
+          </Typography>
+        </CardContent>
+      </Card>
     </>
   );
 }

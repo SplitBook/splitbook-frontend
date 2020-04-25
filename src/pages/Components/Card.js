@@ -23,7 +23,7 @@ export default function SimpleCard({idStatus}) {
       {idStatus===2 && (
         <CardContent>
             <Typography variant="h5" component="h2">
-            Status<FiberManualRecordIcon className="status2"/>
+            Estado do pedido<FiberManualRecordIcon className="status2"/>
             </Typography>
             <Divider/>
             <p>A aguardar...</p>

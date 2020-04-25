@@ -13,6 +13,8 @@ import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import AccountBox from '@material-ui/icons/AccountBox';
 import VpnKey from '@material-ui/icons/VpnKey';
+import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
+import AllInbox from '@material-ui/icons/AllInbox';
 import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -90,6 +92,22 @@ export default function MenuLayout({history}) {
           <AccountBox />
         </ListItemIcon>
         <ListItemText primary="Conta" />
+      </ListItem>
+    </Link>
+    <Link to="/app/books/delivery">
+      <ListItem button>
+        <ListItemIcon>
+          <AllInbox />
+        </ListItemIcon>
+        <ListItemText primary="Entrega de Livros" />
+      </ListItem>
+    </Link>
+    <Link to="/app/books/return">
+      <ListItem button>
+        <ListItemIcon>
+          <AssignmentReturned />
+        </ListItemIcon>
+        <ListItemText primary="Recolha de Livros" />
       </ListItem>
     </Link>
     <Link to="/app/permissions">
