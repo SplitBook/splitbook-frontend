@@ -35,3 +35,10 @@ p{
     padding: 2%;
 }
 
+h3{
+    margin-bottom: 5px;
+}
+
+p.legenda{
+    margin-bottom: 10px;
+}

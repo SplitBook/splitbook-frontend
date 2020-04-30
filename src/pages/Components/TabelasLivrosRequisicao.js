@@ -8,6 +8,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,10 +104,17 @@ export default function TransferList() {
   );
 
   return (
+    <>
     <Grid container spacing={2} alignItems="center" className={classes.root}>
-      <Grid item>{customList(left)}</Grid>
+      <Grid item>
+      <center>
+        <h3>Manuais disponiveis para requisitar</h3>
+      </center>
+      {customList(left)}
+      </Grid>
       <Grid item>
         <Grid container direction="column" alignItems="center">
+          <Tooltip title="mover todos os manuais para a direita">
           <Button
             variant="outlined"
             size="small"
@@ -116,6 +125,8 @@ export default function TransferList() {
           >
             ≫
           </Button>
+          </Tooltip>
+          <Tooltip title="mover o(s) manuais para a direita">
           <Button
             variant="outlined"
             size="small"
@@ -126,6 +137,8 @@ export default function TransferList() {
           >
             &gt;
           </Button>
+          </Tooltip>
+          <Tooltip title="mover o(s) manuais para a esquerda">
           <Button
             variant="outlined"
             size="small"
@@ -136,6 +149,8 @@ export default function TransferList() {
           >
             &lt;
           </Button>
+          </Tooltip>
+          <Tooltip title="mover todos os manuais para a esquerda">
           <Button
             variant="outlined"
             size="small"
@@ -146,9 +161,32 @@ export default function TransferList() {
           >
             ≪
           </Button>
+          </Tooltip>
         </Grid>
       </Grid>
-      <Grid item>{customList(right)}</Grid>
+      <Grid item>
+        <center>
+          <h3>Manuais Selecionados</h3>
+        </center>
+        {customList(right)}
+      </Grid>
+      <Grid item>
+
+      </Grid>
     </Grid>
+    <p className="legenda"> 
+      * Selecione os manuais que prentende requisitar e transponha-os para 
+      a tabela da direita através dos botões centrais.
+    </p>
+    
+    </>
   );
 }
+
+/*
+    <h4>Legenda: </h4>
+    <p> >> : mover todos os manuais para a direita</p>
+    <p> > : mover o(s) manuais para a direita</p>
+    <p> {'<'} : mover o(s) manuais para a esquerda</p>
+    <p> {'>>'} : mover todos os manuais para a esquerda</p>
+*/
