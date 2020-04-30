@@ -16,6 +16,7 @@ import VpnKey from '@material-ui/icons/VpnKey';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
 import {Link} from 'react-router-dom';
+import './Menu.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
