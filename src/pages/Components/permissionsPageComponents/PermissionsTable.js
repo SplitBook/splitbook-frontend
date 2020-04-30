@@ -27,8 +27,13 @@ const rows = [
   createData('Militares', false, true, false),
 ];
 
+function changecheck(type){
+  type=!type;
+}
+
 export default function PermissionsTable() {
   const classes = useStyles();
+  const [check, setCheck] = React.useState();
 
   return (
     <>
@@ -53,6 +58,7 @@ export default function PermissionsTable() {
                 defaultChecked
                 color="default"
                 checked={row.tipo1}
+                //onChange={changecheck}
                 inputProps={{ 'aria-label': 'checkbox with default color' }}
               />
               </TableCell>

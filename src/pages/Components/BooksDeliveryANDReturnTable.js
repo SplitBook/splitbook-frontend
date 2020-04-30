@@ -10,7 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,22 +33,35 @@ function createData(id, isbn, estado) {
 
 const rows = [
   createData(15, '192-1234-12', 'Bom'),
-  createData(22, '237-7654-63', ''),
-  createData(14, '262-1667-37', ''),
+  createData(22, '237-7654-63', 'Otimo'),
+  createData(14, '262-1667-37', 'Bom'),
 ];
 
 export default function BooksDeliveryANDReturnTable() {
   const classes = useStyles();
-  const [estado, setEstado] = React.useState('');
+  const [estado, setEstado] = React.useState();
+
+
+  console.log("Rows: (teste) >> ",rows)
+
 
   const handleChange = (event) => {
-    setEstado(event.target.value);
+    setEstado(event.target.value)
+    console.log(event)
   };
+
+  function changeCheck(estado,row){
+    console.log("Ola",estado,row)
+    console.log(row.estado)
+    if(estado==null){
+      //setEstado(row.estado)
+    }
+  }
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="caption table">
-        <caption>A basic table example with a caption</caption>
+        <caption>legenda</caption>
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
@@ -70,13 +82,13 @@ export default function BooksDeliveryANDReturnTable() {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={estado}
-                        onChange={handleChange}
+                        onChange={handleChange,changeCheck(estado,row)}
                         >
-                    <MenuItem value={'ola'}>Mau</MenuItem>
-                    <MenuItem value={2}>Mediocre</MenuItem>
-                    <MenuItem value={3}>Satisfatório</MenuItem>
-                    <MenuItem value={4}>Bom</MenuItem>
-                    <MenuItem value={5}>Ótimo</MenuItem>
+                    <MenuItem value={'Mau'}>Mau</MenuItem>
+                    <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
+                    <MenuItem value={'Satisfatório'}>Satisfatório</MenuItem>
+                    <MenuItem value={'Bom'}>Bom</MenuItem>
+                    <MenuItem value={'Otimo'}>Ótimo</MenuItem>
                     </Select>
                 </FormControl>
               </TableCell>
