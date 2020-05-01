@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles({
@@ -27,13 +28,9 @@ const rows = [
   createData('Militares', false, true, false),
 ];
 
-function changecheck(type){
-  type=!type;
-}
 
-export default function PermissionsTable() {
+export default function PermissionsTable(){
   const classes = useStyles();
-  const [check, setCheck] = React.useState();
 
   return (
     <>
@@ -55,26 +52,23 @@ export default function PermissionsTable() {
               </TableCell>
               <TableCell align="right">
               <Checkbox
-                defaultChecked
                 color="default"
-                checked={row.tipo1}
+                defaultChecked={row.tipo1}
                 //onChange={changecheck}
                 inputProps={{ 'aria-label': 'checkbox with default color' }}
               />
               </TableCell>
               <TableCell align="right">
                 <Checkbox
-                  defaultChecked
                   color="default"
-                  checked={row.tipo2}
+                  defaultChecked={row.tipo2}
                   inputProps={{ 'aria-label': 'checkbox with default color' }}
                 />
               </TableCell>
               <TableCell align="right">
                 <Checkbox
-                  defaultChecked
                   color="default"
-                  checked={row.tipo3}
+                  defaultChecked={row.tipo3}
                   inputProps={{ 'aria-label': 'checkbox with default color' }}
                 />
               </TableCell>
@@ -83,6 +77,9 @@ export default function PermissionsTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    <Button className="btnPermissoes" variant="outlined" color="primary" >
+        Submeter novas Permissões
+    </Button>
     </>
   );
 }

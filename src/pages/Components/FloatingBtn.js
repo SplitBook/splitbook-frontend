@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
   
 export default function FloatingBtn({history}) {
     const classes = useStyles();
-    console.log('lyam',history.location.pathname);
 
     function redirectToNewReq(){
       history.push('/app/new/request')

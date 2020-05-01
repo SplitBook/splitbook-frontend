@@ -90,7 +90,6 @@ export default function MiniDrawer({history}) {
   const [open, setOpen] = React.useState(false);
   //const [auth, setAuth] = React.useState(true);
   //const [anchorEl, setAnchorEl] = React.useState(null);
-  console.log("eeeeeiii",history)
 
   const handleDrawerOpen = () => {
     setOpen(true);
