@@ -138,7 +138,7 @@ export default function MiniDrawer({history}) {
                 <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap>
-                  Slipt
+                  Split
                 </Typography>
                 <img src={logo} alt="logotipo"/>
                 <Typography variant="h6" noWrap>
