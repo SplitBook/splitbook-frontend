@@ -53,9 +53,9 @@ export default function BooksDeliveryANDReturnTable() {
   function changeCheck(estado,row){
     console.log("Ola",estado,row)
     console.log(row.estado)
-    if(estado==null){
-      //setEstado(row.estado)
-    }
+    /*if(estado==null){
+      setEstado(row.estado)
+    }*/
   }
 
   return (

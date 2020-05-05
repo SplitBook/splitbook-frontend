@@ -1,11 +1,17 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import BooksDeliveryANDReturnTable from '../Components/BooksDeliveryANDReturnTable'
 
 
 export default function BooksReturn(){
+    const [obs, setObs] = React.useState('');
+
+    const handleChange = (event) => {
+        setObs(event.target.value)
+        console.log("Observações: ",obs);
+      };
+
 
     return (
       <>
@@ -18,7 +24,7 @@ export default function BooksReturn(){
                 <Grid container>
                     <Grid item>
                         <h3><b>Observações:</b></h3>
-                        <textarea rows="15" cols="40"/>
+                        <textarea value={obs} onChange={handleChange} rows="15" cols="40"/>
                     </Grid>
                     <Grid item >
                         <Button className="btnPermissoes" variant="outlined" color="primary" >

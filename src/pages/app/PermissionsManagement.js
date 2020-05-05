@@ -13,7 +13,9 @@ export default function GestaoPermissoes() {
         <Grid item>
           <PermissionsTable/>
         </Grid>
-        <Grid item >
+      </Grid>
+      <Grid container >
+      <Grid item >
           <CardPermissions/>
         </Grid>
       </Grid>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter,Route} from 'react-router-dom';
+import { BrowserRouter,Route,Redirect} from 'react-router-dom';
 
 import Login from '../pages/auth/Login';
 import RecoverPassword from '../pages/auth/RecoverPassword';
@@ -7,6 +7,9 @@ import App from '../pages/Layout/Layout';
 import Error404 from '../pages/error/error404';
 
 export default function Routes(){
+    const [loggedIn, setLoggedIn] = React.useState(false);
+
+
     return(
         <BrowserRouter>
             <Route path="/404" component={Error404}/>
@@ -21,8 +24,15 @@ export default function Routes(){
                 <Route path="/app/permissions" component={App}/>
                 <Route path="/app/books/delivery" component={App}/>
                 <Route path="/app/books/return" component={App}/>
-                
             </Route>
+            <Route path="" redirectTo="/login"/>
+            <Route exact path="/" render={() => (
+            loggedIn ? (
+                <Redirect to="/app/ee/home"/>
+            ) : (
+                <Redirect to="/login"/>
+            )
+            )}/>
         </BrowserRouter>
     );
 }

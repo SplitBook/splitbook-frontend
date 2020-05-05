@@ -54,7 +54,6 @@ export default function PermissionsTable(){
               <Checkbox
                 color="default"
                 defaultChecked={row.tipo1}
-                //onChange={changecheck}
                 inputProps={{ 'aria-label': 'checkbox with default color' }}
               />
               </TableCell>
