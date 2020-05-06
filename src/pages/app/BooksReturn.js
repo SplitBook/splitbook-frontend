@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import BooksDeliveryANDReturnTable from '../Components/BooksDeliveryANDReturnTable'
 import TextField from '@material-ui/core/TextField';
+import Search from '@material-ui/icons/Search';
 
 
 export default function BooksReturn(){
@@ -31,13 +32,13 @@ export default function BooksReturn(){
     return (
       <>
         <h2 className="marginTitle" >Recolha de Manuais</h2>
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
             <Grid item >
                 <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
             </Grid>
             <Grid item >
                 <Button className="btnPermissoes" onClick={changeNumAluno} color="primary" >
-                    OK
+                    <Search/>
                 </Button>
             </Grid>
         </Grid>
