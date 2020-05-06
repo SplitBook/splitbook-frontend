@@ -37,6 +37,7 @@ export default function NovoRequisito(){
                         readOnly: true,
                     }}
                     variant="outlined"
+                    disabled
                 />            
             </Grid>
             <Grid item xs={2}>
@@ -47,6 +48,7 @@ export default function NovoRequisito(){
                         readOnly: true,
                     }}
                     variant="outlined"
+                    disabled
                 />       
             </Grid>
         </Grid>
@@ -71,7 +73,7 @@ export default function NovoRequisito(){
                     </Select>
             </FormControl>
             </Grid>
-            
+
         </Grid>
 
         {
@@ -86,9 +88,5 @@ export default function NovoRequisito(){
         
         </>
     );
-    /*
-        <Grid item xs={1}>
-            <TextField id="outlined-basic" label="Ano" variant="outlined" />
-        </Grid>
-    */ 
+
 }

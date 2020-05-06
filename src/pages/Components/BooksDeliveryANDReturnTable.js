@@ -27,16 +27,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-  
 
-function createData(id, isbn, estado) {
-  return { id, isbn, estado};
+function createData(id, disciplina, isbn, estado) {
+  return { id, disciplina, isbn, estado};
 }
 
 const rows = [
-  createData(15, '192-1234-12', 'Bom'),
-  createData(22, '237-7654-63', 'Otimo'),
-  createData(14, '262-1667-37', 'Bom'),
+  createData(15, 'Português','192-1234-12', 'Bom'),
+  createData(22, 'Matemática A','237-7654-63', 'Otimo'),
+  createData(14, 'Inglês','262-1667-37', 'Bom'),
 ];
 
 export default function BooksDeliveryANDReturnTable({numAluno}) {
@@ -68,6 +67,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
+                    <TableCell align="right">Disciplina</TableCell>
                     <TableCell align="right">ISBN</TableCell>
                     <TableCell align="right">Estado</TableCell>
                   </TableRow>
@@ -78,6 +78,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                       <TableCell component="th" scope="row">
                         {row.id}
                       </TableCell>
+                      <TableCell align="right">{row.nome}</TableCell>
                       <TableCell align="right">{row.isbn}</TableCell>
                       <TableCell align="right">
                         <FormControl className={classes.formControl}>
