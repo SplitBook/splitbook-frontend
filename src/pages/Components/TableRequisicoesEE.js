@@ -23,17 +23,15 @@ export default function MaterialTableDemo({idStatus}) {
       data={state.data}
       
       editable={{
-        onRowUpdate: (newData, oldData) =>
+          onRowDelete: (oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              if (oldData) {
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
+              setState((prevState) => {
+                const data = [...prevState.data];
+                data.splice(data.indexOf(oldData), 1);
+                return { ...prevState, data };
+              });
             }, 600);
           }),
       }}

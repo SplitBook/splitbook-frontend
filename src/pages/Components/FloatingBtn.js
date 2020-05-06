@@ -29,7 +29,7 @@ export default function FloatingBtn({history}) {
     }
     if (history.location.pathname!=='/app/new/request'){
       return(
-        <Tooltip title="Novo requisito" aria-label="add">
+        <Tooltip title="Nova requisição" aria-label="add">
             <Fab className={classes.absolute} onClick={redirectToNewReq}>
                <AddIcon />
             </Fab>

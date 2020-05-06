@@ -12,10 +12,17 @@ import TabelasLivros from '../Components/TabelasLivrosRequisicao';
 
 
 export default function NovoRequisito(){
-    const [age, setAge] = React.useState('');
+    const [filiado, setFiliado] = React.useState('');
+    const [tmp, setTmp] = React.useState(0);
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setFiliado(event.target.value);
+        if(event.target.value != null && event.target.value !== ''){
+            setTmp(1)
+        }
+        else{
+            setTmp(0)
+        }
       };
 
     return (
@@ -43,13 +50,14 @@ export default function NovoRequisito(){
                 />       
             </Grid>
         </Grid>
+
         <Grid container spacing={2}>
             <Grid item xs={3}>
             <FormControl variant="outlined" className="maxwidth">
                 <InputLabel htmlFor="outlined-age-native-simple" >Educando</InputLabel>
                     <Select
                         native
-                        value={age}
+                        value={filiado}
                         onChange={handleChange}
                         label="Educando"
                         inputProps={{
@@ -65,10 +73,17 @@ export default function NovoRequisito(){
             </Grid>
             
         </Grid>
-        <TabelasLivros/>
-        <Button variant="contained" color="primary">
-            Efetura requesição
-        </Button>
+
+        {
+            tmp>0 &&
+            <>
+                <TabelasLivros/>
+                <Button variant="contained" color="primary">
+                    Efetuar requisição
+                </Button>
+            </>
+        }
+        
         </>
     );
     /*
