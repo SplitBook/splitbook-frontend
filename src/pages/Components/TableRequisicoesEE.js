@@ -29,9 +29,9 @@ export default function MaterialTableDemo({idStatus}) {
     ],
   });
 
-  function guardar(){
+  /*function guardar(){
     console.log(state.data)
-  }
+  }*/
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -39,6 +39,7 @@ export default function MaterialTableDemo({idStatus}) {
 
   const handleClose = () => {
     setOpen(false);
+    setShow(true)
   };
 
   if(idStatus===1)
@@ -84,7 +85,7 @@ export default function MaterialTableDemo({idStatus}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Recuperar dados
+            Cancelar
           </Button>
           <Button onClick={handleClose} color="primary">
             Continuar
