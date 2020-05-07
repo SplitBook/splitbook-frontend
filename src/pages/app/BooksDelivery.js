@@ -5,6 +5,7 @@ import BooksDeliveryANDReturnTable from '../Components/BooksDeliveryANDReturnTab
 import './AppStyles.css';
 import TextField from '@material-ui/core/TextField';
 import Search from '@material-ui/icons/Search';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 export default function BooksDelivery(){
@@ -26,14 +27,16 @@ export default function BooksDelivery(){
       <>
         <h2 className="marginTitle" >Entrega de Manuais</h2>
 
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
             <Grid item >
                 <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
             </Grid>
             <Grid item >
-                <Button className="btnMargin" onClick={changeNumAluno} color="primary" >
-                    <Search/>
-                </Button>
+                <Tooltip title="Procurar">
+                  <Button className="btnMargin" onClick={changeNumAluno} color="primary" >
+                      <Search/>
+                  </Button>
+                </Tooltip>
             </Grid>
         </Grid>
 
