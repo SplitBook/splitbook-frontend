@@ -23,6 +23,9 @@ export default function AccountPage(){
   const handleClose = () => {
     setOpen(false);
     setShowWarnText(false);
+    setPass1('');
+    setPass2('');
+    setPass3('');
   };
 
   function submeter(){

@@ -25,6 +25,10 @@ export default function NovoRequisito(){
         }
       };
 
+    function efetuarRequisicao(){
+        console.log();
+    }
+
     return (
         <>
         <Grid container spacing={2}>
@@ -80,9 +84,6 @@ export default function NovoRequisito(){
             tmp>0 &&
             <>
                 <TabelasLivros/>
-                <Button variant="contained" color="primary">
-                    Efetuar requisição
-                </Button>
             </>
         }
         

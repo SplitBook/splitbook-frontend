@@ -78,6 +78,10 @@ export default function TransferList() {
     setRight([]);
   };
 
+  function efetuarRequisicao(){
+    console.log(right);
+}
+
   const customList = (items) => (
     <Paper className={classes.paper}>
       <List dense component="div" role="list">
@@ -178,15 +182,10 @@ export default function TransferList() {
       * Selecione os manuais que prentende requisitar e transponha-os para 
       a tabela da direita através dos botões centrais.
     </p>
+    <Button variant="contained" onClick={efetuarRequisicao} color="primary">
+        Efetuar requisição
+    </Button>
     
     </>
   );
 }
-
-/*
-    <h4>Legenda: </h4>
-    <p> >> : mover todos os manuais para a direita</p>
-    <p> > : mover o(s) manuais para a direita</p>
-    <p> {'<'} : mover o(s) manuais para a esquerda</p>
-    <p> {'>>'} : mover todos os manuais para a esquerda</p>
-*/
