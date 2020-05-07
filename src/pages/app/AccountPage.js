@@ -6,12 +6,15 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import './AppStyles.css'
 
 export default function AccountPage(){
   const [open, setOpen] = React.useState(false);
+  const [pass1, setPass1] = React.useState('');
+  const [pass2, setPass2] = React.useState('');
+  const [pass3, setPass3] = React.useState('');
+  const [showWarnText, setShowWarnText] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -19,6 +22,29 @@ export default function AccountPage(){
 
   const handleClose = () => {
     setOpen(false);
+    setShowWarnText(false);
+  };
+
+  function submeter(){
+    if(pass2!==pass3){
+      setShowWarnText(true);
+      console.log("Variaveis: ",pass1,pass2,pass3)
+    }
+    else{
+      setOpen(false);
+    }
+  }
+
+  const PassAtual = (event) => {
+    setPass1(event.target.value)
+  };
+
+  const NovaPass1 = (event) => {
+    setPass2(event.target.value)
+  };
+
+  const NovaPass2 = (event) => {
+    setPass3(event.target.value)
   };
 
     return (
@@ -57,6 +83,8 @@ export default function AccountPage(){
               autoFocus
               margin="dense"
               id="firstpassowrd"
+              value={pass1}
+              onChange={PassAtual}
               label="Palavra-passe"
               type="password"
               fullWidth
@@ -65,6 +93,8 @@ export default function AccountPage(){
               autoFocus
               margin="dense"
               id="secondpassowrd"
+              value={pass2}
+              onChange={NovaPass1}
               label="Nova palavra-passe"
               type="password"
               fullWidth
@@ -73,16 +103,23 @@ export default function AccountPage(){
               autoFocus
               margin="dense"
               id="thirdpassowrd"
+              value={pass3}
+              onChange={NovaPass2}
               label="Nova palavra-passe"
               type="password"
               fullWidth
             />
+            {
+              showWarnText && 
+              <p className="warnText">As novas palavras-passe não coincidem!</p>
+            }
+            
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancelar
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={submeter} color="primary">
               Submeter
             </Button>
           </DialogActions>
