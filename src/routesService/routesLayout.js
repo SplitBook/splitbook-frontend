@@ -10,6 +10,7 @@ import AccountPage from '../pages/app/AccountPage';
 import PermissionsManagement from '../pages/app/PermissionsManagement';
 import BooksDelivery from '../pages/app/BooksDelivery';
 import BooksReturn from '../pages/app/BooksReturn';
+import AllRequests from '../pages/app/AllRequests';
 
 export default function RoutesLayout(){
     return(
@@ -22,6 +23,7 @@ export default function RoutesLayout(){
             <Route path="/app/permissions" component={PermissionsManagement}/>
             <Route path="/app/books/delivery" component={BooksDelivery}/>
             <Route path="/app/books/return" component={BooksReturn}/>
+            <Route path="/app/requests" component={AllRequests}/>
         </BrowserRouter>
     );
     

@@ -24,6 +24,7 @@ export default function Routes(){
                 <Route path="/app/permissions" component={App}/>
                 <Route path="/app/books/delivery" component={App}/>
                 <Route path="/app/books/return" component={App}/>
+                <Route path="/app/requests" component={App}/>
             </Route>
             <Route path="" redirectTo="/login"/>
             <Route exact path="/" render={() => (

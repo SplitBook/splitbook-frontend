@@ -55,7 +55,7 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Página Inícial" className="BtnMenu"/>
       </ListItem>
     </Link>
-    <Link to="/app/new/request">
+    <Link to="/app/requests">
       <ListItem button>
         <ListItemIcon>
           <ViewList />
