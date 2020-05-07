@@ -7,7 +7,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import HomeIcon from '@material-ui/icons/Home';
 import ViewList from '@material-ui/icons/ViewList';
-//import CreateNewFolder from '@material-ui/icons/CreateNewFolder';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
@@ -17,6 +16,17 @@ import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
 import {Link} from 'react-router-dom';
 import './Menu.css';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,14 +44,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuLayout({history}) {
   const classes = useStyles();
-  //const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
-  /*const handleClick = () => {
-    setOpen(!open);
-  };*/
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
 
   return (
+    <>
     <List
       component="nav"
       aria-labelledby="nested-list-subheader"
@@ -119,14 +134,37 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Gestor de permissões" />
       </ListItem>
     </Link>
-    <Link to="/login">
-      <ListItem button>
+      <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
           <ExitToAppIcon />
         </ListItemIcon>
         <ListItemText primary="Sair" />
       </ListItem>
-    </Link>
     </List>
+
+    <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"Tem a certeza que pretende sair?"}</DialogTitle>
+
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Link to="/login">
+            <Button onClick={handleClose} color="primary">
+              Sair
+            </Button>
+          </Link>
+          
+        </DialogActions>
+    </Dialog>
+
+    </>
   );
 }
