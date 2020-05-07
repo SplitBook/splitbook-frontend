@@ -7,15 +7,8 @@ import Search from '@material-ui/icons/Search';
 
 
 export default function BooksReturn(){
-    const [obs, setObs] = React.useState('');
     const [num, setNum] = React.useState(0);
     const [numAluno, setNumAluno] = React.useState(0);
-
-
-    const handleChange = (event) => {
-        setObs(event.target.value)
-        console.log("Observações: ",obs);
-      };
 
     const changeNum = (event) => {
         setNum(event.target.value)
@@ -27,8 +20,6 @@ export default function BooksReturn(){
       };
 
   
-
-
     return (
       <>
         <h2 className="marginTitle" >Recolha de Manuais</h2>

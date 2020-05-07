@@ -17,20 +17,28 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(nome, tipo1, tipo2, tipo3) {
-  return { nome, tipo1, tipo2, tipo3 };
-}
-
-const rows = [
-  createData('Professores', true, false, false),
-  createData('Encarregados de Educação', false, false, true),
-  createData('Secretaria', true, true, false),
-  createData('Militares', false, true, false),
-];
 
 
 export default function PermissionsTable(){
   const classes = useStyles();
+  const rows = [
+    {nome: "Professores",tipo1: true,tipo2: false,tipo3: false},
+    {nome: "Encarregados de Educação",tipo1: false,tipo2: false,tipo3: true},
+    {nome: "Secretaria",tipo1: true,tipo2: true,tipo3: false},
+    {nome: "Militares",tipo1: false,tipo2: true,tipo3: false},
+  ];
+
+  function HowIsRow(){
+    console.log(rows)
+  }
+
+  const handleChange = param => e => {
+    console.log(param)
+};
+
+
+
+
 
   return (
     <>
@@ -51,11 +59,12 @@ export default function PermissionsTable(){
                 {row.nome}
               </TableCell>
               <TableCell align="right">
-              <Checkbox
-                color="default"
-                defaultChecked={row.tipo1}
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-              />
+                <Checkbox
+                  color="default"
+                  checked={row.tipo1}
+                  onChange={handleChange(row)}
+                  inputProps={{ 'aria-label': 'checkbox with default color' }}
+                />
               </TableCell>
               <TableCell align="right">
                 <Checkbox
@@ -76,7 +85,7 @@ export default function PermissionsTable(){
         </TableBody>
       </Table>
     </TableContainer>
-    <Button className="btnPermissoes" variant="outlined" color="primary" >
+    <Button className="btnPermissoes" variant="outlined" onClick={HowIsRow} color="primary" >
         Submeter novas Permissões
     </Button>
     </>
