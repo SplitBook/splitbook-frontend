@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import Button from '@material-ui/core/Button';
 
 export default function TableEditoras() {
   const [state, setState] = React.useState({
@@ -16,7 +17,12 @@ export default function TableEditoras() {
     ],
   });
 
+  function guardar(){
+    console.log(state.data)
+  }
+
   return (
+    <>
     <MaterialTable
       title="Editoras"
       columns={state.columns}
@@ -59,5 +65,9 @@ export default function TableEditoras() {
           }),
       }}
     />
+    <Button className="btnMargin" variant="outlined" onClick={guardar} color="primary" >
+        GUARDAR
+    </Button>
+    </>
   );
 }

@@ -85,7 +85,7 @@ export default function PermissionsTable(){
         </TableBody>
       </Table>
     </TableContainer>
-    <Button className="btnPermissoes" variant="outlined" onClick={HowIsRow} color="primary" >
+    <Button className="btnMargin" variant="outlined" onClick={HowIsRow} color="primary" >
         Submeter novas Permissões
     </Button>
     </>

@@ -31,7 +31,7 @@ export default function BooksDelivery(){
                 <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
             </Grid>
             <Grid item >
-                <Button className="btnPermissoes" onClick={changeNumAluno} color="primary" >
+                <Button className="btnMargin" onClick={changeNumAluno} color="primary" >
                     <Search/>
                 </Button>
             </Grid>

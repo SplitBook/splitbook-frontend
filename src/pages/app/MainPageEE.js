@@ -5,7 +5,7 @@ import Card from '../Components/Card';
 
 
 export default function MainPageEE(){
-  const [idStatus, setIdStatus] = React.useState(3);
+  const [idStatus, setIdStatus] = React.useState(1);
     return (
       <div >
       <Grid container spacing={2}>

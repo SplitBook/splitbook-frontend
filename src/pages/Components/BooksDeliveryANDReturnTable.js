@@ -109,7 +109,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                     <textarea value={obs} onChange={handleChange} rows="15" cols="40"/>
                 </Grid>
                 <Grid item >
-                    <Button className="btnPermissoes" variant="outlined" color="primary" >
+                    <Button className="btnMargin" variant="outlined" color="primary" >
                         Submeter
                     </Button>
                 </Grid>

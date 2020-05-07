@@ -1,5 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import Button from '@material-ui/core/Button';
 
 export default function TableManuais() {
   const [state, setState] = React.useState({
@@ -18,7 +19,12 @@ export default function TableManuais() {
     ],
   });
 
+  function guardar(){
+    console.log(state.data)
+  }
+
   return (
+    <>
     <MaterialTable
       title="Manuais Escolares"
       columns={state.columns}
@@ -61,5 +67,9 @@ export default function TableManuais() {
           }),
       }}
     />
+    <Button className="btnMargin" variant="outlined" onClick={guardar} color="primary" >
+        GUARDAR
+    </Button>
+    </>
   );
 }
