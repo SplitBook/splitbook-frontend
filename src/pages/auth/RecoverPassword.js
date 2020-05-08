@@ -1,8 +1,14 @@
 import React, {useState} from 'react';
 import logo from '../../assets/Icons/SplitBookTransparent/XD/icon_192.png';
 import './Auth.css';
-import SnackbarAlert from '../Components/SnackBar';
-//import api from '../../services/api';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+//import './ComponentsStyles.css'
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 
 
 export default function Login({history}){
@@ -12,19 +18,23 @@ export default function Login({history}){
     async function handleSubmit(e){
         e.preventDefault();
         console.log(username);
-        setOpen(true)
-        console.log(open)
-        //const response = await api.post('/devs',{
-        //  username:username ,
-        //});
-        //console.log(response)
-        //const {_id}= response.data
-        //history.push(`/dev/${_id}`);
     }
 
     async function redirectToLoginPage(){
         history.push('/login');
     }
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            //setOpen(false);
+            return;
+        }
+        setOpen(false);
+    };
 
 
     return(
@@ -38,10 +48,16 @@ export default function Login({history}){
                     onChange={e => setUsername(e.target.value)}
                 />
                 <p onClick={redirectToLoginPage}>Retroceder</p>
-                <SnackbarAlert history={history}/>                
+                <button onClick={handleClick} className="btnRecoverPass">CONTINUAR</button>
+                <div>
+                <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success">
+                    Enviado com sucesso!
+                    </Alert>
+                </Snackbar>
+                </div>
             </form>
-            
-            
+
         </div>
         
         </>

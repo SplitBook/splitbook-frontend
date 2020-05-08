@@ -21,8 +21,6 @@ export default function CustomizedSnackbars({history}) {
       return;
     }
 
-    setOpen(false);
-    //history.push('/login')
   };
 
   return (
