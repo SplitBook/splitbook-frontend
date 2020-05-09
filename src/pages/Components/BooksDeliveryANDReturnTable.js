@@ -28,20 +28,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function createData(id, disciplina, isbn, estado) {
-  return { id, disciplina, isbn, estado};
-}
-
-const rows = [
-  createData(15, 'Português','192-1234-12', 'Bom'),
-  createData(22, 'Matemática A','237-7654-63', 'Otimo'),
-  createData(14, 'Inglês','262-1667-37', 'Bom'),
-];
-
 export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
   const [estado, setEstado] = React.useState();
+
+  const rows = [
+    {id: "Professores",nome: "192-9472-12",isbn: "Inglês",estado: "Bom"},
+    {id: "Encarregados de Educação",nome: "192-9472-12",isbn: "Matemática A",estado: "Bom"},
+    {id: "Secretaria",nome: "341-1403-33",isbn: "Português",estado: "Bom"},
+    {id: "Militares",nome: "055-1234-15",isbn: "Programação C++",estado: "Bom"},
+  ];
 
   //console.log("Rows: (teste) >> ",numAluno)
 
@@ -59,15 +56,61 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   }
 
   return (
+    <>
     <Grid container spacing={2}>
-        <Grid item xs={8}>
-            <TableContainer component={Paper}>
+        <Grid item xs={7}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell align="right">Diciplina</TableCell>
+                <TableCell align="right">ISBN</TableCell>
+                <TableCell align="right">Estado</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="right">{row.nome}</TableCell>
+                  <TableCell align="right">{row.isbn}</TableCell>
+                  <TableCell align="right">{row.estado}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </Grid>
+        <Grid item xs={1}>
+            <Grid container>
+                <Grid item>
+                    <h3><b>Observações:</b></h3>
+                    <textarea value={obs} onChange={handleChange} rows="15" cols="40"/>
+                </Grid>
+                <Grid item >
+                    <Button className="btnMargin" variant="outlined" color="primary" >
+                        Submeter
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+    </>
+  );
+}
+
+
+/*
+
+<TableContainer component={Paper}>
               <Table className={classes.table} aria-label="caption table">
                 <caption>legenda</caption>
                 <TableHead>
                   <TableRow>
                     <TableCell>ID</TableCell>
-                    <TableCell align="right">Disciplina</TableCell>
                     <TableCell align="right">ISBN</TableCell>
                     <TableCell align="right">Estado</TableCell>
                   </TableRow>
@@ -86,7 +129,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={estado}
-                                onChange={handleChange,changeCheck(estado,row)}
+                                onChange={handleChange}
                                 >
                             <MenuItem value={'Mau'}>Mau</MenuItem>
                             <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
@@ -101,21 +144,6 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                 </TableBody>
               </Table>
             </TableContainer>
-        </Grid>
-        <Grid item xs={1}>
-            <Grid container>
-                <Grid item>
-                    <h3><b>Observações:</b></h3>
-                    <textarea value={obs} onChange={handleChange} rows="15" cols="40"/>
-                </Grid>
-                <Grid item >
-                    <Button className="btnMargin" variant="outlined" color="primary" >
-                        Submeter
-                    </Button>
-                </Grid>
-            </Grid>
-        </Grid>
-    </Grid>
-    
-  );
-}
+
+
+*/

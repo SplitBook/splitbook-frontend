@@ -26,7 +26,7 @@ export default function TableEditoras() {
     data: [
       { id: 1, nome: 'Porto', contacto: 923593128, site: 'www.porto.eu' },
       { id: 2, nome: 'Caminho', contacto: 922353128, site: 'www.caminho.com' },
-      { id: 2, nome: 'Texto', contacto: 923519528, site: 'www.texto.pt' },
+      { id: 3, nome: 'Texto', contacto: 923519528, site: 'www.texto.pt' },
     ],
   });
 
