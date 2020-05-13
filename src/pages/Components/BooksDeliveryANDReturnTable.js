@@ -34,10 +34,10 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [estado, setEstado] = React.useState();
 
   const rows = [
-    {id: "Professores",nome: "192-9472-12",isbn: "Inglês",estado: "Bom"},
-    {id: "Encarregados de Educação",nome: "192-9472-12",isbn: "Matemática A",estado: "Bom"},
-    {id: "Secretaria",nome: "341-1403-33",isbn: "Português",estado: "Bom"},
-    {id: "Militares",nome: "055-1234-15",isbn: "Programação C++",estado: "Bom"},
+    {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: "Bom"},
+    {id: 2,nome: "192-9472-12",isbn: "Matemática A",estado: "Bom"},
+    {id: 3,nome: "341-1403-33",isbn: "Português",estado: "Bom"},
+    {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: "Bom"},
   ];
 
   //console.log("Rows: (teste) >> ",numAluno)
