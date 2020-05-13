@@ -37,9 +37,6 @@ export default function PermissionsTable(){
 };
 
 
-
-
-
   return (
     <>
     <TableContainer component={Paper}>

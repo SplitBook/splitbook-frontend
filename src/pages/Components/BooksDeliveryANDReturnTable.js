@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 
+
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
@@ -43,22 +44,25 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   //console.log("Rows: (teste) >> ",numAluno)
 
   const handleChange = (event) => {
+    console.log(event.target.value)
     setEstado(event.target.value)
-    console.log(event)
+    
   };
 
-  function changeCheck(estado,row){
-    console.log("Ola",estado,row)
-    console.log(row.estado)
-    /*if(estado==null){
-      setEstado(row.estado)
-    }*/
+  const handleChangeObs = (event) => {
+    setObs(event.target.value)
+    console.log(event.target.value)
+  };
+
+  function Submit(){
+    console.log(rows)
+    console.log(estado)
   }
 
   return (
     <>
     <Grid container spacing={2}>
-        <Grid item xs={7}>
+        <Grid item xs={8}>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -77,7 +81,22 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                   </TableCell>
                   <TableCell align="right">{row.nome}</TableCell>
                   <TableCell align="right">{row.isbn}</TableCell>
-                  <TableCell align="right">{row.estado}</TableCell>
+                  <TableCell align="right">
+                    <FormControl className={classes.formControl}>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        defaultValue={row.estado}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={'Mau'}>Mau</MenuItem>
+                        <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
+                        <MenuItem value={'Razoavél'}>Razoavél</MenuItem>
+                        <MenuItem value={'Bom'}>Bom</MenuItem>
+                        <MenuItem value={'Ótimo'}>Ótimo</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -88,10 +107,10 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
             <Grid container>
                 <Grid item>
                     <h3><b>Observações:</b></h3>
-                    <textarea value={obs} onChange={handleChange} rows="15" cols="40"/>
+                    <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
                 </Grid>
                 <Grid item >
-                    <Button className="btnMargin" variant="outlined" color="primary" >
+                    <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
                         Submeter
                     </Button>
                 </Grid>
@@ -101,49 +120,3 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     </>
   );
 }
-
-
-/*
-
-<TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="caption table">
-                <caption>legenda</caption>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell align="right">ISBN</TableCell>
-                    <TableCell align="right">Estado</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell component="th" scope="row">
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="right">{row.nome}</TableCell>
-                      <TableCell align="right">{row.isbn}</TableCell>
-                      <TableCell align="right">
-                        <FormControl className={classes.formControl}>
-                                <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={estado}
-                                onChange={handleChange}
-                                >
-                            <MenuItem value={'Mau'}>Mau</MenuItem>
-                            <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
-                            <MenuItem value={'Satisfatório'}>Satisfatório</MenuItem>
-                            <MenuItem value={'Bom'}>Bom</MenuItem>
-                            <MenuItem value={'Otimo'}>Ótimo</MenuItem>
-                            </Select>
-                        </FormControl>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-
-*/
