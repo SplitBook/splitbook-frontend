@@ -79,7 +79,7 @@ export default function AccountPage(){
         </Grid>
       </Grid>
 
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Alterar palavra-passe</DialogTitle>
           <DialogContent>
             <TextField

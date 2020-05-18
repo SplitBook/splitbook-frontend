@@ -22,12 +22,11 @@ export default function TableManuais() {
       { title: 'Nome', field: 'nome' },
       { title: 'Ano', field: 'ano'},
       { title: 'Editora', field: 'editora'},
-      { title: 'Autores', field: 'autores'},
     ],
     data: [
-      { id:1,isbn:'12222233', nome: 'Matemática A', ano: 12, editora: 'Porto',autores:'Patricia Dinis, João Cortes, Boturão das Neves'},
-      { id:2,isbn:'45242566', nome: 'Fisico-Quimica A', ano: 12, editora: 'Porto',autores:'Nuno alves, Rafael Costa, Guilherme Sousa'},
-      { id:3,isbn:'50820653', nome: 'Português', ano: 12, editora: 'Caminho',autores:'Guilherme Sousa,Luís de Camões'},
+      { id:1,isbn:'12222233', nome: 'Matemática A', ano: 12, editora: 'Porto'},
+      { id:2,isbn:'45242566', nome: 'Fisico-Quimica A', ano: 12, editora: 'Porto'},
+      { id:3,isbn:'50820653', nome: 'Português', ano: 12, editora: 'Caminho'},
     ],
   });
 
@@ -97,7 +96,6 @@ export default function TableManuais() {
           open={open}
           TransitionComponent={Transition}
           keepMounted
-          onClose={handleClose}
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >

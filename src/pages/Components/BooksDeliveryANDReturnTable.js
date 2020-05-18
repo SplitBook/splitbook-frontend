@@ -35,19 +35,20 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [estado, setEstado] = React.useState();
 
   const rows = [
-    {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: "Bom"},
-    {id: 2,nome: "192-9472-12",isbn: "Matemática A",estado: "Bom"},
-    {id: 3,nome: "341-1403-33",isbn: "Português",estado: "Bom"},
-    {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: "Bom"},
+    {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: ''},
+    {id: 2,nome: "192-9472-12",isbn: "Matemática A",estado: ''},
+    {id: 3,nome: "341-1403-33",isbn: "Português",estado: ''},
+    {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: ''},
   ];
 
   //console.log("Rows: (teste) >> ",numAluno)
 
-  const handleChange = (event) => {
+  const handleChange = (event,row) => {
     console.log(event.target.value)
     setEstado(event.target.value)
-    
+    console.log(row)
   };
+
 
   const handleChangeObs = (event) => {
     setObs(event.target.value)
@@ -57,6 +58,11 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   function Submit(){
     console.log(rows)
     console.log(estado)
+  }
+
+  function tmp(lixo,event){
+    console.log("Hei there",lixo,event)
+    
   }
 
   return (
@@ -87,8 +93,9 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         defaultValue={row.estado}
-                        onChange={handleChange}
+                        onChange={ e => tmp(row,e.target.value)}
                       >
+                        <MenuItem value={''}> - </MenuItem>
                         <MenuItem value={'Mau'}>Mau</MenuItem>
                         <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
                         <MenuItem value={'Razoavél'}>Razoavél</MenuItem>

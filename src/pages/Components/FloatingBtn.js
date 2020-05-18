@@ -23,10 +23,13 @@ const useStyles = makeStyles((theme) => ({
 export default function FloatingBtn({history}) {
     const classes = useStyles();
 
+    //const windowWidth = window.innerWidth;
+    //console.log(windowWidth,"px")
+
     function redirectToNewReq(){
       history.push('/app/new/request')
     }
-    if (history.location.pathname!=='/app/new/request'){
+    if (history.location.pathname!=='/app/new/request' && window.innerWidth>920){
       return(
         <Tooltip title="Nova requisição" aria-label="add">
             <Fab className={classes.absolute} onClick={redirectToNewReq}>

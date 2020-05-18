@@ -125,7 +125,6 @@ export default function TransferList() {
             className={classes.button}
             onClick={handleAllRight}
             disabled={left.length === 0}
-            aria-label="move all right"
           >
             ≫
           </Button>
@@ -137,7 +136,6 @@ export default function TransferList() {
             className={classes.button}
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
-            aria-label="move selected right"
           >
             &gt;
           </Button>
@@ -149,7 +147,6 @@ export default function TransferList() {
             className={classes.button}
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
-            aria-label="move selected left"
           >
             &lt;
           </Button>
@@ -161,7 +158,6 @@ export default function TransferList() {
             className={classes.button}
             onClick={handleAllLeft}
             disabled={right.length === 0}
-            aria-label="move all left"
           >
             ≪
           </Button>
