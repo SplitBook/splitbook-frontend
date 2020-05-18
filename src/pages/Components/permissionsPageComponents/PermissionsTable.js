@@ -28,13 +28,30 @@ export default function PermissionsTable(){
     {nome: "Militares",tipo1: false,tipo2: true,tipo3: false},
   ];
 
-  function HowIsRow(){
+  function submit(){
     console.log(rows)
   }
 
   const handleChange = param => e => {
     console.log(param)
-};
+  };
+
+  function tmp(json,event,num){
+    console.log(json,event,num)
+    switch(num){
+      case 1:
+        json.tipo1=event;
+        break;
+      case 2:
+        json.tipo2=event;
+        break;
+      case 3:
+        json.tipo3=event;
+        break;
+      default:
+
+    }
+  }
 
 
   return (
@@ -58,8 +75,8 @@ export default function PermissionsTable(){
               <TableCell align="right">
                 <Checkbox
                   color="default"
-                  checked={row.tipo1}
-                  onChange={handleChange(row)}
+                  defaultChecked={row.tipo1}
+                  onChange={ e => tmp(row,e.target.checked,1)}
                   inputProps={{ 'aria-label': 'checkbox with default color' }}
                 />
               </TableCell>
@@ -67,6 +84,7 @@ export default function PermissionsTable(){
                 <Checkbox
                   color="default"
                   defaultChecked={row.tipo2}
+                  onChange={ e => tmp(row,e.target.checked,2)}
                   inputProps={{ 'aria-label': 'checkbox with default color' }}
                 />
               </TableCell>
@@ -74,6 +92,7 @@ export default function PermissionsTable(){
                 <Checkbox
                   color="default"
                   defaultChecked={row.tipo3}
+                  onChange={ e => tmp(row,e.target.checked,3)}
                   inputProps={{ 'aria-label': 'checkbox with default color' }}
                 />
               </TableCell>
@@ -82,7 +101,7 @@ export default function PermissionsTable(){
         </TableBody>
       </Table>
     </TableContainer>
-    <Button className="btnMargin" variant="outlined" onClick={HowIsRow} color="primary" >
+    <Button className="btnMargin" variant="outlined" onClick={submit} color="primary" >
         Submeter novas Permissões
     </Button>
     </>

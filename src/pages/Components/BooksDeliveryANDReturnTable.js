@@ -64,10 +64,10 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   function tmp(json,event){
     //console.log("JSON:",json,event)
     json.estado=event;
-    console.log(json);
-    console.log(stateList)
+    //console.log(json);
+    //console.log(stateList)
     verifyList(json)
-    console.log("Fim",stateList)
+    //console.log("Fim",stateList)
   }
 
   function verifyList(json){
