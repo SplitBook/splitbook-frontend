@@ -33,6 +33,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
   const [estado, setEstado] = React.useState();
+  var stateList = []; 
 
   const rows = [
     {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: ''},
@@ -60,9 +61,28 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     console.log(estado)
   }
 
-  function tmp(lixo,event){
-    console.log("Hei there",lixo,event)
-    
+  function tmp(json,event){
+    //console.log("JSON:",json,event)
+    json.estado=event;
+    console.log(json);
+    console.log(stateList)
+    verifyList(json)
+    console.log("Fim",stateList)
+  }
+
+  function verifyList(json){
+    var bool = true;
+    for(var i=0;i<stateList.length;i++){
+      if(stateList[i].id === json.id){
+        stateList[i]=json;
+        bool=false;
+        break;
+      }
+    }
+    if(bool){
+      stateList.push(json);
+      console.log(stateList);
+    }
   }
 
   return (
