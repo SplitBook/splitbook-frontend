@@ -33,7 +33,6 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
   const [estado, setEstado] = React.useState();
-  var stateList = []; 
 
   const rows = [
     {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: ''},
@@ -41,8 +40,6 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     {id: 3,nome: "341-1403-33",isbn: "Português",estado: ''},
     {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: ''},
   ];
-
-  //console.log("Rows: (teste) >> ",numAluno)
 
   const handleChange = (event,row) => {
     console.log(event.target.value)
@@ -62,26 +59,17 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   }
 
   function tmp(json,event){
-    //console.log("JSON:",json,event)
     json.estado=event;
-    //console.log(json);
-    //console.log(stateList)
-    verifyList(json)
-    //console.log("Fim",stateList)
+    modifyList(json)
+    console.log("Lista:",rows)
   }
 
-  function verifyList(json){
-    var bool = true;
-    for(var i=0;i<stateList.length;i++){
-      if(stateList[i].id === json.id){
-        stateList[i]=json;
-        bool=false;
+  function modifyList(json){
+    for(var i=0;i<rows.length;i++){
+      if(rows[i].id === json.id){
+        rows[i]=json;
         break;
       }
-    }
-    if(bool){
-      stateList.push(json);
-      console.log(stateList);
     }
   }
 

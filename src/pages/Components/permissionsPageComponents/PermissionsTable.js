@@ -32,10 +32,6 @@ export default function PermissionsTable(){
     console.log(rows)
   }
 
-  const handleChange = param => e => {
-    console.log(param)
-  };
-
   function tmp(json,event,num){
     console.log(json,event,num)
     switch(num){
