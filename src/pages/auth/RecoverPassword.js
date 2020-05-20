@@ -13,28 +13,36 @@ function Alert(props) {
 
 export default function Login({history}){
     const [username,setUsername]= useState('');
-    const [open, setOpen] = React.useState(false);
+    const [open1, setOpen1] = React.useState(false);
+    const [open2, setOpen2] = React.useState(false);
 
     async function handleSubmit(e){
         e.preventDefault();
-        console.log(username);
+        if(username!=null && username.trim()!==''){
+            console.log(username);
+            setOpen2(false);
+            setOpen1(true);
+        }
+        else{
+            setOpen1(false);
+            setOpen2(true);
+        }
+        
     }
 
     async function redirectToLoginPage(){
         history.push('/login');
     }
-
-    const handleClick = () => {
-        setOpen(true);
-    };
-
+    
     const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            //setOpen(false);
-            return;
-        }
-        setOpen(false);
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen1(false);
+      setOpen2(false);
     };
+
 
 
     return(
@@ -48,18 +56,22 @@ export default function Login({history}){
                     onChange={e => setUsername(e.target.value)}
                 />
                 <p onClick={redirectToLoginPage}>Retroceder</p>
-                <button onClick={handleClick} className="btnRecoverPass">CONTINUAR</button>
+                <button type="submit" className="btnRecoverPass">CONTINUAR</button>
                 <div>
-                <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="success">
-                    Enviado com sucesso!
+                <Snackbar open={open1} autoHideDuration={3000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="info">
+                    OK
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={open2} autoHideDuration={3000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="warning">
+                    É necessário preencher o campo a cima!
                     </Alert>
                 </Snackbar>
                 </div>
             </form>
 
         </div>
-        
         </>
     );
 }

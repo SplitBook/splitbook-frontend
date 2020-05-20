@@ -5,6 +5,7 @@ import Login from '../pages/auth/Login';
 import RecoverPassword from '../pages/auth/RecoverPassword';
 import App from '../pages/Layout/Layout';
 import Error404 from '../pages/error/error404';
+import SelectGroup from '../pages/app/SelectGroup';
 
 export default function Routes(){
     const [loggedIn, setLoggedIn] = React.useState(false);
@@ -15,6 +16,7 @@ export default function Routes(){
             <Route path="/404" component={Error404}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/recover/password" component={RecoverPassword}/>
+            <Route path="/user/group" component={SelectGroup}/>
             <Route path='/app' component={App}>
                 <Route path='/app/ee/home' component={App}/>
                 <Route path='/app/new/request' component={App}/>

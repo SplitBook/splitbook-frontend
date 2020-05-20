@@ -14,7 +14,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
@@ -33,7 +32,8 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
   const [estado, setEstado] = React.useState();
-
+  const list=[];
+  
   const rows = [
     {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: ''},
     {id: 2,nome: "192-9472-12",isbn: "Matemática A",estado: ''},
@@ -53,26 +53,31 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     console.log(event.target.value)
   };
 
-  function Submit(){
-    console.log(rows)
-    console.log(estado)
-  }
-
   function tmp(json,event){
     json.estado=event;
     modifyList(json)
-    console.log("Lista:",rows)
+    console.log("Lista:",list)
   }
 
   function modifyList(json){
-    for(var i=0;i<rows.length;i++){
-      if(rows[i].id === json.id){
-        rows[i]=json;
+    var bool=true;
+    for(var i=0;i<list.length;i++){
+      if(list[i].id === json.id){
+        list[i]=json;
+        bool=false;
         break;
       }
     }
+    if(bool){
+      list.push(json);
+    }
   }
 
+  function Submit(){
+    console.log(list);
+  }
+
+ 
   return (
     <>
     <Grid container spacing={2}>
@@ -132,6 +137,10 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
             </Grid>
         </Grid>
     </Grid>
+    
     </>
   );
 }
+
+
+

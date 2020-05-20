@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import BooksDeliveryANDReturnTable from '../Components/BooksDeliveryANDReturnTable'
+import BooksReturnTable from '../Components/BooksReturnTable'
 import TextField from '@material-ui/core/TextField';
 import Search from '@material-ui/icons/Search';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -37,7 +37,7 @@ export default function BooksReturn(){
             </Grid>
         </Grid>
 
-        { numAluno>0 && <BooksDeliveryANDReturnTable/> }
+        { numAluno>0 && <BooksReturnTable/> }
         
       </>
     );

@@ -7,6 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import './AppStyles.css'
 
 export default function AccountPage(){
@@ -79,54 +80,27 @@ export default function AccountPage(){
         </Grid>
       </Grid>
 
-        <Dialog open={open} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Alterar palavra-passe</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="firstpassowrd"
-              value={pass1}
-              onChange={PassAtual}
-              label="Palavra-passe"
-              type="password"
-              fullWidth
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="secondpassowrd"
-              value={pass2}
-              onChange={NovaPass1}
-              label="Nova palavra-passe"
-              type="password"
-              fullWidth
-            />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="thirdpassowrd"
-              value={pass3}
-              onChange={NovaPass2}
-              label="Nova palavra-passe"
-              type="password"
-              fullWidth
-            />
-            {
-              showWarnText && 
-              <p className="warnText">As novas palavras-passe não coincidem!</p>
-            }
-            
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            <Button onClick={submeter} color="primary">
-              Submeter
-            </Button>
-          </DialogActions>
-        </Dialog>
+      <Dialog
+        open={open}
+        //onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Alteração de palavra-passe</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Ao clicar <b>Confirmar</b>, ser-lhe à enviado um email para proceder à alteração de palavra-passe de forma segura.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       </>  
       );

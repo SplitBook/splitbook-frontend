@@ -11,6 +11,7 @@ import TabelasLivros from '../Components/TabelasLivrosRequisicao';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import fetch from 'cross-fetch';
+import Cookies from 'universal-cookie';
 
 
 function sleep(delay = 0) {
@@ -22,7 +23,9 @@ function sleep(delay = 0) {
 export default function NovoRequisito(){
     const [filiado, setFiliado] = React.useState('');
     const [tmp, setTmp] = React.useState(0);
-    const [admin, setAdmin] = React.useState(false);
+
+    const cookies = new Cookies();
+    const [grupo,setGrupo] = React.useState(cookies.get('Grupo'));
 
     const handleChange = (event) => {
         setFiliado(event.target.value);
@@ -99,7 +102,7 @@ export default function NovoRequisito(){
         </Grid>
 
         {
-            !admin && 
+            grupo==='Encarregado de Educação' && 
 
             <Grid container spacing={2}>
                 <Grid item>
@@ -124,7 +127,7 @@ export default function NovoRequisito(){
         }
 
         {
-            admin && 
+            grupo!=='Encarregado de Educação' && 
 
             <Grid container spacing={2}>
                 <Grid item>

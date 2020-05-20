@@ -5,7 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import HomeIcon from '@material-ui/icons/Home';
+import MenuBook from '@material-ui/icons/MenuBook';
 import ViewList from '@material-ui/icons/ViewList';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
@@ -21,6 +21,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import Cookies from 'universal-cookie';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -43,14 +45,25 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuLayout({history}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const cookies = new Cookies();
+  const [grupo,setGrupo] = React.useState(cookies.get('Grupo'));
+
 
   const handleClickOpen = () => {
     setOpen(true);
+    console.log(grupo);
+  };
+
+  const handleClose0 = () => {
+    setOpen(false);
+    //Apagar todas as cookies
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  
 
 
   return (
@@ -63,17 +76,9 @@ export default function MenuLayout({history}) {
     <Link to="/app/ee/home" >
       <ListItem button >
         <ListItemIcon >
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText primary="Página Inícial" className="BtnMenu"/>
-      </ListItem>
-    </Link>
-    <Link to="/app/requests">
-      <ListItem button>
-        <ListItemIcon>
           <ViewList />
         </ListItemIcon>
-        <ListItemText primary="Lista de Requisições" />
+        <ListItemText primary="Minhas requisições" className="BtnMenu"/>
       </ListItem>
     </Link>
     <Link to="/app/new/request">
@@ -84,52 +89,71 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Nova requisição" />
       </ListItem>
     </Link>
-    <Link to="/app/add/manual">
-      <ListItem button>
-        <ListItemIcon>
-          <ImportContacts/>
-        </ListItemIcon>
-        <ListItemText primary="Manuais" />
-      </ListItem>
-    </Link>
-    <Link to="/app/add/publisher">
-      <ListItem button>
-        <ListItemIcon>
-          <CollectionsBookmark />
-        </ListItemIcon>
-        <ListItemText primary="Editoras" />
-      </ListItem>
-    </Link>
+    {
+      grupo!=='Encarregado de Educação' &&
+      <>
+      <Link to="/app/requests">
+        <ListItem button>
+          <ListItemIcon>
+            <MenuBook />
+          </ListItemIcon>
+          <ListItemText primary="Lista de Requisições" />
+        </ListItem>
+      </Link>
+      <Link to="/app/add/manual">
+        <ListItem button>
+          <ListItemIcon>
+            <ImportContacts/>
+          </ListItemIcon>
+          <ListItemText primary="Manuais" />
+        </ListItem>
+      </Link>
+      <Link to="/app/add/publisher">
+        <ListItem button>
+          <ListItemIcon>
+            <CollectionsBookmark />
+          </ListItemIcon>
+          <ListItemText primary="Editoras" />
+        </ListItem>
+      </Link>
+      <Link to="/app/books/delivery">
+        <ListItem button>
+          <ListItemIcon>
+            <AllInbox />
+          </ListItemIcon>
+          <ListItemText primary="Entrega de Livros" />
+        </ListItem>
+      </Link>
+      <Link to="/app/books/return">
+        <ListItem button>
+          <ListItemIcon>
+            <AssignmentReturned />
+          </ListItemIcon>
+          <ListItemText primary="Recolha de Livros" />
+        </ListItem>
+      </Link>
+    </>
+  }
+  {
+    grupo!=='Encarregado de Educação' && grupo!=='Professor' &&
+    <>
+      <Link to="/app/permissions">
+        <ListItem button>
+          <ListItemIcon>
+            <VpnKey />
+          </ListItemIcon>
+          <ListItemText primary="Gestor de permissões" />
+        </ListItem>
+      </Link>
+    </>
+  }
+    
     <Link to="/app/account">
       <ListItem button>
         <ListItemIcon>
           <AccountBox />
         </ListItemIcon>
         <ListItemText primary="Conta" />
-      </ListItem>
-    </Link>
-    <Link to="/app/books/delivery">
-      <ListItem button>
-        <ListItemIcon>
-          <AllInbox />
-        </ListItemIcon>
-        <ListItemText primary="Entrega de Livros" />
-      </ListItem>
-    </Link>
-    <Link to="/app/books/return">
-      <ListItem button>
-        <ListItemIcon>
-          <AssignmentReturned />
-        </ListItemIcon>
-        <ListItemText primary="Recolha de Livros" />
-      </ListItem>
-    </Link>
-    <Link to="/app/permissions">
-      <ListItem button>
-        <ListItemIcon>
-          <VpnKey />
-        </ListItemIcon>
-        <ListItemText primary="Gestor de permissões" />
       </ListItem>
     </Link>
       <ListItem button onClick={handleClickOpen}>
@@ -155,7 +179,7 @@ export default function MenuLayout({history}) {
             Cancelar
           </Button>
           <Link to="/login">
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose0} color="primary">
               Sair
             </Button>
           </Link>
