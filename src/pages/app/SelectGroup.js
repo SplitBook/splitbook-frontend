@@ -14,6 +14,7 @@ import PersonIcon from '@material-ui/icons/Person';
 //import Typography from '@material-ui/core/Typography';
 import { blue } from '@material-ui/core/colors';
 import Cookies from 'universal-cookie';
+import './AppStyles.css';
 
 const emails = ['Professor', 'Encarregado de Educação', 'Docente'];
 
@@ -39,6 +40,7 @@ function SimpleDialog(props) {
   };
 
   return (
+    <>
     <Dialog  aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">Entrar como:</DialogTitle>
         <List>
@@ -54,6 +56,7 @@ function SimpleDialog(props) {
             ))}
         </List>
     </Dialog>
+    </>
   );
 }
 

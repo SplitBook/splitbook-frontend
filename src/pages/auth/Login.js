@@ -64,7 +64,7 @@ export default function Login({ history,props}){
                 <div>
                 <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="error">
-                    Credênciais incorretas!
+                    Acesso Negado!
                     </Alert>
                 </Snackbar>
                 </div>

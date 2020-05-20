@@ -8,7 +8,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import ImageUploader from 'react-images-upload';
 import './AppStyles.css'
+
 
 export default function AccountPage(){
   const [open, setOpen] = React.useState(false);
@@ -51,24 +53,28 @@ export default function AccountPage(){
     setPass3(event.target.value)
   };
 
+  const fileSelectedHandler = (event) => {
+    console.log(event.target.files[0])
+  }
+
+
     return (
       <>
-      <Grid container spacing={4}>
-        <Grid item xs={2} >
+      <Grid container spacing={2}>
+        <Grid item >
           <TextField id="outlined-basic" label="Nome" variant="outlined" value="Rogério" disabled/>
         </Grid>
-        <Grid item xs={2} >
+        <Grid item >
           <TextField id="outlined-basic" label="Apelido" variant="outlined" value="Costa" disabled/>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item >
           <TextField id="outlined-basic" label="Email" variant="outlined" className="maxwidth" value="rogernuno@gmail.com" disabled/>
         </Grid>
-        
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item >
           <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Alterar palavra-passe
           </Button>
@@ -76,9 +82,18 @@ export default function AccountPage(){
       </Grid>
       <Grid container spacing={2}>
         <Grid item >
+          <div>
+            <input type="file" name="file" onChange={fileSelectedHandler}/>
+          </div>
+        </Grid>
+      </Grid>
+      
+      <Grid container spacing={2}>
+        <Grid item >
           <ListaFiliados/>
         </Grid>
       </Grid>
+
 
       <Dialog
         open={open}
