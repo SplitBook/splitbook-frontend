@@ -17,6 +17,8 @@ import logo from '../../assets/Icons/SplitBookRound/XD/icon_48.png';
 import './Layout.css';
 import Typography from '@material-ui/core/Typography';
 import FloatingBtn from '../Components/FloatingBtn';
+import Avatar from '@material-ui/core/Avatar';
+import userimage from '../../assets/users/notprofileimage.png';
 
 
 const drawerWidth = 240;
@@ -81,6 +83,11 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  medium: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+    marginTop:10,
   },
 }));
 
@@ -166,6 +173,9 @@ export default function MiniDrawer({history}) {
           </IconButton>
         </div>
         <Divider />
+        <center>
+          <Avatar alt='Rogério Costa' src={userimage} className={classes.medium} />
+        </center>
          <List>
             <MenuLayout history={history}/>
         </List>

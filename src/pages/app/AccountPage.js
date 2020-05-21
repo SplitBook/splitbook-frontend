@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import ListaFiliados from '../Components/ListaFiliados';
 import Button from '@material-ui/core/Button';
+//import Input from '@material-ui/core/Input';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,14 +11,29 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import ImageUploader from 'react-images-upload';
 import './AppStyles.css'
+import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
+}));
+
 
 
 export default function AccountPage(){
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [pass1, setPass1] = React.useState('');
-  const [pass2, setPass2] = React.useState('');
-  const [pass3, setPass3] = React.useState('');
-  const [showWarnText, setShowWarnText] = React.useState(false);
+  const [state,setState] = React.useState({ pictures: [] });
+
+  function onDrop(picture) {
+    setState({
+        pictures: this.state.pictures.concat(picture),
+    });
+    console.log("State",state)
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,23 +41,10 @@ export default function AccountPage(){
 
   const handleClose = () => {
     setOpen(false);
-    setShowWarnText(false);
-    setPass1('');
-    setPass2('');
-    setPass3('');
   };
 
-  function submeter(){
-    if(pass2!==pass3){
-      setShowWarnText(true);
-      console.log("Variaveis: ",pass1,pass2,pass3)
-    }
-    else{
-      setOpen(false);
-    }
-  }
 
-  const PassAtual = (event) => {
+  /*const PassAtual = (event) => {
     setPass1(event.target.value)
   };
 
@@ -51,13 +54,14 @@ export default function AccountPage(){
 
   const NovaPass2 = (event) => {
     setPass3(event.target.value)
-  };
+  };*/
 
   const fileSelectedHandler = (event) => {
-    console.log(event.target.files[0])
+    console.log(event);
+    //console.log(event.target.files[0])
   }
 
-
+//https://www.npmjs.com/package/react-images-upload
     return (
       <>
       <Grid container spacing={2}>
@@ -82,11 +86,18 @@ export default function AccountPage(){
       </Grid>
       <Grid container spacing={2}>
         <Grid item >
-          <div>
-            <input type="file" name="file" onChange={fileSelectedHandler}/>
-          </div>
+          <ImageUploader
+                withIcon={true}
+                singleImage={true}
+                buttonText='Descarregar foto de perfil'
+                onChange={fileSelectedHandler}
+                imgExtension={['.jpg','.png']}
+                maxFileSize={5242880}
+                label='Max file size: 5mb, accepted: jpg, png'
+            />
         </Grid>
       </Grid>
+
       
       <Grid container spacing={2}>
         <Grid item >
@@ -128,6 +139,12 @@ export default function AccountPage(){
             </Button>
           </Grid>
         </Grid>
+
+
+        <Grid item >
+          <Avatar alt='Rogério Costa' src="../../assets/users/transferir.png" className={classes.large} />
+        </Grid>
+
       */
 
     
