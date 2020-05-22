@@ -15,7 +15,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function TableEditoras() {
   const [open, setOpen] = React.useState(false);
-  const [show, setShow] = React.useState(true);
   const [state, setState] = React.useState({
     columns: [
       { title: 'Id', field: 'id' },
@@ -36,7 +35,6 @@ export default function TableEditoras() {
 
   const handleClose = () => {
     setOpen(false);
-    setShow(true)
   };
 
   /*function guardar(){
@@ -54,7 +52,6 @@ export default function TableEditoras() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setShow(false);
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.push(newData);
@@ -66,7 +63,6 @@ export default function TableEditoras() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setShow(false);
               if (oldData) {
                 setState((prevState) => {
                   const data = [...prevState.data];
@@ -89,9 +85,6 @@ export default function TableEditoras() {
           }),
       }}
     />
-    <Button className="btnMargin" variant="outlined" onClick={handleClickOpen} color="primary" disabled={show}>
-        GUARDAR
-    </Button>
         <Dialog
           open={open}
           TransitionComponent={Transition}

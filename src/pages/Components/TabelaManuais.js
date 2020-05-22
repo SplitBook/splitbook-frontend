@@ -89,9 +89,6 @@ export default function TableManuais() {
           }),
       }}
     />
-    <Button className="btnMargin" variant="outlined" onClick={handleClickOpen} color="primary" disabled={show}>
-        GUARDAR
-    </Button>
         <Dialog
           open={open}
           TransitionComponent={Transition}

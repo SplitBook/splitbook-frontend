@@ -7,13 +7,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-
-
+import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,21 +29,119 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  root: {
+    '& > *': {
+      borderBottom: 'unset',
+    },
+  },
 }));
 
+function createData(name, calories, fat, carbs, price) {
+  return {
+    name,
+    calories,
+    fat,
+    carbs,
+    price,
+    history: [
+      { date: '2020-01-05', customerId: '11091700', amount: 3 },
+      { date: '2020-01-02', customerId: 'Anonymous', amount: 1 },
+    ],
+  };
+}
+
+
+
+function Row(props) {
+  const { row } = props;
+  const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      <TableRow className={classes.root}>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {row.name}
+        </TableCell>
+        <TableCell align="right">{row.calories}</TableCell>
+        <TableCell align="right">{row.fat}</TableCell>
+        <TableCell align="right">{row.carbs}</TableCell>
+        <TableCell align="right">{row.protein}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={1}>
+              <Typography variant="h6" gutterBottom component="div">
+                Lista de manuais disponiveis
+              </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Customer</TableCell>
+                    <TableCell align="right">Amount</TableCell>
+                    <TableCell align="right">Total price ($)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row.history.map((historyRow) => (
+                    <TableRow key={historyRow.date}>
+                      <TableCell component="th" scope="row">
+                        {historyRow.date}
+                      </TableCell>
+                      <TableCell>{historyRow.customerId}</TableCell>
+                      <TableCell align="right">{historyRow.amount}</TableCell>
+                      <TableCell align="right">
+                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+Row.propTypes = {
+  row: PropTypes.shape({
+    calories: PropTypes.number.isRequired,
+    carbs: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    history: PropTypes.arrayOf(
+      PropTypes.shape({
+        amount: PropTypes.number.isRequired,
+        customerId: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    protein: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
+const rows = [
+  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Cupcake', 305, 3.7, 67, 4.3),
+  createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
 
 export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
   const [estado, setEstado] = React.useState();
-
-  const rows = [
-    {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: ''},
-    {id: 2,nome: "192-9472-12",isbn: "Matemática A",estado: ''},
-    {id: 3,nome: "341-1403-33",isbn: "Português",estado: ''},
-    {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: ''},
-  ];
-
 
   const handleChangeObs = (event) => {
     setObs(event.target.value)
@@ -50,7 +150,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
 
   function Submit(){
     console.log(rows)
-    var lixo = {id: 5,nome: "055-1234-15",isbn: "Programação C++",estado: ''};
+    var lixo = {id: 5,nome: "055-1234-15",isbn: "Programação C++"};
     rows.push(lixo);
   }
 
@@ -74,46 +174,25 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     <>
     <Grid container spacing={2}>
         <Grid item xs={8}>
-        <TableContainer component={Paper}>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell align="right">Diciplina</TableCell>
-                <TableCell align="right">ISBN</TableCell>
-                <TableCell align="right">Estado</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="right">{row.nome}</TableCell>
-                  <TableCell align="right">{row.isbn}</TableCell>
-                  <TableCell align="right">
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        defaultValue={row.estado}
-                        onChange={ e => tmp(row,e.target.value)}
-                      >
-                        <MenuItem value={''}> - </MenuItem>
-                        <MenuItem value={'Mau'}>Mau</MenuItem>
-                        <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
-                        <MenuItem value={'Razoavél'}>Razoavél</MenuItem>
-                        <MenuItem value={'Bom'}>Bom</MenuItem>
-                        <MenuItem value={'Ótimo'}>Ótimo</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </TableCell>
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Disciplina</TableCell>
+                  <TableCell align="right">ISBN</TableCell>
+                  <TableCell align="right">Nome</TableCell>
+                  <TableCell align="right">Ano</TableCell>
+                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <Row key={row.name} row={row} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
         <Grid item xs={1}>
             <Grid container>
@@ -133,3 +212,11 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     </>
   );
 }
+
+
+/*const rows = [
+  {disciplina: 'PT',isbn: "192-9472-12",nome: "LETRAS",ano:12},
+  {disciplina: 'ING',isbn: "192-9472-12",nome: "Matemática +",ano:12},
+  {disciplina: 'EF',isbn: "341-1403-33",nome: "correr para crer",ano:12},
+  {disciplina: 'PSI',isbn: "055-1234-15",nome: "Programação C++",ano:12},
+];*/

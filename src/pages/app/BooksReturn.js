@@ -5,6 +5,9 @@ import BooksReturnTable from '../Components/BooksReturnTable'
 import TextField from '@material-ui/core/TextField';
 import Search from '@material-ui/icons/Search';
 import Tooltip from '@material-ui/core/Tooltip';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 export default function BooksReturn(){
@@ -15,10 +18,31 @@ export default function BooksReturn(){
         setNum(event.target.value)
       };
 
+    const [text, setText] = React.useState('');
     const changeNumAluno = (event) => {
         setNumAluno(num)
         console.log("Ei",numAluno)
-      };
+        if(!(num>0)){
+          setText('Please enter a valid number!')
+          setOpen(true);
+        }
+    };
+
+    //snacbar
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+      setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen(false);
+    };
+    //
 
   
     return (
@@ -38,6 +62,26 @@ export default function BooksReturn(){
         </Grid>
 
         { numAluno>0 && <BooksReturnTable/> }
+
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleClose}
+            message={text}
+            action={
+              <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
+        </div>
         
       </>
     );
