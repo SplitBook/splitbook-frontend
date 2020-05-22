@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 
 
 
+
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
@@ -67,6 +68,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
       }
     }
   }
+
 
   return (
     <>
@@ -127,6 +129,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
             </Grid>
         </Grid>
     </Grid>
+    
     </>
   );
 }
