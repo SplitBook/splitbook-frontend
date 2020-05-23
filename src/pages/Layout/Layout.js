@@ -18,7 +18,9 @@ import './Layout.css';
 import Typography from '@material-ui/core/Typography';
 import FloatingBtn from '../Components/FloatingBtn';
 import Avatar from '@material-ui/core/Avatar';
-import userimage from '../../assets/users/notprofileimage.png';
+import Gravatar from 'react-gravatar'
+//import userimage from '../../assets/users/notprofileimage.png';
+
 
 
 const drawerWidth = 240;
@@ -88,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(5),
     height: theme.spacing(5),
     marginTop:10,
+    borderRadius:100,
   },
 }));
 
@@ -107,20 +110,15 @@ export default function MiniDrawer({history}) {
   };
 
 
-  /*async function redirect(){
-    history.push('/app/main')
-  }*/
-  /*const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  const [name,setname] = React.useState('rafael.jpg');
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [visible,setvisible] = React.useState(true);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };*/
+  try{
+    var userimage = require('../../assets/users/'+name); 
+  }catch(e){
+    var userimage = require('../../assets/users/notprofileimage.png'); 
+  }
 
   return (
     
@@ -174,7 +172,15 @@ export default function MiniDrawer({history}) {
         </div>
         <Divider />
         <center>
-          <Avatar alt='Rogério Costa' src={userimage} className={classes.medium} />
+        {
+          name!=='none' &&
+          <Avatar alt='User' src={userimage} className={classes.medium} />
+        }
+        {
+          name==='none' &&
+          <Gravatar email="rafael@gmail.com" className={classes.medium} />
+        }
+          
         </center>
          <List>
             <MenuLayout history={history}/>

@@ -69,7 +69,10 @@ export default function AllRequests() {
                   columns={state.columns}
                   data={state.data}
                   editable={{
-            
+                  onRowUpdate: (newData, oldData) =>
+                  new Promise(() => {
+                        
+                  }),
                   onRowDelete: (oldData) =>
                   new Promise((resolve) => {
                         setTimeout(() => {
@@ -127,30 +130,32 @@ export default function AllRequests() {
 /*
 
 onRowAdd: (newData) =>
-      new Promise((resolve) => {
-            setTimeout(() => {
-            resolve();
-            setState((prevState) => {
-            const data = [...prevState.data];
-            data.push(newData);
-            return { ...prevState, data };
-            });
-            }, 600);
-      }),
+new Promise((resolve) => {
+      setTimeout(() => {
+      resolve();
+      setState((prevState) => {
+      const data = [...prevState.data];
+      data.push(newData);
+      return { ...prevState, data };
+      });
+      }, 600);
+}),
 
 onRowUpdate: (newData, oldData) =>
-      new Promise((resolve) => {
-            setTimeout(() => {
-            resolve();
-            if (oldData) {
-            setState((prevState) => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-            });
-            }
-            }, 600);
-      }),
+new Promise((resolve) => {
+      setTimeout(() => {
+      resolve();
+      if (oldData) {
+      setState((prevState) => {
+            const data = [...prevState.data];
+            data[data.indexOf(oldData)] = newData;
+            return { ...prevState, data };
+      });
+      }
+      }, 600);
+}),
+
+
 
 
       //'Português,Matemática A,Fisico-Quimica A,Inglês,Matemática'

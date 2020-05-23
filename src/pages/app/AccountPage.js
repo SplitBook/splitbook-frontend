@@ -86,7 +86,8 @@ export default function AccountPage(){
       </Grid>
       <Grid container spacing={2}>
         <Grid item >
-          <ImageUploader
+        <form encType="multipart/form-data" action="">
+            <ImageUploader
                 withIcon={true}
                 singleImage={true}
                 buttonText='Descarregar foto de perfil'
@@ -95,6 +96,7 @@ export default function AccountPage(){
                 maxFileSize={5242880}
                 label='Max file size: 5mb, accepted: jpg, png'
             />
+        </form>
         </Grid>
       </Grid>
       
