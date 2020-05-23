@@ -68,10 +68,8 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
         <TableCell align="right">{row.fat}</TableCell>
         <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -83,10 +81,8 @@ function Row(props) {
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell>ID Livro</TableCell>
+                    <TableCell>ISBN</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -96,10 +92,7 @@ function Row(props) {
                         {historyRow.date}
                       </TableCell>
                       <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
+                      
                     </TableRow>
                   ))}
                 </TableBody>
@@ -180,10 +173,8 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                 <TableRow>
                   <TableCell />
                   <TableCell>Disciplina</TableCell>
-                  <TableCell align="right">ISBN</TableCell>
                   <TableCell align="right">Nome</TableCell>
                   <TableCell align="right">Ano</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

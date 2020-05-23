@@ -97,7 +97,6 @@ export default function AccountPage(){
             />
         </Grid>
       </Grid>
-
       
       <Grid container spacing={2}>
         <Grid item >
