@@ -92,14 +92,18 @@ const useStyles = makeStyles((theme) => ({
     marginTop:10,
     borderRadius:100,
   },
+  large: {
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+    marginTop:10,
+    borderRadius:100,
+  },
 }));
 
 export default function MiniDrawer({history}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  //const [auth, setAuth] = React.useState(true);
-  //const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,7 +115,6 @@ export default function MiniDrawer({history}) {
 
 
   const [name,setname] = React.useState('rafael.jpg');
-
   const [visible,setvisible] = React.useState(true);
 
   try{
@@ -173,14 +176,29 @@ export default function MiniDrawer({history}) {
         <Divider />
         <center>
         {
-          name!=='none' &&
+          name!=='none' && !open &&
           <Avatar alt='User' src={userimage} className={classes.medium} />
         }
         {
-          name==='none' &&
+          name==='none' && !open &&
           <Gravatar email="rafael@gmail.com" className={classes.medium} />
-        }
+        } 
+        {
           
+          name!=='none' && open &&
+          <>
+          <Avatar alt='User' src={userimage} className={classes.large} />
+          <p><b>Docente</b></p>
+          </>
+        }
+        {
+          name==='none' && open &&
+          <>
+          <Gravatar email="rafael@gmail.com" className={classes.large} />
+          <p><b>Docente</b></p>
+          </>
+        } 
+        
         </center>
          <List>
             <MenuLayout history={history}/>
