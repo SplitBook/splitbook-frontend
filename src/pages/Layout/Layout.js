@@ -115,7 +115,6 @@ export default function MiniDrawer({history}) {
 
 
   const [name,setname] = React.useState('rafael.jpg');
-  const [visible,setvisible] = React.useState(true);
 
   try{
     var userimage = require('../../assets/users/'+name); 
@@ -176,27 +175,29 @@ export default function MiniDrawer({history}) {
         <Divider />
         <center>
         {
-          name!=='none' && !open &&
-          <Avatar alt='User' src={userimage} className={classes.medium} />
-        }
-        {
-          name==='none' && !open &&
-          <Gravatar email="rafael@gmail.com" className={classes.medium} />
-        } 
-        {
+          (name!=='none' && !open &&
+          <Avatar alt='User' src={userimage} className={classes.medium} />)
+        
+         ||
+
+          (name==='none' && !open &&
+          <Gravatar email="rafael@gmail.com" className={classes.medium} />)
+        
+          ||
           
-          name!=='none' && open &&
+          (name!=='none' && open &&
           <>
           <Avatar alt='User' src={userimage} className={classes.large} />
           <p><b>Docente</b></p>
-          </>
-        }
-        {
-          name==='none' && open &&
+          </>)
+        
+          ||
+
+          (name==='none' && open &&
           <>
           <Gravatar email="rafael@gmail.com" className={classes.large} />
           <p><b>Docente</b></p>
-          </>
+          </>)
         } 
         
         </center>
