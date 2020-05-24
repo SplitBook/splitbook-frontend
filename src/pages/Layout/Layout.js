@@ -93,8 +93,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:100,
   },
   large: {
-    width: theme.spacing(8),
-    height: theme.spacing(8),
+    width: theme.spacing(9),
+    height: theme.spacing(9),
     marginTop:10,
     borderRadius:100,
   },

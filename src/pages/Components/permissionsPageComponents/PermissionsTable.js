@@ -17,15 +17,13 @@ const useStyles = makeStyles({
   },
 });
 
-
-
 export default function PermissionsTable(){
   const classes = useStyles();
   const rows = [
     {nome: "Professores",tipo1: true,tipo2: false,tipo3: false},
     {nome: "Encarregados de Educação",tipo1: false,tipo2: false,tipo3: true},
     {nome: "Secretaria",tipo1: true,tipo2: true,tipo3: false},
-    {nome: "Militares",tipo1: false,tipo2: true,tipo3: false},
+    //{nome: "Militares",tipo1: false,tipo2: true,tipo3: false},
   ];
 
   function submit(){
