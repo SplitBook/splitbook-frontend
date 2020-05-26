@@ -21,21 +21,22 @@ function sleep(delay = 0) {
   }
 
 export default function NovoRequisito(){
-    const [filiado, setFiliado] = React.useState('');
-    const [tmp, setTmp] = React.useState(0);
+    const [aluno, setAluno] = React.useState('');
+    const [numAluno, setNumAluno] = React.useState(0);
 
     const cookies = new Cookies();
     const [grupo,setGrupo] = React.useState(cookies.get('Grupo'));
 
     const handleChange = (event) => {
-        setFiliado(event.target.value);
+        setAluno(event.target.value);
         if(event.target.value != null && event.target.value !== ''){
-            setTmp(1)
+            setNumAluno(1)
         }
         else{
-            setTmp(0)
+            setNumAluno(0)
         }
     };
+
 
     function efetuarRequisicao(){
         console.log();
@@ -110,7 +111,7 @@ export default function NovoRequisito(){
                     <InputLabel htmlFor="outlined-age-native-simple" >Educando</InputLabel>
                         <Select
                             native
-                            value={filiado}
+                            value={aluno}
                             onChange={handleChange}
                             label="Educando"
                             inputProps={{
@@ -141,6 +142,7 @@ export default function NovoRequisito(){
                     onClose={() => {
                         setOpen(false);
                     }}
+                    onChange={handleChange}
                     getOptionSelected={(option, value) => option.name === value.name}
                     getOptionLabel={(option) => option.name}
                     options={options}
@@ -168,7 +170,7 @@ export default function NovoRequisito(){
         
 
         {
-            tmp>0 &&
+            numAluno>0 &&
             <>
                 <TabelasLivros/>
             </>

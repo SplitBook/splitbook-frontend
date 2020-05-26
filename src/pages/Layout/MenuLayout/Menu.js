@@ -11,6 +11,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import AccountBox from '@material-ui/icons/AccountBox';
+import SyncAlt from '@material-ui/icons/SyncAlt';
 import VpnKey from '@material-ui/icons/VpnKey';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
@@ -156,6 +157,14 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Conta" />
       </ListItem>
     </Link>
+
+      <ListItem button>
+        <ListItemIcon>
+          <SyncAlt />
+        </ListItemIcon>
+        <ListItemText primary="Trocar de perfil" />
+      </ListItem>
+
       <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
           <ExitToAppIcon />

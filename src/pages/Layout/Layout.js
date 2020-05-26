@@ -195,7 +195,7 @@ export default function MiniDrawer({history}) {
 
           (name==='none' && open &&
           <>
-          <Gravatar email="rafael@gmail.com" className={classes.large} />
+          <Gravatar email="llsousa@gmail.com" className={classes.large} />
           <p><b>Docente</b></p>
           </>)
         } 

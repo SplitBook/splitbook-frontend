@@ -15,6 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Checkbox from '@material-ui/core/Checkbox';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+
+const livrosdisponiveis = [
+  {id: 1,isbn: "192-9472-12"},
+  {id: 3,isbn: "192-9472-12"},
+  {id: 4,isbn: "341-1403-33"},
+  {id: 5,isbn: "055-1234-15"},
+];
 
 
 function Row(props) {
@@ -62,8 +72,29 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 Manuais disponiveis:
               </Typography>
-              <Table>
-
+                <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Selecione</TableCell>
+                    <TableCell align="right">id</TableCell>
+                    <TableCell align="right">isbn</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {livrosdisponiveis.map((row) => (
+                    <TableRow key={row.name}>
+                      <TableCell component="th" scope="row">
+                        <Checkbox
+                          defaultChecked
+                          color="primary"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                      </TableCell>
+                      <TableCell align="right">{row.id}</TableCell>
+                      <TableCell align="right">{row.isbn}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
               </Table>
             </Box>
           </Collapse>
