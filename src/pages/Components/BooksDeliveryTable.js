@@ -38,18 +38,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const livrosdisponiveis = [
-  {id: 1,isbn: "192-9472-12"},
-  {id: 3,isbn: "192-9472-12"},
-  {id: 4,isbn: "341-1403-33"},
-  {id: 5,isbn: "055-1234-15"},
+var livrosdisponiveis = [
+  {select:false,id: 1,isbn: "192-9472-12"},
+  {select:false,id: 3,isbn: "192-9472-12"},
+  {select:false,id: 4,isbn: "341-1403-33"},
+  {select:false,id: 5,isbn: "055-1234-15"},
 ];
+
+
+const livrosSelecionados = [];
 
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+
+  function tmp(row,event){
+    row.select=event;
+    console.log(row,event)
+    livrosdisponiveis.push({select:false,id: 7,isbn: "055-1234-15"});
+    
+  }
 
   return (
     <React.Fragment>
@@ -85,8 +95,9 @@ function Row(props) {
                     <TableRow key={row.name}>
                       <TableCell component="th" scope="row">
                         <Checkbox
-                          defaultChecked
+                          value={row.select}
                           color="primary"
+                          onChange={ e => tmp(row,e.target.checked)}
                           inputProps={{ 'aria-label': 'secondary checkbox' }}
                         />
                       </TableCell>
