@@ -11,6 +11,7 @@ import PermissionsManagement from '../pages/app/PermissionsManagement';
 import BooksDelivery from '../pages/app/BooksDelivery';
 import BooksReturn from '../pages/app/BooksReturn';
 import AllRequests from '../pages/app/AllRequests';
+import AprovedRequests from '../pages/app/AprovedRequests';
 
 export default function RoutesLayout(){
     return(
@@ -24,6 +25,8 @@ export default function RoutesLayout(){
             <Route path="/app/books/delivery" component={BooksDelivery}/>
             <Route path="/app/books/return" component={BooksReturn}/>
             <Route path="/app/requests" component={AllRequests}/>
+            <Route path="/app/aproved/requests" component={AprovedRequests}/>
+
         </BrowserRouter>
     );
     

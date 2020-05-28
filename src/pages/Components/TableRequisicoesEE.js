@@ -8,7 +8,7 @@ export default function MaterialTableDemo({idStatus}) {
       { title: 'Nº Aluno', field: 'num'},
       { title: 'Disciplina', field: 'disciplina' },
       { title: 'Ano', field: 'ano'},
-      {title: 'OBS:', field: 'obs'},
+      {title: 'OBS:', field:'obs'},
     ],
     data: [
       { num: 349, disciplina: 'Matemática A', ano: 12, obs: 'Outros' },

@@ -98,7 +98,15 @@ export default function MenuLayout({history}) {
           <ListItemIcon>
             <MenuBook />
           </ListItemIcon>
-          <ListItemText primary="Lista de Requisições" />
+          <ListItemText primary="Reqs. por aprovar" />
+        </ListItem>
+      </Link>
+      <Link to="/app/aproved/requests">
+        <ListItem button>
+          <ListItemIcon>
+            <MenuBook />
+          </ListItemIcon>
+          <ListItemText primary="Reqs. aprovadas" />
         </ListItem>
       </Link>
       <Link to="/app/add/manual">
@@ -157,14 +165,14 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Conta" />
       </ListItem>
     </Link>
-
+    <Link to="/user/group">
       <ListItem button>
         <ListItemIcon>
           <SyncAlt />
         </ListItemIcon>
         <ListItemText primary="Trocar de perfil" />
       </ListItem>
-
+    </Link>
       <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
           <ExitToAppIcon />

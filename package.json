@@ -17,6 +17,7 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-bootstrap-alert": "^1.0.7",
+    "react-data-table-component": "^6.9.3",
     "react-dom": "^16.13.1",
     "react-gravatar": "^2.6.3",
     "react-grid-system": "^6.3.0",

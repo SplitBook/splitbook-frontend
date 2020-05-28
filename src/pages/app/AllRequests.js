@@ -9,12 +9,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
+
 export default function AllRequests() {
       function ViewList(list){
             console.log("teste",list)
       }
-
-      var listaLivros=['Português','Matemática A','Fisico-Quimica A','Inglês,Matemática'];
 
   const [state, setState] = React.useState({
     columns: [
@@ -23,10 +22,12 @@ export default function AllRequests() {
       { title: 'Nº Aluno', field: 'naluno'},
       { title: 'Nome Aluno', field: 'nomealuno'},
       { title: 'Ano', field: 'ano'},
-      { title: 'Lista de Livros', field: 'listalivros'},
+      { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
+            <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
+          ),},
     ],
     data: [
-      { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:'Português,Matemática A,Fisico-Quimica A,Inglês,Matemática'},
+      { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
       { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:'Português,Matemática A,Matemática'},
       { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:'Inglês,Matemática'},
 
@@ -34,12 +35,26 @@ export default function AllRequests() {
   });
   const [obs, setObs] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
   const [dataDeletedRow, setDataDeletedRow] = React.useState({});
   const [deleted, setDeleted] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  //rowData.listalivros
+  const [txt, setTxt] = React.useState({});
+
+  const handleChange = (value) => {
+      //alert(value)
+      setTxt(value);
+      setOpen1(true);
+  };
+
+  const handleClose = () => {
+      setOpen1(false);
+  };
 
   const handleClose1 = () => {
       setOpen(false);
@@ -68,11 +83,14 @@ export default function AllRequests() {
                   title="Lista de Requisitos"
                   columns={state.columns}
                   data={state.data}
+                  actions={[
+                        {
+                        icon: 'publish',
+                        tooltip: 'Aceitar pedido',
+                        onClick: (event, rowData) => alert("You saved " + rowData.name)
+                        }
+                  ]}
                   editable={{
-                  onRowUpdate: (newData, oldData) =>
-                  new Promise(() => {
-                        
-                  }),
                   onRowDelete: (oldData) =>
                   new Promise((resolve) => {
                         setTimeout(() => {
@@ -90,6 +108,7 @@ export default function AllRequests() {
                   }),
                   }}
             />
+            
             <div>
                   <Dialog
                   fullScreen={fullScreen}
@@ -119,6 +138,21 @@ export default function AllRequests() {
                   </Button>
                   </DialogActions>
                   </Dialog>
+
+                  <Dialog
+                  open={open1}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                  >
+                  <DialogTitle id="alert-dialog-title">Lista de Livros</DialogTitle>
+                  <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                  {txt}
+                  </DialogContentText>
+                  </DialogContent>
+                  </Dialog>
+                  
             </div>
     </>
   );
