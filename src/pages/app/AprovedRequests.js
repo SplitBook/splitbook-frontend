@@ -9,23 +9,33 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function AprovedRequests() {
 
-  const [txt, setTxt] = React.useState({});
-  const [open, setOpen] = React.useState(false);
-  const [state, setState] = React.useState([
-      { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
-      { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
-      { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
-    ]);
+      const [txt, setTxt] = React.useState({});
+      const [open, setOpen] = React.useState(false);
+      const [state, setState] = React.useState([
+            { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
+            { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
+            { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
+      ]);
 
-  const handleChange = (value) => {
-      //alert(value)
-      setTxt(value);
-      setOpen(true);
-  };
+      const handleChange = (value) => {
+            //alert(value)
+            setTxt(value);
+            setOpen(true);
+      };
 
-  const handleClose = () => {
-      setOpen(false);
-  };
+      const handleClose = () => {
+            setOpen(false);
+      };
+
+      function TxtList(props) {
+            const listatxt = props.txt;
+            const listItems = listatxt.map((texto) =>
+            <li>{texto}</li>
+            );
+            return (
+            <ul>{listItems}</ul>
+            );
+      }
 
   const tableRef = React.createRef();
   return (
@@ -63,7 +73,7 @@ export default function AprovedRequests() {
             <DialogTitle id="alert-dialog-title">Lista de Livros</DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
-            {txt}
+                  <TxtList txt={txt} />
             </DialogContentText>
             </DialogContent>
             </Dialog>

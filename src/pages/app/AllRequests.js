@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-
+import './AppStyles.css';
 
 export default function AllRequests() {
 
@@ -64,6 +64,16 @@ export default function AllRequests() {
       setObs(event.target.value)
       console.log(event.target.value)
       };
+
+      function TxtList(props) {
+            const listatxt = props.txt;
+            const listItems = listatxt.map((texto) =>
+              <li>{texto}</li>
+            );
+            return (
+              <ul>{listItems}</ul>
+            );
+      }
 
   return (
         <>
@@ -138,9 +148,7 @@ export default function AllRequests() {
                   <DialogTitle id="alert-dialog-title">Lista de Livros</DialogTitle>
                   <DialogContent>
                   <DialogContentText id="alert-dialog-description">
-                        {
-                              txt
-                        }
+                        <TxtList txt={txt} />
                   </DialogContentText>
                   </DialogContent>
                   </Dialog>
@@ -150,7 +158,6 @@ export default function AllRequests() {
   );
 }
 
-//      { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:<Button onClick={() => ViewList(listaLivros)}>Consultar lista</Button>},
 
 
 /*
