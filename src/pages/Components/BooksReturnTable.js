@@ -81,7 +81,7 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
   return (
     <>
     <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
@@ -123,19 +123,15 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
           </Table>
         </TableContainer>
         </Grid>
-        <Grid item xs={1}>
-            <Grid container>
-                <Grid item>
-                    <h3><b>Observações:</b></h3>
-                    <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
-                </Grid>
-                <Grid item >
-                    <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
-                        Submeter
-                    </Button>
-                </Grid>
-            </Grid>
+        <Grid item >
+            <h3><b>Observações:</b></h3>
+            <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
         </Grid>
+    </Grid>
+    <Grid container>
+        <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
+            Submeter
+        </Button>
     </Grid>
     
     </>

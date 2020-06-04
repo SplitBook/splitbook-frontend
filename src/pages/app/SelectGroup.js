@@ -74,7 +74,7 @@ export default function SimpleDialogDemo({history}) {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    history.push('/app/ee/home')
+    history.push('/app/home')
   };
 
   return (

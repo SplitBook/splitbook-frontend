@@ -137,11 +137,11 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     rows.push(lixo);
   }
 
-  function tmp(json,event){
+  /*function tmp(json,event){
     json.estado=event;
     modifyList(json)
     console.log("Lista:",rows)
-  }
+  }*/
 
   function modifyList(json){
     for(var i=0;i<rows.length;i++){
@@ -151,7 +151,6 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
       }
     }
   }
-
 
   return (
     <>
@@ -176,17 +175,15 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
           </TableContainer>
         </Grid>
         <Grid item xs={1}>
-            <Grid container>
-                <Grid item>
-                    <h3><b>Observações:</b></h3>
-                    <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
-                </Grid>
-                <Grid item >
-                    <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
-                        Submeter
-                    </Button>
-                </Grid>
-            </Grid>
+            <h3><b>Observações:</b></h3>
+            <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
+        </Grid>
+    </Grid>
+    <Grid container spacing={2}>
+        <Grid item >
+            <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
+                Submeter
+            </Button>
         </Grid>
     </Grid>
     

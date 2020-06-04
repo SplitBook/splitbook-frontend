@@ -132,21 +132,6 @@ export default function AccountPage(){
       </>  
       );
 
-      /*
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <Button variant="contained" color="primary">
-              Guardar
-            </Button>
-          </Grid>
-        </Grid>
-
-
-        <Grid item >
-          <Avatar alt='Rogério Costa' src="../../assets/users/transferir.png" className={classes.large} />
-        </Grid>
-
-      */
 
     
 }

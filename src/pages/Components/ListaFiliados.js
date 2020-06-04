@@ -12,7 +12,7 @@ import './ComponentsStyles.css'
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth:350,
   },
 });
 
@@ -38,9 +38,9 @@ export default function SimpleTable() {
         <TableHead>
           <TableRow>
             <TableCell>Nome</TableCell>
-            <TableCell align="right">Nº Aluno</TableCell>
-            <TableCell align="right">Ano</TableCell>
-            <TableCell align="right">Turma</TableCell>
+            <TableCell align="center">Nº Aluno</TableCell>
+            <TableCell align="center">Ano</TableCell>
+            <TableCell align="center">Turma</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,9 +49,9 @@ export default function SimpleTable() {
               <TableCell component="th" scope="row">
                 {row.nome}
               </TableCell>
-              <TableCell align="right">{row.numero}</TableCell>
-              <TableCell align="right">{row.ano}</TableCell>
-              <TableCell align="right">{row.turma}</TableCell>
+              <TableCell align="center">{row.numero}</TableCell>
+              <TableCell align="center">{row.ano}</TableCell>
+              <TableCell align="center">{row.turma}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -11,35 +11,20 @@ import { useTheme } from '@material-ui/core/styles';
 
 
 export default function AllRequests() {
-      function ViewList(list){
-            console.log("teste",list)
-      }
+
 
   const [state, setState] = React.useState({
-    columns: [
-      { title: 'ID', field: 'id' },
-      { title: 'EE', field: 'ee' },
-      { title: 'Nº Aluno', field: 'naluno'},
-      { title: 'Nome Aluno', field: 'nomealuno'},
-      { title: 'Ano', field: 'ano'},
-      { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
-            <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
-          ),},
-    ],
-    data: [
+        data:[
       { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
-      { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:'Português,Matemática A,Matemática'},
-      { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:'Inglês,Matemática'},
-
-    ],
+      { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
+      { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
+    ]
   });
   const [obs, setObs] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [dataDeletedRow, setDataDeletedRow] = React.useState({});
-  const [deleted, setDeleted] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
-
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -58,13 +43,16 @@ export default function AllRequests() {
 
   const handleClose1 = () => {
       setOpen(false);
-      setDeleted(false)
   };
 
-  const handleClose2 = () => {
+  const handleClose2 = () =>{
       if(obs!==null && obs!==''){
             setOpen(false);
-            setDeleted(true)
+            setState((prevState) => {
+                  const data = [...prevState.data];
+                  data.splice(data.indexOf(dataDeletedRow), 1);
+                  return { ...prevState, data };
+            });      
       }
       else{
             setShowWarning(true);
@@ -81,11 +69,20 @@ export default function AllRequests() {
         <>
             <MaterialTable
                   title="Lista de Requisitos"
-                  columns={state.columns}
+                  columns={[
+                  { title: 'ID', field: 'id' },
+                  { title: 'EE', field: 'ee' },
+                  { title: 'Nº Aluno', field: 'naluno'},
+                  { title: 'Nome Aluno', field: 'nomealuno'},
+                  { title: 'Ano', field: 'ano'},
+                  { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
+                        <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
+                  ),},
+                  ]}
                   data={state.data}
                   actions={[
                         {
-                        icon: 'publish',
+                        icon: 'done',
                         tooltip: 'Aceitar pedido',
                         onClick: (event, rowData) => alert("You saved " + rowData.name)
                         }
@@ -97,13 +94,6 @@ export default function AllRequests() {
                         resolve();
                         setDataDeletedRow(oldData)
                         setOpen(true);
-                        //console.log('GunsNRoses',oldData)
-                        if(deleted){
-                        setState((prevState) => {
-                              const data = [...prevState.data];
-                              data.splice(data.indexOf(oldData), 1);
-                              return { ...prevState, data };
-                        });}
                         }, 600);
                   }),
                   }}
@@ -133,7 +123,7 @@ export default function AllRequests() {
                   <Button autoFocus onClick={handleClose1} color="primary">
                         Cancelar
                   </Button>
-                  <Button onClick={handleClose2} color="primary" autoFocus>
+                  <Button onClick={handleClose2} color="primary" >
                         Submeter
                   </Button>
                   </DialogActions>
@@ -148,7 +138,9 @@ export default function AllRequests() {
                   <DialogTitle id="alert-dialog-title">Lista de Livros</DialogTitle>
                   <DialogContent>
                   <DialogContentText id="alert-dialog-description">
-                  {txt}
+                        {
+                              txt
+                        }
                   </DialogContentText>
                   </DialogContent>
                   </Dialog>
@@ -193,5 +185,34 @@ new Promise((resolve) => {
 
 
       //'Português,Matemática A,Fisico-Quimica A,Inglês,Matemática'
+
+onRowDelete: (oldData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              setState((prevState) => {
+                const data = [...prevState.data];
+                data.splice(data.indexOf(oldData), 1);
+                return { ...prevState, data };
+              });
+            }, 600);
+          }),
+
+
+                  onRowDelete: (oldData) =>
+                  new Promise((resolve) => {
+                        setTimeout(() => {
+                        resolve();
+                        setDataDeletedRow(oldData)
+                        setOpen(true);
+                        if(deleted)
+                        setState((prevState) => {
+                              const data = [...prevState.data];
+                              data.splice(data.indexOf(oldData), 1);
+                              return { ...prevState, data };
+                        });
+                        }, 600);
+                  }),
+            
 
 */

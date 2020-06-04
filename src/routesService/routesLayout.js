@@ -17,7 +17,7 @@ export default function RoutesLayout(){
     return(
         <BrowserRouter>
             <Route path="/app/new/request"  component={NewRequest}/>
-            <Route path="/app/ee/home" component={Main}/>
+            <Route path="/app/home" component={Main}/>
             <Route path="/app/add/manual" component={Manual}/>
             <Route path="/app/add/publisher" component={Publisher}/>
             <Route path="/app/account" component={AccountPage}/>

@@ -20,8 +20,7 @@ import FloatingBtn from '../Components/FloatingBtn';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar'
 //import userimage from '../../assets/users/notprofileimage.png';
-
-
+import {UserData} from '../../routesService/routes';
 
 const drawerWidth = 240;
 
@@ -93,17 +92,21 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:100,
   },
   large: {
-    width: theme.spacing(10),
-    height: theme.spacing(10),
+    width: theme.spacing(9),
+    height: theme.spacing(9),
     marginTop:10,
     borderRadius:100,
   },
 }));
 
+
+
+
 export default function MiniDrawer({history}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -113,6 +116,7 @@ export default function MiniDrawer({history}) {
     setOpen(false);
   };
 
+  console.log("Variavel do utilizador (Layout Page 119line)",UserData)
 
   const [name,setname] = React.useState('rafael.jpg');
 
@@ -188,6 +192,7 @@ export default function MiniDrawer({history}) {
           (name!=='none' && open &&
           <>
           <Avatar alt='User' src={userimage} className={classes.large} />
+          <p>Rafael Costa</p>
           <p><b>Docente</b></p>
           </>)
         

@@ -11,6 +11,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
 import AccountBox from '@material-ui/icons/AccountBox';
+import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import SyncAlt from '@material-ui/icons/SyncAlt';
 import VpnKey from '@material-ui/icons/VpnKey';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
@@ -22,7 +23,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -46,9 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuLayout({history}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const cookies = new Cookies();
-  const [grupo,setGrupo] = React.useState(cookies.get('Grupo'));
-
+  const [grupo,setGrupo] = React.useState(Cookies.get('Grupo'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,6 +56,9 @@ export default function MenuLayout({history}) {
 
   const handleClose0 = () => {
     setOpen(false);
+    Cookies.remove('tokenLogin');
+    Cookies.remove('token');
+    Cookies.remove('profiles');
     //Apagar todas as cookies
   };
 
@@ -74,7 +76,7 @@ export default function MenuLayout({history}) {
       aria-labelledby="nested-list-subheader"
       className={classes.root}
     >
-    <Link to="/app/ee/home" >
+    <Link to="/app/home" >
       <ListItem button >
         <ListItemIcon >
           <ViewList />
@@ -104,7 +106,7 @@ export default function MenuLayout({history}) {
       <Link to="/app/aproved/requests">
         <ListItem button>
           <ListItemIcon>
-            <MenuBook />
+            <PlaylistAddCheck />
           </ListItemIcon>
           <ListItemText primary="Reqs. aprovadas" />
         </ListItem>
@@ -165,6 +167,9 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Conta" />
       </ListItem>
     </Link>
+
+  {
+    Cookies.getJSON('profiles').length>1 &&
     <Link to="/user/group">
       <ListItem button>
         <ListItemIcon>
@@ -173,6 +178,7 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Trocar de perfil" />
       </ListItem>
     </Link>
+  }
       <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>
           <ExitToAppIcon />

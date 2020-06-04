@@ -11,8 +11,8 @@ export default function MaterialTableDemo({idStatus}) {
       {title: 'OBS:', field:'obs'},
     ],
     data: [
-      { num: 349, disciplina: 'Matemática A', ano: 12, obs: 'Outros' },
-      { num: 599, disciplina: 'Português', ano: 12, obs: 'Outros'},
+      { num: 349, disciplina: 'Matemática A', ano: 12, obs: 'N/D' },
+      { num: 599, disciplina: 'Português', ano: 12, obs: 'N/D'},
     ],
   });
 

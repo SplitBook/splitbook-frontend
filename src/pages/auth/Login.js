@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import api from '../../services/api';
 import logo from '../../assets/Icons/SplitBookTransparent/XD/icon_192.png';
 import './Auth.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 //import api from '../../services/api';
+import Cookies from 'js-cookie';
+import { ThemeProvider } from '@material-ui/core';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -14,15 +17,30 @@ export default function Login({ history,props}){
     const [username,setUsername]= useState('');
     const [password,setPassword]= useState('');
     const [open, setOpen] = React.useState(false);
-    console.log(props,history)
+
+    //console.log(props,history)
+
+    //admin@splitbook.com
+    //admin
 
     async function handleSubmit(e){
         e.preventDefault();
-        history.push('/user/group')
-
+        try{
+            const {data} = await api.post('/login',{email: username,password: password});
+            console.log(data);
+            Cookies.set('token',data.token,{ expires: 7 });
+            Cookies.set('profiles',data.user.profiles,{ expires: 7 });
+            console.log(data.user.profiles.length)
+            if(data.user.profiles.length!==1)
+                history.push('/user/group')
+            else
+                history.push('/app/home')
+        }
+        catch(Error){
+            setOpen(true);
+        }
+        
         //setOpen(true); //mensagem de error
-
-
         /*console.log(username);
         const response = await api.post('/devs',{
           username:username ,
