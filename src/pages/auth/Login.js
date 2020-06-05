@@ -1,13 +1,10 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import api from '../../services/api';
 import logo from '../../assets/Icons/SplitBookTransparent/XD/icon_192.png';
 import './Auth.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-//import api from '../../services/api';
 import Cookies from 'js-cookie';
-import { ThemeProvider } from '@material-ui/core';
-import jwt_decode from 'jwt-decode';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;

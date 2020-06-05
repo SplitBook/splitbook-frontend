@@ -24,6 +24,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -42,16 +43,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
 export default function MenuLayout({history}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [grupo,setGrupo] = React.useState(Cookies.get('Grupo'));
+  const [group,setGroup] = React.useState('');
 
+  if(group===''){
+    var token = Cookies.get('token');
+    var decoded = jwt_decode(token);
+    setGroup(decoded.charge)
+  }
+  
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(grupo);
+    console.log(group);
   };
 
   const handleClose0 = () => {
@@ -59,15 +64,12 @@ export default function MenuLayout({history}) {
     Cookies.remove('tokenLogin');
     Cookies.remove('token');
     Cookies.remove('profiles');
-    //Apagar todas as cookies
+    localStorage.clear();
   };
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  
-
+  };  
 
   return (
     <>
@@ -93,7 +95,7 @@ export default function MenuLayout({history}) {
       </ListItem>
     </Link>
     {
-      grupo!=='Encarregado de Educação' &&
+      group!=='Encarregado de Educação' &&
       <>
       <Link to="/app/requests">
         <ListItem button>
@@ -146,7 +148,7 @@ export default function MenuLayout({history}) {
     </>
   }
   {
-    grupo!=='Encarregado de Educação' && grupo!=='Professor' &&
+    group==='Administrador' &&
     <>
       <Link to="/app/permissions">
         <ListItem button>

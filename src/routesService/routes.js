@@ -20,7 +20,7 @@ export default function Routes(){
                 <Route path="/404" component={Error404}/>
                 <Route path="/login" exact component={Login}/>
                 <Route path="/recover/password" component={RecoverPassword}/>
-                <Route path="/password" component={NewPassword}/>
+                <Route path="/reset/password" component={NewPassword}/>
                 <Route path="/user/group" component={SelectGroup}/>
                 <Route path='/app' component={App} render={() => (
                     false ? 

@@ -113,8 +113,9 @@ export default function MiniDrawer({history}) {
   const [userInfo, setUserInfo] = React.useState();
   const [charge, setCharge] = React.useState('');
   
-  tmp();
-  async function tmp(){
+  setInfoAndCharge();
+
+  async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
       var token = Cookies.get('token');
       var decoded = jwt_decode(token);

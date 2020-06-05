@@ -3,23 +3,33 @@ import logo from '../../assets/Icons/SplitBookTransparent/XD/icon_192.png';
 import './Auth.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-//import './ComponentsStyles.css'
+import api from '../../services/api';
+
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
-
 export default function Login({history}){
-    const [username,setUsername]= useState('');
+    const [email,setEmail]= useState('');
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
+    const [disabled, setDisabled] = React.useState(false);
 
-    async function handleSubmit(e){
+    function handleSubmit(e){
         e.preventDefault();
-        if(username!=null && username.trim()!==''){
-            console.log(username);
+        if(email!=null && email.trim()!==''){
+            console.log(email);
+            try{
+                const data = api.post('/recover-password',{email: email});
+                console.log(data);
+                setDisabled(true);
+            }
+            catch(error){
+                //console.log(error);
+                setDisabled(true);
+            }
+            
             setOpen2(false);
             setOpen1(true);
         }
@@ -38,12 +48,9 @@ export default function Login({history}){
       if (reason === 'clickaway') {
         return;
       }
-
       setOpen1(false);
       setOpen2(false);
     };
-
-
 
     return(
         <>
@@ -52,15 +59,17 @@ export default function Login({history}){
                 <img src={logo} alt="logotipo"/>
                 <input 
                     placeholder="Insira o seu endereço de email"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    disabled={disabled}
                 />
-                <p onClick={redirectToLoginPage}>Retroceder</p>
-                <button type="submit" className="btnRecoverPass">CONTINUAR</button>
+                <p onClick={redirectToLoginPage} hidden={disabled}>Retroceder</p>
+                <button type="submit" className="btnRecoverPass" hidden={disabled}>CONTINUAR</button>
+                <button className="btnRecoverPass margin" hidden={!disabled} onClick={redirectToLoginPage}>IR PARA LOGIN</button>
                 <div>
                 <Snackbar open={open1} autoHideDuration={3000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="info">
-                    OK
+                    Pedido Efetuado!
                     </Alert>
                 </Snackbar>
                 <Snackbar open={open2} autoHideDuration={3000} onClose={handleClose}>
