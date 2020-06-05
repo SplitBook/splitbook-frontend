@@ -6,7 +6,7 @@ import './AppStyles.css';
 
 
 export default function MainPageEE({props}){
-  const [idStatus, setIdStatus] = React.useState(1);
+  const [idStatus, setIdStatus] = React.useState(2);
   //const [data, setData] = React.useState([]);
   
     return (

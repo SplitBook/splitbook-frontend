@@ -7,6 +7,7 @@ import App from '../pages/Layout/Layout';
 import Error404 from '../pages/error/error404';
 import SelectGroup from '../pages/app/SelectGroup';
 import Cookies from 'js-cookie';
+import NewPassword from '../pages/auth/NewPassword';
 
 export const UserData = () => 'Rafael Martins Santos Costa';
 
@@ -19,6 +20,7 @@ export default function Routes(){
                 <Route path="/404" component={Error404}/>
                 <Route path="/login" exact component={Login}/>
                 <Route path="/recover/password" component={RecoverPassword}/>
+                <Route path="/password" component={NewPassword}/>
                 <Route path="/user/group" component={SelectGroup}/>
                 <Route path='/app' component={App} render={() => (
                     false ? 
