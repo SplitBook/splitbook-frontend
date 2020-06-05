@@ -135,11 +135,11 @@ export default function MiniDrawer({history}) {
   //console.log("Variavel do utilizador (Layout Page 119line)",UserData)
 
   const [name,setname] = React.useState('rafael.jpg');
-
+  var userimage;
   try{
-    var userimage = require('../../assets/users/'+name); 
+    userimage = require('../../assets/users/'+name); 
   }catch(e){
-    var userimage = require('../../assets/users/notprofileimage.png'); 
+    userimage = require('../../assets/users/notprofileimage.png'); 
   }
 
 
@@ -210,7 +210,10 @@ export default function MiniDrawer({history}) {
           (name!=='none' && open &&
           <>
           <Avatar alt='User' src={userimage} className={classes.large} />
-          <p>{userInfo.username}</p>
+          {
+            userInfo.username!==undefined && userInfo.username!==null && userInfo.username!=='' && 
+            <p>{userInfo.username}</p>
+          }
           <p><b>{charge}</b></p>
           </>)
         
@@ -219,7 +222,10 @@ export default function MiniDrawer({history}) {
           (name==='none' && open &&
           <>
           <Gravatar email="llsousa@gmail.com" className={classes.large} />
-          <p>{userInfo.username}</p>
+          {
+            userInfo.username!==undefined && userInfo.username!==null && userInfo.username!=='' && 
+            <p>{userInfo.username}</p>
+          }
           <p><b>{charge}</b></p>
           </>)
         } 

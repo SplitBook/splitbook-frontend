@@ -22,10 +22,10 @@ function createData(nome, numero, ano, turma) {
 
 const rows = [
   createData('Rafael Martins Santos Costa', 349, 12, 'C'),
-  createData('Alexandra Santos', 478, 10, 'B'),
+  createData('Alexandra Santos Mogas', 478, 10, 'B'),
   createData('Nuno Francisco Alves', 599, 12, 'C'),
   createData('Francisco Miguel Areias Mota', 49, 7, 'A'),
-  createData('Guilherme Sousa', 7, 5, 'C'),
+  createData('Ricardo alexandre rodrigues de Jesus', 215, 12, 'C'),
 ];
 
 export default function SimpleTable() {
