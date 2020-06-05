@@ -19,8 +19,12 @@ import Typography from '@material-ui/core/Typography';
 import FloatingBtn from '../Components/FloatingBtn';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar'
-//import userimage from '../../assets/users/notprofileimage.png';
+import userimage from '../../assets/users/notprofileimage.png';
 import {UserData} from '../../routesService/routes';
+import jwt_decode from 'jwt-decode';
+import Cookies from 'js-cookie';
+import api from '../../services/api';
+
 
 const drawerWidth = 240;
 
@@ -106,7 +110,20 @@ export default function MiniDrawer({history}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [userInfo, setUserInfo] = React.useState();
+  const [charge, setCharge] = React.useState('');
   
+  tmp();
+  async function tmp(){
+    if(userInfo===null || userInfo===undefined){
+      var token = Cookies.get('token');
+      var decoded = jwt_decode(token);
+      const {data} = await api.get('/users/'+decoded.user_id);
+      setUserInfo(data);
+      setCharge(decoded.charge);
+    }
+    //console.log("userinfo2",userInfo)
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -116,7 +133,7 @@ export default function MiniDrawer({history}) {
     setOpen(false);
   };
 
-  console.log("Variavel do utilizador (Layout Page 119line)",UserData)
+  //console.log("Variavel do utilizador (Layout Page 119line)",UserData)
 
   const [name,setname] = React.useState('rafael.jpg');
 
@@ -125,6 +142,8 @@ export default function MiniDrawer({history}) {
   }catch(e){
     var userimage = require('../../assets/users/notprofileimage.png'); 
   }
+
+
 
   return (
     
@@ -192,8 +211,8 @@ export default function MiniDrawer({history}) {
           (name!=='none' && open &&
           <>
           <Avatar alt='User' src={userimage} className={classes.large} />
-          <p>Rafael Costa</p>
-          <p><b>Docente</b></p>
+          <p>{userInfo.username}</p>
+          <p><b>{charge}</b></p>
           </>)
         
           ||
@@ -201,7 +220,8 @@ export default function MiniDrawer({history}) {
           (name==='none' && open &&
           <>
           <Gravatar email="llsousa@gmail.com" className={classes.large} />
-          <p><b>Docente</b></p>
+          <p>{userInfo.username}</p>
+          <p><b>{charge}</b></p>
           </>)
         } 
         

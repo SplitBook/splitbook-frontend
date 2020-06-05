@@ -7,6 +7,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 //import api from '../../services/api';
 import Cookies from 'js-cookie';
 import { ThemeProvider } from '@material-ui/core';
+import jwt_decode from 'jwt-decode';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -28,15 +29,24 @@ export default function Login({ history,props}){
         try{
             const {data} = await api.post('/login',{email: username,password: password});
             console.log(data);
-            Cookies.set('token',data.token,{ expires: 7 });
+            Cookies.set('tokenLogin',data.token,{ expires: 7 });
             Cookies.set('profiles',data.user.profiles,{ expires: 7 });
             console.log(data.user.profiles.length)
             if(data.user.profiles.length!==1)
                 history.push('/user/group')
-            else
+            else{
+                const data2 = await api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
+                console.log("Login2:: ",data2.data);
+                Cookies.set('token',data2.data.token,{ expires: 7 });
+                //var decoded = jwt_decode(data2.data.token);
+                //console.log("decoded",decoded)
                 history.push('/app/home')
+            }
+                
         }
         catch(Error){
+            Cookies.remove('tokenLogin')
+            console.log('Authentication Error:',Error)
             setOpen(true);
         }
         

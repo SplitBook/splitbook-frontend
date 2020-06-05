@@ -9,11 +9,11 @@ import SelectGroup from '../pages/app/SelectGroup';
 import Cookies from 'js-cookie';
 import NewPassword from '../pages/auth/NewPassword';
 
-export const UserData = () => 'Rafael Martins Santos Costa';
+
+
 
 export default function Routes(){
-
-
+    
     //console.log('token',Cookies.get('token')===null || Cookies.get('token')==='',Cookies.get('token'));
     return(
             <BrowserRouter>
@@ -48,3 +48,4 @@ export default function Routes(){
         
     );
 }
+
