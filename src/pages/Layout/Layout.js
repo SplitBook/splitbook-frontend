@@ -19,8 +19,6 @@ import Typography from '@material-ui/core/Typography';
 import FloatingBtn from '../Components/FloatingBtn';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar'
-import userimage from '../../assets/users/notprofileimage.png';
-import {UserData} from '../../routesService/routes';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import api from '../../services/api';
