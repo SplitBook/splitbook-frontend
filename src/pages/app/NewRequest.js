@@ -11,7 +11,7 @@ import TabelasLivros from '../Components/TabelasLivrosRequisicao';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import fetch from 'cross-fetch';
-import Cookies from 'universal-cookie';
+import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 
 
