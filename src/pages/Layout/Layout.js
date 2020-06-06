@@ -122,16 +122,16 @@ export default function MiniDrawer({history}) {
     if(userInfo===null || userInfo===undefined){
       var token = Cookies.get('token');
       var decoded = jwt_decode(token);
-      try{
+      //try{
         const {data} = await api.get('/users/'+decoded.user_id);
         setUserInfo(data);
         setCharge(decoded.charge);
         setSetDoned(true)
-      }
-      catch(error){
-        alert(error)
-        history.push('/login');
-      }
+      //}
+      //catch(error){
+      //  alert(error)
+      //  history.push('/login');
+      //}
     }
     //console.log("userinfo2",userInfo)
   }

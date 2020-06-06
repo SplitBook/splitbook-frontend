@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ListaFiliados from '../Components/ListaFiliados';
 import Button from '@material-ui/core/Button';
@@ -9,16 +10,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import ImageUploader from 'react-images-upload';
-import './AppStyles.css'
 import api from '../../services/api';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import Edit from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import './AppStyles.css';
+import Header from '../Components/Header';
 
 
-export default function AccountPage(){  
+export default function AccountPage({history}){  
   const [open, setOpen] = React.useState(false);
   const [state,setState] = React.useState({ pictures: [] });
   const [user,setUser] = React.useState([]);
@@ -39,9 +40,11 @@ export default function AccountPage(){
     console.log("2: ",decoded)
     var {data} = await api.get('/users/'+decoded.user_id);
     var tmp = data;
-    var new_date = tmp.born_date.split('T');
-    tmp.born_date=new_date[0];
-    console.log("info",new_date)
+    if(tmp.born_date!==null){
+      var new_date = tmp.born_date.split('T');
+      tmp.born_date=new_date[0];
+      console.log("info",new_date)
+    }
     setUser(tmp)    
   }
 
@@ -87,15 +90,24 @@ export default function AccountPage(){
 
   //const [editedInformation,setEditedInformation] = React.useState({ data: [{email:'',born_date:'',username:''}]  });
   var editedInformation={};
-  async function ChangeUserInformation(){
+  function ChangeUserInformation(){
     console.log(editedInformation)
     setShowWarning(true);
     //Efetuar pedido à API
   }
 
+  function SubmitConfirmation(){
+    /*Cookies.remove('tokenLogin');
+    Cookies.remove('token');
+    Cookies.remove('profiles');
+    localStorage.clear();*/
+  }
+
 //https://www.npmjs.com/package/react-images-upload
     return (
       <>
+
+      <Header title='Informações do utilizador'/>      
       {
         user.length!==0 &&
         <>
@@ -224,7 +236,7 @@ export default function AccountPage(){
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Tem a certeza que pertente efetuar alterações aos seus dados de utlizador.<br/>
-            Ao continuar a sua conta vai ficar indesponivel, para voltar a utilizar os serviços<br/>
+            Ao continuar a sua conta vai ficar indesponivel, para voltar a utilizar os serviços
             da <b>Split Book</b> deverá aceder ao seu email e confirmar as alterações.<br/><br/>
             <b>Em caso de problemas contacte o administrador da plataforma!</b>
           </DialogContentText>
@@ -233,9 +245,9 @@ export default function AccountPage(){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button  color="primary" autoFocus>
-            Continuar
-          </Button>
+            <Button  color="primary" onClick={SubmitConfirmation}>
+              Continuar
+            </Button>
         </DialogActions>
       </Dialog>
 

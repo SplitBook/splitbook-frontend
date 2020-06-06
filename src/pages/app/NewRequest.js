@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import fetch from 'cross-fetch';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import Header from '../Components/Header';
 
 
 function sleep(delay = 0) {
@@ -81,6 +82,8 @@ export default function NovoRequisito(){
 
     return (
         <>
+        <Header title='Nova requisição'/>
+
         {
             group==='Encarregado de Educação' && 
 

@@ -46,7 +46,7 @@ export default function TableManuais() {
   return (
     <>
     <MaterialTable
-      title="Manuais Escolares"
+      title=" "
       columns={state.columns}
       data={state.data}
       editable={{

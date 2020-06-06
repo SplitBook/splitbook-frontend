@@ -5,6 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Header from '../Components/Header';
 
 
 export default function AprovedRequests() {
@@ -40,6 +41,8 @@ export default function AprovedRequests() {
   const tableRef = React.createRef();
   return (
         <>
+            <Header title='Requisições aprovadas'/>
+
             <MaterialTable
                   title="Lista de Requisitos"
                   columns={[

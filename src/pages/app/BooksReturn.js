@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Header from '../Components/Header';
 
 
 export default function BooksReturn(){
@@ -47,7 +48,7 @@ export default function BooksReturn(){
   
     return (
       <>
-        <h2 className="marginTitle" >Recolha de Manuais</h2>
+        <Header title='Recolha de Livros'/>
         <Grid container spacing={2}>
             <Grid item >
                 <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />

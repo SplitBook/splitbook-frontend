@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Table from '../Components/TableRequisicoesEE';
 import Card from '../Components/Card';
 import './AppStyles.css';
+import Header from '../Components/Header';
 
 
 export default function MainPageEE({props}){
@@ -10,6 +11,8 @@ export default function MainPageEE({props}){
   //const [data, setData] = React.useState([]);
   
     return (
+      <>
+      <Header title='As minhas requisições'/>
       <div>
         <Grid container spacing={2}>
           <Grid item sm>
@@ -20,6 +23,7 @@ export default function MainPageEE({props}){
           </Grid>
         </Grid>  
       </div>
+      </>
       );
 
 }

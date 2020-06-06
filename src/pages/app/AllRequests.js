@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import './AppStyles.css';
+import Header from '../Components/Header';
 
 export default function AllRequests() {
 
@@ -77,6 +78,8 @@ export default function AllRequests() {
 
   return (
         <>
+        <Header title='Requisições por aprovar'/>
+
             <MaterialTable
                   title="Lista de Requisitos"
                   columns={[

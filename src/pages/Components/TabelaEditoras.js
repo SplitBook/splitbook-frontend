@@ -44,7 +44,7 @@ export default function TableEditoras() {
   return (
     <>
     <MaterialTable
-      title="Editoras"
+      title=" "
       columns={state.columns}
       data={state.data}
       editable={{
