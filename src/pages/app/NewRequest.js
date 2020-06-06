@@ -24,8 +24,6 @@ function sleep(delay = 0) {
 export default function NovoRequisito(){
     const [aluno, setAluno] = React.useState('');
     const [numAluno, setNumAluno] = React.useState(0);
-
-    const cookies = new Cookies();
     const [group,setGroup] = React.useState('');
 
     if(group===''){
@@ -83,32 +81,6 @@ export default function NovoRequisito(){
 
     return (
         <>
-        <Grid container spacing={2}>
-            <Grid item >
-                <TextField
-                    className="maxwidth"
-                    label="Encarregado de Educação"
-                    defaultValue="Rogério Nuno Santos Costa"
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    variant="outlined"
-                    disabled
-                />            
-            </Grid>
-            <Grid item>
-                <TextField
-                    label="Contacto"
-                    defaultValue="939348447"
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    variant="outlined"
-                    disabled
-                />       
-            </Grid>
-        </Grid>
-
         {
             group==='Encarregado de Educação' && 
 
@@ -174,8 +146,6 @@ export default function NovoRequisito(){
                 </Grid>
             </Grid>
         }
-        
-
         {
             numAluno>0 &&
             <>
@@ -188,3 +158,33 @@ export default function NovoRequisito(){
     
 
 }
+
+/*
+
+        <Grid container spacing={2}>
+            <Grid item >
+                <TextField
+                    className="maxwidth"
+                    label="Encarregado de Educação"
+                    defaultValue="Rogério Nuno Santos Costa"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    variant="outlined"
+                    disabled
+                />            
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="Contacto"
+                    defaultValue="939348447"
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    variant="outlined"
+                    disabled
+                />       
+            </Grid>
+        </Grid>
+
+*/

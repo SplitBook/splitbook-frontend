@@ -22,6 +22,7 @@ export default function Routes(){
     */
     
     //console.log("1:",Cookies.get('token')!== undefined,"2:",Cookies.get('token')!== null,"3:",Cookies.get('token')!== '');
+
     return(
             <BrowserRouter>
                 <Route path="/404" component={Error404}/>

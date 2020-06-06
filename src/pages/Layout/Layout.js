@@ -16,7 +16,7 @@ import RoutesLayout from '../../routesService/routesLayout'
 import logo from '../../assets/Icons/SplitBookRound/XD/icon_48.png';
 import './Layout.css';
 import Typography from '@material-ui/core/Typography';
-import FloatingBtn from '../Components/FloatingBtn';
+//import FloatingBtn from '../Components/FloatingBtn';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar'
 import jwt_decode from 'jwt-decode';
@@ -250,8 +250,7 @@ export default function MiniDrawer({history}) {
       </Drawer>
       <main className={classes.content}>
       <div className={classes.toolbar} />
-        <RoutesLayout/>
-        <FloatingBtn history={history}/>
+        <RoutesLayout userInfo={userInfo}/>
       </main>
 
     </div>
