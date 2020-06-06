@@ -71,7 +71,7 @@ export default function AllRequests() {
               <li>{texto}</li>
             );
             return (
-              <ul>{listItems}</ul>
+              <ul className="mLeft">{listItems}</ul>
             );
       }
 

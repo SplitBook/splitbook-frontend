@@ -13,6 +13,11 @@ import ImageUploader from 'react-images-upload';
 import './AppStyles.css'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import api from '../../services/api';
+import jwt_decode from 'jwt-decode';
+import Cookies from 'js-cookie';
+
+
 
 const useStyles = makeStyles((theme) => ({
   large: {
@@ -43,6 +48,14 @@ export default function AccountPage(){
     setOpen(false);
   };
 
+  async function ChangePassword(){
+    var token = Cookies.get('token');
+    var decoded = jwt_decode(token);
+    var {data} = await api.get('/users/'+decoded.user_id);
+    var dataPass = api.post('/recover-password?change_password=true',{email: data.email});
+    setOpen(false);
+    console.log("infouser:",data.email,"ChangePass_data",dataPass)
+  }
 
   /*const PassAtual = (event) => {
     setPass1(event.target.value)
@@ -123,7 +136,7 @@ export default function AccountPage(){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={ChangePassword} color="primary" autoFocus>
             Confirmar
           </Button>
         </DialogActions>

@@ -41,10 +41,11 @@ function SimpleDialog(props) {
     onClose(value);
   };
   
-  function setInfoAndCharge(){
+  //Confirmar?!!?
+  async function setInfoAndCharge(){
       var token = Cookies.get('token');
       var decoded = jwt_decode(token);
-      var {data} = api.get('/users/'+decoded.user_id);
+      var {data} = await api.get('/users/'+decoded.user_id);
       for(var i=0;i<data.profiles.lenght;i++){
         groups.push(data.profiles[i]);
       }

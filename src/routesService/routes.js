@@ -1,11 +1,9 @@
 import React from 'react';
 import { BrowserRouter,Route,Redirect} from 'react-router-dom';
-import api from '../services/api';
 import Login from '../pages/auth/Login';
 import RecoverPassword from '../pages/auth/RecoverPassword';
 import App from '../pages/Layout/Layout';
 import Error404 from '../pages/error/error404';
-import SelectGroup from '../pages/app/SelectGroup';
 import Cookies from 'js-cookie';
 import NewPassword from '../pages/auth/NewPassword';
 
