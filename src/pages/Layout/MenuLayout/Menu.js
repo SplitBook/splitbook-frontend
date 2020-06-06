@@ -73,6 +73,9 @@ export default function MenuLayout({history}) {
 
   return (
     <>
+    {
+      group!==undefined && group!=='' && group!==null &&
+
     <List
       component="nav"
       aria-labelledby="nested-list-subheader"
@@ -188,7 +191,7 @@ export default function MenuLayout({history}) {
         <ListItemText primary="Sair" />
       </ListItem>
     </List>
-
+    }
     <Dialog
         open={open}
         TransitionComponent={Transition}

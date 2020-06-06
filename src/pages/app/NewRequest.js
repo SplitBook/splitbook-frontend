@@ -12,6 +12,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import fetch from 'cross-fetch';
 import Cookies from 'universal-cookie';
+import jwt_decode from 'jwt-decode';
 
 
 function sleep(delay = 0) {
@@ -25,7 +26,13 @@ export default function NovoRequisito(){
     const [numAluno, setNumAluno] = React.useState(0);
 
     const cookies = new Cookies();
-    const [grupo,setGrupo] = React.useState(cookies.get('Grupo'));
+    const [group,setGroup] = React.useState('');
+
+    if(group===''){
+        var token = Cookies.get('token');
+        var decoded = jwt_decode(token);
+        setGroup(decoded.charge)
+    }
 
     const handleChange = (event) => {
         setAluno(event.target.value);
@@ -103,7 +110,7 @@ export default function NovoRequisito(){
         </Grid>
 
         {
-            grupo==='Encarregado de Educação' && 
+            group==='Encarregado de Educação' && 
 
             <Grid container spacing={2}>
                 <Grid item>
@@ -128,7 +135,7 @@ export default function NovoRequisito(){
         }
 
         {
-            grupo!=='Encarregado de Educação' && 
+            group!=='Encarregado de Educação' && 
 
             <Grid container spacing={2}>
                 <Grid item>
