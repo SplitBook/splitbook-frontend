@@ -110,16 +110,28 @@ export default function MiniDrawer({history}) {
   const [open, setOpen] = React.useState(false);
   const [userInfo, setUserInfo] = React.useState();
   const [charge, setCharge] = React.useState('');
-  
+  const [setDoned, setSetDoned] = React.useState(false);
+
+  //console.log(Cookies.get('token')!==undefined && Cookies.get('token')!==null && Cookies.get('token')!=='')
+  /*if(Cookies.get('token')!==undefined && Cookies.get('token')!==null && Cookies.get('token')!==''){
+    history.push('/login');
+  }*/
   setInfoAndCharge();
 
   async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
       var token = Cookies.get('token');
       var decoded = jwt_decode(token);
-      const {data} = await api.get('/users/'+decoded.user_id);
-      setUserInfo(data);
-      setCharge(decoded.charge);
+      try{
+        const {data} = await api.get('/users/'+decoded.user_id);
+        setUserInfo(data);
+        setCharge(decoded.charge);
+        setSetDoned(true)
+      }
+      catch(error){
+        alert(error)
+        history.push('/login');
+      }
     }
     //console.log("userinfo2",userInfo)
   }
@@ -211,7 +223,7 @@ export default function MiniDrawer({history}) {
           <>
           <Avatar alt='User' src={userimage} className={classes.large} />
           {
-            userInfo.username!==undefined && userInfo.username!==null && userInfo.username!=='' && 
+            setDoned && 
             <p>{userInfo.username}</p>
           }
           <p><b>{charge}</b></p>
@@ -223,7 +235,7 @@ export default function MiniDrawer({history}) {
           <>
           <Gravatar email="llsousa@gmail.com" className={classes.large} />
           {
-            userInfo.username!==undefined && userInfo.username!==null && userInfo.username!=='' && 
+            setDoned && 
             <p>{userInfo.username}</p>
           }
           <p><b>{charge}</b></p>

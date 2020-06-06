@@ -89,12 +89,12 @@ export default function SimpleDialogDemo({history}) {
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    var data = SimpleDialog.data;
+    /*var data = SimpleDialog.data;
     const data2 = api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
     console.log("Login2:: ",data2.data);
     Cookies.set('token',data2.data.token,{ expires: 7 });
     //var decoded = jwt_decode(data2.data.token);
-    //console.log("decoded",decoded)
+    //console.log("decoded",decoded)*/
     history.push('/app/home')
   };
 
