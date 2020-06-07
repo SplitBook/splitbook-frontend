@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter,Route} from 'react-router-dom';
+import { BrowserRouter,Route, Redirect} from 'react-router-dom';
 
 
 import Main from '../pages/app/MainPageEE';
@@ -13,21 +13,27 @@ import BooksReturn from '../pages/app/BooksReturn';
 import AllRequests from '../pages/app/AllRequests';
 import AprovedRequests from '../pages/app/AprovedRequests';
 import Subjects from '../pages/app/Subjects';
+import Cookies from 'js-cookie';
+
 
 export default function RoutesLayout(){
     return(
-        <BrowserRouter>
-            <Route path="/app/new/request"  component={NewRequest}/>
-            <Route path="/app/home" component={Main}/>
-            <Route path="/app/add/manual" component={Manual}/>
-            <Route path="/app/add/subjects" component={Subjects}/>
-            <Route path="/app/account" component={AccountPage}/>
-            <Route path="/app/permissions" component={PermissionsManagement}/>
-            <Route path="/app/books/delivery" component={BooksDelivery}/>
-            <Route path="/app/books/return" component={BooksReturn}/>
-            <Route path="/app/requests" component={AllRequests}/>
-            <Route path="/app/aproved/requests" component={AprovedRequests}/>
-        </BrowserRouter>
+        <>
+        
+            <BrowserRouter>
+                <Route path="/app/home" component={Main}/>
+                <Route path="/app/new/request"  component={NewRequest}/>
+                <Route path="/app/add/manual" component={Manual}/>
+                <Route path="/app/add/subjects" component={Subjects}/>
+                <Route path="/app/account" component={AccountPage}/>
+                <Route path="/app/permissions" component={PermissionsManagement}/>
+                <Route path="/app/books/delivery" component={BooksDelivery}/>
+                <Route path="/app/books/return" component={BooksReturn}/>
+                <Route path="/app/requests" component={AllRequests}/>
+                <Route path="/app/aproved/requests" component={AprovedRequests}/>
+            </BrowserRouter>
+            
+        </>
     );
     
 }

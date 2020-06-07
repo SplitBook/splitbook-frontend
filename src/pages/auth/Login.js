@@ -16,17 +16,23 @@ import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
 import jwt_decode from 'jwt-decode';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     avatar: {
       backgroundColor: blue[100],
       color: blue[600],
     },
-  });
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+      },
+  }));
 
 const groups = [];
 
@@ -86,12 +92,15 @@ function SimpleDialog(props) {
   
 
 export default function Login({ history,props}){
+    const classes = useStyles();
     const [username,setUsername]= useState('');
     const [password,setPassword]= useState('');
     const [open, setOpen] = React.useState(false);
     
     const [opengroups, setOpengroups] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(groups[0]);
+
+    const [activebackdrop, setActivebackdrop] = React.useState(false);
 
     //console.log(props,history)
 
@@ -113,6 +122,9 @@ export default function Login({ history,props}){
                 const data2 = await api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
                 console.log("Login2:: ",data2.data);
                 Cookies.set('token',data2.data.token,{ expires: 7 });
+                do{
+                    setActivebackdrop(true)
+                }while(!Cookies.get('token'));
                 history.push('/app/home')
             }     
         }
@@ -173,6 +185,15 @@ export default function Login({ history,props}){
         </div>
         <div>
             <SimpleDialog selectedValue={selectedValue} open={opengroups} onClose={handleClose} />
+        </div>
+        <div>
+        {
+            activebackdrop &&
+            <Backdrop className={classes.backdrop} open={true}>
+                <CircularProgress color="inherit" />
+            </Backdrop> 
+        }
+            
         </div>
         </>
     );

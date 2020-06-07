@@ -64,7 +64,6 @@ export default function MenuLayout({history}) {
     Cookies.remove('tokenLogin');
     Cookies.remove('token');
     Cookies.remove('profiles');
-    localStorage.clear();
   };
 
   const handleClose = () => {

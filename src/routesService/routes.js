@@ -29,19 +29,23 @@ export default function Routes(){
                 <Route path="/login" exact component={Login}/>
                 <Route path="/recover/password" component={RecoverPassword}/>
                 <Route path="/reset/password" component={NewPassword}/>
-
-                    <Route path='/app' component={App} >
-                        <Route path='/app/home' component={App}/>
-                        <Route path='/app/new/request' component={App}/>
-                        <Route path="/app/add/manual" component={App}/>
-                        <Route path="/app/add/subjects" component={App}/>r
-                        <Route path="/app/account" component={App}/>
-                        <Route path="/app/permissions" component={App}/>
-                        <Route path="/app/books/delivery" component={App}/>
-                        <Route path="/app/books/return" component={App}/>
-                        <Route path="/app/requests" component={App}/>
-                        <Route path="/app/aproved/requests" component={App}/>
-                    </Route>
+                {
+                    Cookies.get('token')?
+                    (
+                        <Route path='/app' component={App} >
+                            <Route path='/app/home' component={App}/>
+                            <Route path='/app/new/request' component={App}/>
+                            <Route path="/app/add/manual" component={App}/>
+                            <Route path="/app/add/subjects" component={App}/>r
+                            <Route path="/app/account" component={App} />
+                            <Route path="/app/permissions" component={App}/>
+                            <Route path="/app/books/delivery" component={App}/>
+                            <Route path="/app/books/return" component={App}/>
+                            <Route path="/app/requests" component={App}/>
+                            <Route path="/app/aproved/requests" component={App}/>
+                        </Route>):(<Redirect to="/login"/>)
+                }
+                    
             
                 <Route path="" redirectTo="/login"/>
                 <Route exact path="/" render={() => (

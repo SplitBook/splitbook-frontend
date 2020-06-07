@@ -19,7 +19,7 @@ import './AppStyles.css';
 import Header from '../Components/Header';
 
 
-export default function AccountPage({history}){  
+export default function AccountPage(){  
   const [open, setOpen] = React.useState(false);
   const [state,setState] = React.useState({ pictures: [] });
   const [user,setUser] = React.useState([]);
@@ -28,7 +28,7 @@ export default function AccountPage({history}){
   const [showWarning, setShowWarning] = React.useState(false);
   const token = Cookies.get('token');
 
-
+  
   if(user.length===0 && bool){
     userinfo();
   }
@@ -45,7 +45,7 @@ export default function AccountPage({history}){
       tmp.born_date=new_date[0];
       console.log("info",new_date)
     }
-    setUser(tmp)    
+    setUser(tmp)
   }
 
   function onDrop(picture) {
@@ -97,10 +97,9 @@ export default function AccountPage({history}){
   }
 
   function SubmitConfirmation(){
-    /*Cookies.remove('tokenLogin');
-    Cookies.remove('token');
-    Cookies.remove('profiles');
-    localStorage.clear();*/
+    Cookies.remove('token')
+    Cookies.remove('tokenLogin')
+    Cookies.remove('profiles')
   }
 
 //https://www.npmjs.com/package/react-images-upload
@@ -245,7 +244,7 @@ export default function AccountPage({history}){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-            <Button  color="primary" onClick={SubmitConfirmation}>
+            <Button  color="primary" onClick={SubmitConfirmation} href="/login">
               Continuar
             </Button>
         </DialogActions>
