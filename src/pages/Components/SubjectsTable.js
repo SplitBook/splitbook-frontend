@@ -12,27 +12,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function TableManuais() {
+
+export default function SubjectsTable() {
   const [open, setOpen] = React.useState(false);
-  const [show, setShow] = React.useState(true);
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Código', field: 'code' },
-      { title: 'ISBN', field: 'isbn'},
-      { title: 'Disciplina', field: 'disciplina' },
-      { title: 'Editora', field: 'editora'},
-      { title: 'Capa', field: 'capa'},
+      { title: 'Nome', field: 'nome' },
     ],
     data: [
-      { code:1,isbn:'12222233', disciplina: 'Matemática A', editora: 'Porto',capa: ''},
-      { code:2,isbn:'45242566', disciplina: 'Fisico-Quimica A', editora: 'Texto',capa: ''},
-      { code:3,isbn:'50820653', disciplina: 'Português', editora: 'Caminho',capa: ''},
+      { nome: 'Português' },
+      { nome: 'Matemática A' },
+      { nome: 'Programação de Sistemas Informáticos' },
+      { nome: 'Inglês' },
     ],
   });
-
-  /*function guardar(){
-    console.log(state.data)
-  }*/
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,8 +33,11 @@ export default function TableManuais() {
 
   const handleClose = () => {
     setOpen(false);
-    setShow(true)
   };
+
+  /*function guardar(){
+    console.log(state.data)
+  }*/
 
   return (
     <>
@@ -65,7 +61,6 @@ export default function TableManuais() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setShow(false);
               if (oldData) {
                 setState((prevState) => {
                   const data = [...prevState.data];
@@ -79,7 +74,6 @@ export default function TableManuais() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setShow(false);
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);

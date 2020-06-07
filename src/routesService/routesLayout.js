@@ -12,6 +12,7 @@ import BooksDelivery from '../pages/app/BooksDelivery';
 import BooksReturn from '../pages/app/BooksReturn';
 import AllRequests from '../pages/app/AllRequests';
 import AprovedRequests from '../pages/app/AprovedRequests';
+import Subjects from '../pages/app/Subjects';
 
 export default function RoutesLayout(){
     return(
@@ -19,7 +20,7 @@ export default function RoutesLayout(){
             <Route path="/app/new/request"  component={NewRequest}/>
             <Route path="/app/home" component={Main}/>
             <Route path="/app/add/manual" component={Manual}/>
-            <Route path="/app/add/publisher" component={Publisher}/>
+            <Route path="/app/add/subjects" component={Subjects}/>
             <Route path="/app/account" component={AccountPage}/>
             <Route path="/app/permissions" component={PermissionsManagement}/>
             <Route path="/app/books/delivery" component={BooksDelivery}/>

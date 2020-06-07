@@ -124,12 +124,12 @@ export default function MenuLayout({history}) {
           <ListItemText primary="Manuais" />
         </ListItem>
       </Link>
-      <Link to="/app/add/publisher">
+      <Link to="/app/add/subjects">
         <ListItem button>
           <ListItemIcon>
             <CollectionsBookmark />
           </ListItemIcon>
-          <ListItemText primary="Editoras" />
+          <ListItemText primary="Disciplinas" />
         </ListItem>
       </Link>
       <Link to="/app/books/delivery">

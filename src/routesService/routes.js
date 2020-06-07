@@ -34,7 +34,7 @@ export default function Routes(){
                         <Route path='/app/home' component={App}/>
                         <Route path='/app/new/request' component={App}/>
                         <Route path="/app/add/manual" component={App}/>
-                        <Route path="/app/add/publisher" component={App}/>r
+                        <Route path="/app/add/subjects" component={App}/>r
                         <Route path="/app/account" component={App}/>
                         <Route path="/app/permissions" component={App}/>
                         <Route path="/app/books/delivery" component={App}/>
