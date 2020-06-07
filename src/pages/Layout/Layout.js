@@ -112,24 +112,23 @@ export default function MiniDrawer({history}) {
   const [setDoned, setSetDoned] = React.useState(false);
 
   //console.log(Cookies.get('token')!==undefined && Cookies.get('token')!==null && Cookies.get('token')!=='')
-  console.log('olaaaaaa')
-
   setInfoAndCharge();
- 
-  
-
   async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
-      var token = Cookies.get('token');
-      var decoded = jwt_decode(token);
+      var token = Cookies.get('token')
+
+      var decoded = jwt_decode(token)
       try{
+        localStorage.setItem('token',Cookies.get('token'))
+        api.defaults.headers={'Authorization': 'Bearer '+localStorage.getItem("token")}
+        //console.log(Cookies.get('token'),"--cookie")
         const {data} = await api.get('/users/'+decoded.user_id);
         setUserInfo(data);
         setCharge(decoded.charge);
         setSetDoned(true)
       }
       catch(error){
-          history.push('/login');
+        setTimeout(setInfoAndCharge, 300);
       }
     }
     //console.log("userinfo2",userInfo)
