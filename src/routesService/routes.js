@@ -29,27 +29,28 @@ export default function Routes(){
                 <Route path="/login" exact component={Login}/>
                 <Route path="/recover/password" component={RecoverPassword}/>
                 <Route path="/reset/password" component={NewPassword}/>
-                {
-                    Cookies.get('token')?
-                    (
-                        <Route path='/app' component={App} >
-                            <Route path='/app/home' component={App}/>
-                            <Route path='/app/new/request' component={App}/>
-                            <Route path="/app/add/manual" component={App}/>
-                            <Route path="/app/add/subjects" component={App}/>r
-                            <Route path="/app/account" component={App} />
-                            <Route path="/app/permissions" component={App}/>
-                            <Route path="/app/books/delivery" component={App}/>
-                            <Route path="/app/books/return" component={App}/>
-                            <Route path="/app/requests" component={App}/>
-                            <Route path="/app/aproved/requests" component={App}/>
-                        </Route>):(<Redirect to="/login"/>)
-                }
-                    
-            
+            {
+                (String(localStorage.getItem('tmp'))===String('xxxtruexxx'))?
+                (<Route path='/app' component={App}>
+                    <Route path='/app/home' component={App}/>
+                    <Route path='/app/new/request' component={App}/>
+                    <Route path="/app/add/manual" component={App}/>
+                    <Route path="/app/add/subjects" component={App}/>r
+                    <Route path="/app/account" component={App} />
+                    <Route path="/app/permissions" component={App}/>
+                    <Route path="/app/books/delivery" component={App}/>
+                    <Route path="/app/books/return" component={App}/>
+                    <Route path="/app/requests" component={App}/>
+                    <Route path="/app/aproved/requests" component={App}/>
+                </Route>)
+                :
+                (<Redirect to="/login"/>)                  
+            }
+                
+                
                 <Route path="" redirectTo="/login"/>
                 <Route exact path="/" render={() => (
-                Cookies.get('token')!==null && Cookies.get('token')!=='' ? (
+                !(Cookies.get('token') && Cookies.get('tokenLogin'))? (
                     <Redirect to="/login"/>
                 ) : (
                     <Redirect to="/app/home"/>
@@ -58,6 +59,7 @@ export default function Routes(){
             </BrowserRouter>
         
     );
+
 }
 
 //<Route path="/user/group" component={SelectGroup}/>

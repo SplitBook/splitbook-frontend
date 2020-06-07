@@ -110,6 +110,7 @@ export default function Login({ history,props}){
     async function handleSubmit(e){
         e.preventDefault();
         try{
+            localStorage.clear();
             const {data} = await api.post('/login',{email: username,password: password});
             console.log(data);
             Cookies.set('tokenLogin',data.token,{ expires: 7 });
@@ -124,7 +125,8 @@ export default function Login({ history,props}){
                 Cookies.set('token',data2.data.token,{ expires: 7 });
                 do{
                     setActivebackdrop(true)
-                }while(!Cookies.get('token'));
+                }while(!Cookies.get('token'))
+                localStorage.setItem('tmp','xxxtruexxx')
                 history.push('/app/home')
             }     
         }

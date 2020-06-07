@@ -16,13 +16,11 @@ import RoutesLayout from '../../routesService/routesLayout'
 import logo from '../../assets/Icons/SplitBookRound/XD/icon_48.png';
 import './Layout.css';
 import Typography from '@material-ui/core/Typography';
-//import FloatingBtn from '../Components/FloatingBtn';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar'
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import api from '../../services/api';
-import { BrowserRouter,Route,Redirect} from 'react-router-dom';
 
 
 const drawerWidth = 240;
@@ -102,11 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Logout({history}){
-  if(Cookies.get('token')!==undefined && Cookies.get('tokenLogin')!==undefined ){
-    history.push('/login');
-  }
-}
+
 
 
 export default function MiniDrawer({history}) {
@@ -118,9 +112,11 @@ export default function MiniDrawer({history}) {
   const [setDoned, setSetDoned] = React.useState(false);
 
   //console.log(Cookies.get('token')!==undefined && Cookies.get('token')!==null && Cookies.get('token')!=='')
-
+  console.log('olaaaaaa')
 
   setInfoAndCharge();
+ 
+  
 
   async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
@@ -156,7 +152,6 @@ export default function MiniDrawer({history}) {
   }catch(e){
     userimage = require('../../assets/users/notprofileimage.png'); 
   }
-
 
 
   return (
@@ -247,13 +242,13 @@ export default function MiniDrawer({history}) {
         
         </center>
          <List>
-            <MenuLayout history={history}/>
+            <MenuLayout/>
         </List>
         
       </Drawer>
       <main className={classes.content}>
       <div className={classes.toolbar} />
-        <RoutesLayout userinformation='qwerty'/>
+        <RoutesLayout history={history}/>
       </main>
 
     </div>

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function MenuLayout({history}) {
+export default function MenuLayout() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [group,setGroup] = React.useState('');
@@ -59,17 +59,18 @@ export default function MenuLayout({history}) {
     console.log(group);
   };
 
-  const handleClose0 = () => {
+  function handleClose0(){
     setOpen(false);
     Cookies.remove('tokenLogin');
     Cookies.remove('token');
     Cookies.remove('profiles');
+    localStorage.clear();
   };
 
   const handleClose = () => {
     setOpen(false);
   };  
-
+  try{
   return (
     <>
     {
@@ -215,5 +216,7 @@ export default function MenuLayout({history}) {
     </Dialog>
 
     </>
-  );
+  );}catch(error){
+
+  }
 }
