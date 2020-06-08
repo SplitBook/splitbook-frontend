@@ -207,11 +207,10 @@ export default function MenuLayout() {
             Cancelar
           </Button>
           <Link to="/login">
-            <Button onClick={handleClose0} color="primary">
+            <Button onClick={handleClose0} color="primary" autoFocus>
               Sair
             </Button>
           </Link>
-          
         </DialogActions>
     </Dialog>
 

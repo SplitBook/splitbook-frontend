@@ -71,18 +71,6 @@ export default function AccountPage(){
     console.log("infouser:",user.email,"ChangePass_data",dataPass)
   }
 
-  /*const PassAtual = (event) => {
-    setPass1(event.target.value)
-  };
-
-  const NovaPass1 = (event) => {
-    setPass2(event.target.value)
-  };
-
-  const NovaPass2 = (event) => {
-    setPass3(event.target.value)
-  };*/
-
   const fileSelectedHandler = (event) => {
     console.log(event);
     //console.log(event.target.files[0])
@@ -99,9 +87,9 @@ export default function AccountPage(){
   async function SubmitConfirmation(user_id){
     console.log(editedInformation);
     //var data = await api.post('/users/'+user_id,editedInformation);
-    Cookies.remove('token')
+    /*Cookies.remove('token')
     Cookies.remove('tokenLogin')
-    Cookies.remove('profiles')
+    Cookies.remove('profiles')*/
   }
 
 //https://www.npmjs.com/package/react-images-upload
@@ -114,18 +102,18 @@ export default function AccountPage(){
         <>
           <Grid container spacing={2}>
             <Grid item >
-              <TextField variant="outlined" value={user.username} helperText="Nome de Utilizador" disabled/>
+              <TextField variant="outlined" defaultValue={user.username} helperText="Nome de Utilizador" disabled/>
             </Grid>
             <Grid item >
-              <TextField type="date" variant="outlined" value={user.born_date} helperText="Data de nascimento" disabled/>
+              <TextField type="date" variant="outlined" defaultValue={user.born_date} helperText="Data de nascimento" disabled/>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item >
-              <TextField variant="outlined" value={user.phone} helperText="Nº de telemóvel" disabled/>
+              <TextField variant="outlined" defaultValue={user.phone} helperText="Nº de telemóvel" disabled/>
             </Grid>
             <Grid item >
-              <TextField variant="outlined" className="maxwidth" value={user.email} helperText="Endereço email" disabled/>
+              <TextField variant="outlined" className="maxwidth" defaultValue={user.email} helperText="Endereço email" disabled/>
             </Grid>
           </Grid>
           <Grid container spacing={2}>
@@ -237,7 +225,7 @@ export default function AccountPage(){
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Tem a certeza que pertente efetuar alterações aos seus dados de utlizador.<br/>
-            Ao continuar a sua conta vai ficar indesponivel, para voltar a utilizar os serviços
+            Ao prosseguir com as alterações a sua conta vai ficar indesponivel após o próximo <i>Logout</i>, para voltar a utilizar os serviços
             da <b>Split Book</b> deverá aceder ao seu email e confirmar as alterações.<br/><br/>
             <b>Em caso de problemas contacte o administrador da plataforma!</b>
           </DialogContentText>

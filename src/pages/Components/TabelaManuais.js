@@ -21,6 +21,7 @@ export default function TableManuais() {
       { title: 'ISBN', field: 'isbn'},
       { title: 'Código', field: 'code' },
       { title: 'Disciplina', field: 'name' },
+      { title: 'Editora', field: 'publishing_company'},
       { title: 'Capa', field: 'cover'},
     ],
     data: [],
@@ -32,7 +33,7 @@ export default function TableManuais() {
   async function getBooks(){
     const {data} = await api.get('/books');
     state.data=data.data;
-    //console.log("state:",state);
+    console.log("state:",state);
   }
 
   async function deleteBooks(isbn){
@@ -45,8 +46,8 @@ export default function TableManuais() {
     console.log(data);
   }
 
-  async function EditBooks(isbn,new_isbn,name,cover){
-    const {data} = await api.post('/books/'+isbn,{isbn:new_isbn,name:name,cover:cover});
+  async function EditBooks(isbn,name,cover,publishing_company){
+    const {data} = await api.put('/books/'+isbn,{name:name,cover:cover,publishing_company:publishing_company});
     console.log(data);
   }
 
@@ -84,7 +85,8 @@ export default function TableManuais() {
               if (oldData) {
                 setState((prevState) => {
                   newData.code=oldData.code
-                  //EditBooks(oldData.isbn,newData.isbn,newData.name,newData.cover)
+                  newData.isbn=oldData.isbn
+                  EditBooks(oldData.isbn,newData.name,newData.cover,newData.publishing_company)
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };

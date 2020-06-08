@@ -119,8 +119,7 @@ export default function MiniDrawer({history}) {
 
       var decoded = jwt_decode(token)
       try{
-        localStorage.setItem('token',Cookies.get('token'))
-        api.defaults.headers={'Authorization': 'Bearer '+localStorage.getItem("token")}
+        api.defaults.headers={'Authorization': 'Bearer '+Cookies.get("token")}
         //console.log(Cookies.get('token'),"--cookie")
         const {data} = await api.get('/users/'+decoded.user_id);
         setUserInfo(data);
