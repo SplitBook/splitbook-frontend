@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import api from '../../services/api';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -14,25 +16,39 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function TableManuais() {
   const [open, setOpen] = React.useState(false);
-  const [show, setShow] = React.useState(true);
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Código', field: 'code' },
       { title: 'ISBN', field: 'isbn'},
-      { title: 'Disciplina', field: 'disciplina' },
-      { title: 'Editora', field: 'editora'},
-      { title: 'Capa', field: 'capa'},
+      { title: 'Código', field: 'code' },
+      { title: 'Disciplina', field: 'name' },
+      { title: 'Capa', field: 'cover'},
     ],
-    data: [
-      { code:1,isbn:'12222233', disciplina: 'Matemática A', editora: 'Porto',capa: ''},
-      { code:2,isbn:'45242566', disciplina: 'Fisico-Quimica A', editora: 'Texto',capa: ''},
-      { code:3,isbn:'50820653', disciplina: 'Português', editora: 'Caminho',capa: ''},
-    ],
+    data: [],
   });
 
-  /*function guardar(){
-    console.log(state.data)
-  }*/
+  if(state.data.length===0)
+    getBooks();
+
+  async function getBooks(){
+    const {data} = await api.get('/books');
+    state.data=data.data;
+    //console.log("state:",state);
+  }
+
+  async function deleteBooks(isbn){
+    const {data} = await api.delete('/books/'+isbn);
+    console.log(data);
+  }
+
+  async function addBooks(isbn,code,name){
+    const {data} = await api.post('/books',{isbn:isbn,name:name,code:code});
+    console.log(data);
+  }
+
+  async function EditBooks(isbn,new_isbn,name,cover){
+    const {data} = await api.post('/books/'+isbn,{isbn:new_isbn,name:name,cover:cover});
+    console.log(data);
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,7 +56,6 @@ export default function TableManuais() {
 
   const handleClose = () => {
     setOpen(false);
-    setShow(true)
   };
 
   return (
@@ -55,6 +70,7 @@ export default function TableManuais() {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
+                addBooks(newData.isbn,newData.code,newData.name);
                 const data = [...prevState.data];
                 data.push(newData);
                 return { ...prevState, data };
@@ -65,9 +81,10 @@ export default function TableManuais() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setShow(false);
               if (oldData) {
                 setState((prevState) => {
+                  newData.code=oldData.code
+                  //EditBooks(oldData.isbn,newData.isbn,newData.name,newData.cover)
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
@@ -79,8 +96,8 @@ export default function TableManuais() {
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
-              setShow(false);
               setState((prevState) => {
+                deleteBooks(oldData.isbn);
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };

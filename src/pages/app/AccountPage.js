@@ -96,7 +96,9 @@ export default function AccountPage(){
     //Efetuar pedido à API
   }
 
-  function SubmitConfirmation(){
+  async function SubmitConfirmation(user_id){
+    console.log(editedInformation);
+    //var data = await api.post('/users/'+user_id,editedInformation);
     Cookies.remove('token')
     Cookies.remove('tokenLogin')
     Cookies.remove('profiles')

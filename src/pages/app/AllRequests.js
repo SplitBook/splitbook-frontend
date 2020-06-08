@@ -15,11 +15,21 @@ export default function AllRequests() {
 
 
   const [state, setState] = React.useState({
+        columns:[
+            { title: 'ID', field: 'id' },
+            { title: 'EE', field: 'ee' },
+            { title: 'Nº Aluno', field: 'naluno'},
+            { title: 'Nome Aluno', field: 'nomealuno'},
+            { title: 'Ano', field: 'ano'},
+            { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
+                  <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
+            ),},
+            ],
         data:[
-      { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
-      { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
-      { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
-    ]
+            { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
+            { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
+            { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
+      ]
   });
   const [obs, setObs] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -82,16 +92,7 @@ export default function AllRequests() {
 
             <MaterialTable
                   title="Lista de Requisitos"
-                  columns={[
-                  { title: 'ID', field: 'id' },
-                  { title: 'EE', field: 'ee' },
-                  { title: 'Nº Aluno', field: 'naluno'},
-                  { title: 'Nome Aluno', field: 'nomealuno'},
-                  { title: 'Ano', field: 'ano'},
-                  { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
-                        <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
-                  ),},
-                  ]}
+                  columns={state.columns}
                   data={state.data}
                   actions={[
                         {

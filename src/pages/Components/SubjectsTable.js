@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import api from '../../services/api';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,15 +18,35 @@ export default function SubjectsTable() {
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Nome', field: 'nome' },
+      { title: 'Nome', field: 'school_subject' },
     ],
-    data: [
-      { nome: 'Português' },
-      { nome: 'Matemática A' },
-      { nome: 'Programação de Sistemas Informáticos' },
-      { nome: 'Inglês' },
-    ],
+    data: [],
   });
+
+  if(state.data.length===0)
+    getSubjects();
+
+  async function getSubjects(){
+    const {data} = await api.get('/school-subjects');
+    console.log(data);
+    state.data=data;
+  }
+
+  async function deleteSubject(id){
+    const {data} = await api.delete('/school-subjects/'+id);
+    console.log(data);
+  }
+
+  async function addSubjects(subject){
+    const {data} = await api.post('/school-subjects',{school_subject:subject});
+    console.log(data);
+  }
+
+  async function EditSubjects(subject,id){
+    const {data} = await api.post('/school-subjects/'+id,{school_subject:subject,active:false});
+    console.log(data);
+  }
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,6 +72,8 @@ export default function SubjectsTable() {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
+                console.log("Data:",newData)
+                addSubjects(newData.school_subject);
                 const data = [...prevState.data];
                 data.push(newData);
                 return { ...prevState, data };
@@ -63,6 +86,7 @@ export default function SubjectsTable() {
               resolve();
               if (oldData) {
                 setState((prevState) => {
+                  EditSubjects(oldData.school_subject,oldData.id)
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
@@ -75,6 +99,7 @@ export default function SubjectsTable() {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
+                deleteSubject(oldData.id)
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };

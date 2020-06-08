@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import apiLogin from '../../services/apiLogin';
+import api from '../../services/api';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from '../../assets/Icons/SplitBookTransparent/XD/icon_192.png';
 import './Auth.css';
@@ -57,7 +57,7 @@ function SimpleDialog(props) {
         var token = Cookies.get('token');
         var decoded = jwt_decode(token);
         try{
-            const {data} = await apiLogin.get('/users/'+decoded.user_id);
+            const {data} = await api.get('/users/'+decoded.user_id);
             for(var i=0;i<data.profiles.lenght;i++){
                 groups.push(data.profiles[i]);
             }
@@ -119,7 +119,7 @@ export default function Login({ history,props}){
         e.preventDefault();
         try{
             localStorage.clear();
-            const {data} = await apiLogin.post('/login',{email: username,password: password});
+            const {data} = await api.post('/login',{email: username,password: password});
             console.log(data);
             Cookies.set('tokenLogin',data.token,{ expires: 7 });
             Cookies.set('profiles',data.user.profiles,{ expires: 7 });
@@ -128,10 +128,10 @@ export default function Login({ history,props}){
                 setOpengroups(true);
             }
             else{
-                const data2 = await apiLogin.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
+                const data2 = await api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
                 console.log("Login2:: ",data2.data);
                 Cookies.set('token',data2.data.token,{ expires: 7 });
-                sleep(4000)
+                //sleep(4000)
                 console.log("Ei there!",Cookies.get('token'),data2)
                 localStorage.setItem('name',data.user.username)
                 history.push('/app/home')
