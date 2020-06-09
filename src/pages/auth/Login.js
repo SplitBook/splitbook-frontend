@@ -44,10 +44,6 @@ function SimpleDialog(props) {
         setInfoAndCharge();
     }
   
-    const handleClose = () => {
-      onClose(selectedValue);
-    };
-  
     const handleListItemClick = (value) => {
       onClose(value);
     };
@@ -102,18 +98,6 @@ export default function Login({ history,props}){
 
     const [activebackdrop, setActivebackdrop] = React.useState(false);
 
-    //console.log(props,history)
-
-    //admin@splitbook.com
-    //admin
-
-    function sleep(milliseconds) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-          currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-      }
 
     async function handleSubmit(e){
         e.preventDefault();

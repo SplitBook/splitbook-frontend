@@ -18,7 +18,7 @@ import Header from '../Components/Header';
 import api_formdata from '../../services/api_multipart_form_data';
 import Avatar from '@material-ui/core/Avatar';
 import Gravatar from 'react-gravatar'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,12 +65,6 @@ export default function AccountPage(){
     setUser(tmp)
   }
 
-  function onDrop(picture) {
-    setState({
-        pictures: this.state.pictures.concat(picture),
-    });
-    console.log("State",state)
-  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -114,9 +108,10 @@ export default function AccountPage(){
     console.log(user)
     const {data} = api_formdata.put('/users/'+user.id,formData);
     console.log(data);
+    handleClose();
+
   }
 
-//https://www.npmjs.com/package/react-images-upload
     return (
       <>
 

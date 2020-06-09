@@ -12,17 +12,6 @@ import NewPassword from '../pages/auth/NewPassword';
 
 export default function Routes(){
 
-    /*
-    try{
-        const data =  api.get('/users').then((data) => {console.log("da boa",data)}).catch((error) => {console.log("nunex",error.response)});
-    }
-    catch(error){
-        console.log("error");
-    }
-    */
-    
-    //console.log("1:",Cookies.get('token')!== undefined,"2:",Cookies.get('token')!== null,"3:",Cookies.get('token')!== '');
-
     return(
             <BrowserRouter>
                 <Route path="/404" component={Error404}/>

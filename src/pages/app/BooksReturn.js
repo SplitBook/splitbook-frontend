@@ -32,10 +32,6 @@ export default function BooksReturn(){
     //snacbar
     const [open, setOpen] = React.useState(false);
 
-    const handleClick = () => {
-      setOpen(true);
-    };
-
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
         return;
@@ -43,7 +39,7 @@ export default function BooksReturn(){
 
       setOpen(false);
     };
-    //
+    
 
   
     return (
