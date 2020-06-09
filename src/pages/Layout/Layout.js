@@ -110,6 +110,8 @@ export default function MiniDrawer({history}) {
   const [userInfo, setUserInfo] = React.useState();
   const [charge, setCharge] = React.useState('');
   const [setDoned, setSetDoned] = React.useState(false);
+  const [photo, setPhoto] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
 
   //console.log(Cookies.get('token')!==undefined && Cookies.get('token')!==null && Cookies.get('token')!=='')
   setInfoAndCharge();
@@ -122,9 +124,12 @@ export default function MiniDrawer({history}) {
         api.defaults.headers={'Authorization': 'Bearer '+Cookies.get("token")}
         //console.log(Cookies.get('token'),"--cookie")
         const {data} = await api.get('/users/'+decoded.user_id);
+        setPhoto(data.photo)
+        setEmail(data.email)
         setUserInfo(data);
         setCharge(decoded.charge);
         setSetDoned(true)
+      
       }
       catch(error){
         setTimeout(setInfoAndCharge, 300);
@@ -205,19 +210,19 @@ export default function MiniDrawer({history}) {
         <Divider />
         <center>
         {
-          (name!=='none' && !open &&
-          <Avatar alt='User' src={userimage} className={classes.medium} />)
+          (photo!==null && !open &&
+          <Avatar alt='User' src={photo} className={classes.medium} />)
         
          ||
 
-          (name==='none' && !open &&
-          <Gravatar email="rafael@gmail.com" className={classes.medium} />)
+          (photo===null && !open &&
+          <Gravatar email={email} default="mp" className={classes.medium} />)
         
           ||
           
-          (name!=='none' && open &&
+          (photo!==null && open &&
           <>
-          <Avatar alt='User' src={userimage} className={classes.large} />
+          <Avatar alt='User' src={photo} className={classes.large} />
           {
             setDoned && 
             <p>{userInfo.username}</p>
@@ -227,9 +232,9 @@ export default function MiniDrawer({history}) {
         
           ||
 
-          (name==='none' && open &&
+          (photo===null && open &&
           <>
-          <Gravatar email="llsousa@gmail.com" className={classes.large} />
+          <Gravatar email={email} default="mp" className={classes.large} />
           {
             setDoned && 
             <p>{userInfo.username}</p>
@@ -254,3 +259,4 @@ export default function MiniDrawer({history}) {
   
 
 }
+

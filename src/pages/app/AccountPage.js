@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import ImageUploader from 'react-images-upload';
 import api from '../../services/api';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
@@ -17,9 +16,21 @@ import Tooltip from '@material-ui/core/Tooltip';
 import './AppStyles.css';
 import Header from '../Components/Header';
 import api_formdata from '../../services/api_multipart_form_data';
+import Avatar from '@material-ui/core/Avatar';
+import Gravatar from 'react-gravatar'
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
+
+const useStyles = makeStyles((theme) => ({
+    large: {
+      width: theme.spacing(12),
+      height: theme.spacing(12),
+      borderRadius:100,
+    },
+}));
 
 export default function AccountPage(){  
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [state,setState] = React.useState({ pictures: [] });
   const [user,setUser] = React.useState([]);
@@ -77,19 +88,11 @@ export default function AccountPage(){
     console.log("infouser:",user.email,"ChangePass_data",dataPass)
   }
 
-  const fileSelectedHandler = (event) => {
-    console.log(event);
-    console.log(event.target.files[0])
-  }
 
-
-  //const [editedInformation,setEditedInformation] = React.useState({ data: [{email:'',born_date:'',username:''}]  });
-  //var editedInformation={email:null,born_date:null,username:null,phone:null};
   const [editedInformation, setEditedInformation] = React.useState({email:null,born_date:null,username:null,phone:null});
   function ChangeUserInformation(){
     console.log(editedInformation)
     setShowWarning(true);
-    //Efetuar pedido à API
   }
 
   function SubmitConfirmation(){
@@ -121,41 +124,58 @@ export default function AccountPage(){
       {
         user.length!==0 &&
         <>
-          <Grid container spacing={2}>
-            <Grid item >
-              <TextField variant="outlined" defaultValue={user.username} helperText="Nome de Utilizador" disabled/>
-            </Grid>
-            <Grid item >
-              <TextField type="date" variant="outlined" defaultValue={user.born_date} helperText="Data de nascimento" disabled/>
-            </Grid>
+        <Grid container spacing={2}>
+          <Grid item>
+            {
+              (user.photo!==null &&
+              <>
+              <Avatar alt='User' src={user.photo} className={classes.large} />
+              </>)
+            
+              ||
+
+              (user.photo===null  &&
+              <>
+              <Gravatar email={user.email} default="mp" className={classes.large} />
+              </>)
+            } 
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item >
-              <TextField variant="outlined" defaultValue={user.phone} helperText="Nº de telemóvel" disabled/>
-            </Grid>
-            <Grid item >
-              <TextField variant="outlined" className="maxwidth" defaultValue={user.email} helperText="Endereço email" disabled/>
-            </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item >
+            <TextField variant="outlined" defaultValue={user.username} helperText="Nome de Utilizador" disabled/>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item >
-              <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Alterar palavra-passe
+          <Grid item >
+            <TextField type="date" variant="outlined" defaultValue={user.born_date} helperText="Data de nascimento" disabled/>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item >
+            <TextField variant="outlined" defaultValue={user.phone} helperText="Nº de telemóvel" disabled/>
+          </Grid>
+          <Grid item >
+            <TextField variant="outlined" className="maxwidth" defaultValue={user.email} helperText="Endereço email" disabled/>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item >
+            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+              Alterar palavra-passe
+            </Button>
+          </Grid>
+          <Grid item >
+            <Tooltip title="Editar os meus dados">
+              <Button variant="outlined" color="primary"onClick={() => 
+                {
+                setOpenEditUser(true) 
+                setEditedInformation({email:null,born_date:null,username:null,phone:null})
+                }}>
+                <Edit />
               </Button>
-            </Grid>
-            <Grid item >
-              <Tooltip title="Editar os meus dados">
-                <Button variant="outlined" color="primary"onClick={() => 
-                  {
-                  setOpenEditUser(true) 
-                  setEditedInformation({email:null,born_date:null,username:null,phone:null})
-                  }}>
-                  <Edit />
-                </Button>
-              </Tooltip>
-            </Grid>
+            </Tooltip>
           </Grid>
-          
+        </Grid>
+ 
        
       {
         jwt_decode(token).charge==='Encarregado de Educação' &&
@@ -266,3 +286,10 @@ export default function AccountPage(){
 
     
 }
+
+/*
+
+
+
+
+*/

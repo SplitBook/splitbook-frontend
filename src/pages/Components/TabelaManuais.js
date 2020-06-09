@@ -18,14 +18,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function TableManuais() {
   const [open, setOpen] = React.useState(false);
   const [fileimg, setFileimg] = React.useState({file:null});
-
+  
   const [state, setState] = React.useState({
     columns: [
       { title: 'ISBN', field: 'isbn'},
       { title: 'Código', field: 'code' },
       { title: 'Disciplina', field: 'name' },
       { title: 'Editora', field: 'publishing_company'},
-      { title: 'Capa', field: 'cover',render: rowData => (     
+      { title: 'capa', field: 'cover',render: rowData => (     
+        <>   
+        <Button onClick={() => openImg(rowData.cover)} autoFocus>Ver capa</Button>
+        </>
+      )},
+      { title: 'Descarregar capa', field: 'img',render: rowData => (     
         <>   
         <input type="file" onChange={fileUpload} />
         </>
@@ -33,6 +38,13 @@ export default function TableManuais() {
     ],
     data: [],
   });
+
+  const [photo_photo, setPhoto_photo] = React.useState('');
+  function openImg(path){
+    console.log(path)
+    setPhoto_photo(path)
+    setOpen(true);
+  }
 
  
   function fileUpload(e){
@@ -49,7 +61,6 @@ export default function TableManuais() {
   async function getBooks(){
     const {data} = await api.get('/books');
     state.data=data.data;
-    console.log("state:",state);
   }
 
   async function deleteBooks(isbn){
@@ -71,10 +82,6 @@ export default function TableManuais() {
     const {data} = api_formdata.put('/books/'+isbn,formData);
     console.log(data);
   }
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -131,26 +138,18 @@ export default function TableManuais() {
     />
         <Dialog
           open={open}
+          onClose={handleClose}
           TransitionComponent={Transition}
           keepMounted
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle id="alert-dialog-slide-title">{"Tem a certeza que pretende guardar as alterações?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-slide-title">Visualização da capa do livro</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              Os dados antigos serão removidos de forma definitiva.
-            </DialogContentText>
+            <img src={photo_photo} alt="capa do livro"/>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            <Button onClick={handleClose} color="primary">
-              Continuar
-            </Button>
-          </DialogActions>
         </Dialog>
+
     </>
   );
 }
