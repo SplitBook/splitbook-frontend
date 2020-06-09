@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ListaFiliados from '../Components/ListaFiliados';
 import Button from '@material-ui/core/Button';
@@ -17,6 +16,7 @@ import Edit from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import './AppStyles.css';
 import Header from '../Components/Header';
+import api_formdata from '../../services/api_multipart_form_data';
 
 
 export default function AccountPage(){  
@@ -27,7 +27,13 @@ export default function AccountPage(){
   const [openEditUser, setOpenEditUser] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
   const token = Cookies.get('token');
+  const [fileimg, setFileimg] = React.useState({file:null});
 
+  function fileUpload(e){
+    //setFileimg(e.target.files[0])
+    fileimg.file=e.target.files[0]
+    console.log("file::: ",fileimg);
+  }
   
   if(user.length===0 && bool){
     userinfo();
@@ -73,23 +79,38 @@ export default function AccountPage(){
 
   const fileSelectedHandler = (event) => {
     console.log(event);
-    //console.log(event.target.files[0])
+    console.log(event.target.files[0])
   }
 
+
   //const [editedInformation,setEditedInformation] = React.useState({ data: [{email:'',born_date:'',username:''}]  });
-  var editedInformation={};
+  //var editedInformation={email:null,born_date:null,username:null,phone:null};
+  const [editedInformation, setEditedInformation] = React.useState({email:null,born_date:null,username:null,phone:null});
   function ChangeUserInformation(){
     console.log(editedInformation)
     setShowWarning(true);
     //Efetuar pedido à API
   }
 
-  async function SubmitConfirmation(user_id){
-    console.log(editedInformation);
-    //var data = await api.post('/users/'+user_id,editedInformation);
-    /*Cookies.remove('token')
-    Cookies.remove('tokenLogin')
-    Cookies.remove('profiles')*/
+  function SubmitConfirmation(){
+    //console.log("Info:::",editedInformation);
+    const formData = new FormData();
+    if(editedInformation.phone!==null)
+      formData.append('phone',editedInformation.phone)
+    if(editedInformation.name!==null)
+      formData.append('email',editedInformation.name)
+    if(editedInformation.username!==null)
+      formData.append('username',editedInformation.username)
+    if(editedInformation.born_date!==null)
+      formData.append('born_date',editedInformation.born_date)
+    if(fileimg.file!==null)
+      formData.append('foto',fileimg.file)
+    //console.log("1",fileimg.file);
+    //console.log(fileimg.file!==null);
+    //console.log(editedInformation.username!==null);
+    console.log(user)
+    const {data} = api_formdata.put('/users/'+user.id,formData);
+    console.log(data);
   }
 
 //https://www.npmjs.com/package/react-images-upload
@@ -124,7 +145,11 @@ export default function AccountPage(){
             </Grid>
             <Grid item >
               <Tooltip title="Editar os meus dados">
-                <Button variant="outlined" color="primary"onClick={() => {setOpenEditUser(true)}}>
+                <Button variant="outlined" color="primary"onClick={() => 
+                  {
+                  setOpenEditUser(true) 
+                  setEditedInformation({email:null,born_date:null,username:null,phone:null})
+                  }}>
                   <Edit />
                 </Button>
               </Tooltip>
@@ -174,21 +199,6 @@ export default function AccountPage(){
         <DialogTitle id="alert-dialog-title">Editar dados do utilizador</DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
-              <Grid item >
-              <form encType="multipart/form-data" action="">
-                  <ImageUploader
-                      withIcon={true}
-                      singleImage={true}
-                      buttonText='Descarregar foto de perfil'
-                      onChange={fileSelectedHandler}
-                      imgExtension={['.jpg','.png']}
-                      maxFileSize={5242880}
-                      label='Max file size: 5mb, accepted: jpg, png'
-                  />
-              </form>
-              </Grid>
-            </Grid>
-          <Grid container spacing={2}>
             <Grid item >
               <TextField variant="outlined" defaultValue={user.username} onChange={e => (editedInformation.username=e.target.value)} helperText="Nome de Utilizador" />
             </Grid> 
@@ -203,6 +213,16 @@ export default function AccountPage(){
             <Grid item >
               <TextField variant="outlined" defaultValue={user.email} onChange={e =>  (editedInformation.email=e.target.value)} helperText="Endereço de email" />
             </Grid> 
+          </Grid>
+          <Grid container spacing={2}>
+              <Grid item >
+                <b>Descarregar fotografia de perfil:</b>
+              </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+              <Grid item >
+                <input type="file" onChange={fileUpload} />
+              </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -234,7 +254,7 @@ export default function AccountPage(){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-            <Button  color="primary" onClick={SubmitConfirmation} href="/login">
+            <Button  color="primary" onClick={SubmitConfirmation}>
               Continuar
             </Button>
         </DialogActions>
