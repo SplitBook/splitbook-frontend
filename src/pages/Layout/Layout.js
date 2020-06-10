@@ -118,11 +118,9 @@ export default function MiniDrawer({history}) {
   async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
       var token = Cookies.get('token')
-
       var decoded = jwt_decode(token)
       try{
         api.defaults.headers={'Authorization': 'Bearer '+Cookies.get("token")}
-        //console.log(Cookies.get('token'),"--cookie")
         const {data} = await api.get('/users/'+decoded.user_id);
         setPhoto(data.photo)
         setEmail(data.email)
@@ -245,7 +243,7 @@ export default function MiniDrawer({history}) {
         
         </center>
          <List>
-            <MenuLayout/>
+            <MenuLayout history={history}/>
         </List>
         
       </Drawer>

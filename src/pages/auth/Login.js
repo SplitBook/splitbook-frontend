@@ -50,7 +50,7 @@ function SimpleDialog(props) {
     
     function setInfoAndCharge(){
         //setGroups(JSON.parse(Cookies.get('profiles')))
-        console.log("Gui::: ",groups);
+        //console.log("Gui::: ",groups);
         if(groups.length!==0)
             setBool(false);
     }

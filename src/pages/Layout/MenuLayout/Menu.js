@@ -25,6 +25,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import Avatar from '@material-ui/core/Avatar';
+import api from '../../../services/api';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import PersonIcon from '@material-ui/icons/Person';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -43,14 +47,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function MenuLayout() {
+export default function MenuLayout({history}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openChangeGroupDialog, setOpenChangeGroupDialog] = React.useState(false);
   const [group,setGroup] = React.useState('');
+  const [groups,setGroups] = React.useState(JSON.parse(Cookies.get('profiles')));
 
   if(group===''){
     var token = Cookies.get('token');
     var decoded = jwt_decode(token);
+    console.log('decoded',decoded);
     setGroup(decoded.charge)
   }
   
@@ -67,8 +74,17 @@ export default function MenuLayout() {
     localStorage.clear();
   };
 
+  async function handleListItemClick(id,charge){
+    const {data} = await api.post('/login/profile',{profile_id:id,charge:charge,token:Cookies.get('tokenLogin')});
+    console.log(data)
+    Cookies.set('token',data.token,{ expires: 7 });
+    setGroup('')
+    setOpenChangeGroupDialog(false)
+    history.push('/app/home')
+}
+
   function ChangeUserGroup(){
-    
+    setOpenChangeGroupDialog(true);
   }
 
   const handleClose = () => {
@@ -216,8 +232,25 @@ export default function MenuLayout() {
         </DialogActions>
     </Dialog>
 
+    <Dialog  aria-labelledby="simple-dialog-title" open={openChangeGroupDialog}>
+        <DialogTitle id="simple-dialog-title">Entrar como:</DialogTitle>
+        <List>
+            {groups.map((group) => (
+            <ListItem button onClick={() => handleListItemClick(group.id,group.charge)} key={group}>
+                <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                    <PersonIcon />
+                </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={group.charge} />
+            </ListItem>
+            ))}
+        </List>
+    </Dialog>
+
     </>
   );}catch(error){
 
   }
 }
+
