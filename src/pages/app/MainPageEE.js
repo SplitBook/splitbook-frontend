@@ -7,8 +7,8 @@ import Header from '../Components/Header';
 
 
 export default function MainPageEE({props}){
-  const [idStatus, setIdStatus] = React.useState(0);
-  setIdStatus(2)
+  const [idStatus, setIdStatus] = React.useState(2);
+  //const [data, setData] = React.useState([]);
   
     return (
       <>

@@ -44,9 +44,9 @@ export default function NovoRequisito(){
     };
 
 
-    /*function efetuarRequisicao(){
+    function efetuarRequisicao(){
         console.log();
-    }*/
+    }
 
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);

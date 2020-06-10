@@ -46,7 +46,7 @@ var livrosdisponiveis = [
 ];
 
 
-//const livrosSelecionados = [];
+const livrosSelecionados = [];
 
 
 function Row(props) {
@@ -124,7 +124,7 @@ const rows = [
 
 export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
-  //const [estado, setEstado] = React.useState();
+  const [estado, setEstado] = React.useState();
 
   const handleChangeObs = (event) => {
     setObs(event.target.value)

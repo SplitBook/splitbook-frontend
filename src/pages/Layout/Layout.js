@@ -146,6 +146,17 @@ export default function MiniDrawer({history}) {
     setOpen(false);
   };
 
+  //console.log("Variavel do utilizador (Layout Page 119line)",UserData)
+
+  const [name,setname] = React.useState('rafael.jpg');
+  var userimage;
+  try{
+    userimage = require('../../assets/users/'+name); 
+  }catch(e){
+    userimage = require('../../assets/users/notprofileimage.png'); 
+  }
+
+
   return (
     
     <div className={classes.root}>

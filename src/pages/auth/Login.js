@@ -16,6 +16,8 @@ import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
 import jwt_decode from 'jwt-decode';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,7 +38,7 @@ const groups = [];
 
 function SimpleDialog(props) {
     const classes = useStyles();
-    const { onClose, open } = props;
+    const { onClose, selectedValue, open } = props;
     
     if(props.open){
         setInfoAndCharge();
@@ -86,11 +88,15 @@ function SimpleDialog(props) {
   
 
 export default function Login({ history,props}){
+    const classes = useStyles();
     const [username,setUsername]= useState('');
     const [password,setPassword]= useState('');
     const [open, setOpen] = React.useState(false);
     
     const [opengroups, setOpengroups] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState(groups[0]);
+
+    const [activebackdrop, setActivebackdrop] = React.useState(false);
 
 
     async function handleSubmit(e){
@@ -103,29 +109,36 @@ export default function Login({ history,props}){
             Cookies.set('profiles',data.user.profiles,{ expires: 7 });
             console.log(data.user.profiles.length)
             if(data.user.profiles.length===0){
-                console.log('Erro!! Utilizador sem perfis!');
+                alert('Erro!! Utilizador sem perfis!');
                 history.push('/login')
-                Cookies.remove('tokenLogin')
-                setOpen(true);
             }
-            else if(data.user.profiles.length>1){
+            if(data.user.profiles.length>1){
                 setOpengroups(true);
             }
             else{
                 const data2 = await api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
                 console.log("Login2:: ",data2.data);
                 Cookies.set('token',data2.data.token,{ expires: 7 });
+                //sleep(4000)
                 console.log("Ei there!",Cookies.get('token'),data2)
                 localStorage.setItem('name',data.user.username)
                 history.push('/app/home')
             }     
         }
-        catch(error){
+        catch(Error){
             Cookies.remove('tokenLogin')
-            console.log('Authentication Error:',error)
+            console.log('Authentication Error:',Error)
             setOpen(true);
         }
         
+        //setOpen(true); //mensagem de error
+        /*console.log(username);
+        const response = await api.post('/devs',{
+          username:username ,
+        });
+        console.log(response)
+        const {_id}= response.data
+        history.push(`/dev/${_id}`);*/
     }
 
     async function redirectToRecoverPassword(){
@@ -147,7 +160,7 @@ export default function Login({ history,props}){
                 <input 
                     placeholder="Username"
                     value={username}
-                    type="username"
+                    type="usernam"
                     onChange={e => setUsername(e.target.value)}
                 />
                 <input 
@@ -168,7 +181,12 @@ export default function Login({ history,props}){
             </form>
         </div>
         <div>
-            <SimpleDialog open={opengroups} onClose={handleClose} />
+            <SimpleDialog selectedValue={selectedValue} open={opengroups} onClose={handleClose} />
+        </div>
+        <div>
+            <Backdrop className={classes.backdrop} autoHideDuration={5000} open={activebackdrop}>
+                <CircularProgress color="inherit" />
+            </Backdrop> 
         </div>
         </>
     );
