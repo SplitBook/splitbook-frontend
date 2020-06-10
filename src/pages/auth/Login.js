@@ -108,7 +108,11 @@ export default function Login({ history,props}){
             Cookies.set('tokenLogin',data.token,{ expires: 7 });
             Cookies.set('profiles',data.user.profiles,{ expires: 7 });
             console.log(data.user.profiles.length)
-            if(data.user.profiles.length!==1){
+            if(data.user.profiles.length===0){
+                alert('Erro!! Utilizador sem perfis!');
+                history.push('/login')
+            }
+            if(data.user.profiles.length>1){
                 setOpengroups(true);
             }
             else{
