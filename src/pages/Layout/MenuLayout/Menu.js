@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function MenuLayout({history}) {
+export default function MenuLayout({history,openMenu}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openChangeGroupDialog, setOpenChangeGroupDialog] = React.useState(false);
@@ -80,7 +80,7 @@ export default function MenuLayout({history}) {
     Cookies.set('token',data.token,{ expires: 7 });
     setGroup('')
     setOpenChangeGroupDialog(false)
-    history.push('/app/home')
+    //history.push('/app/home')
 }
 
   function ChangeUserGroup(){
@@ -93,6 +93,10 @@ export default function MenuLayout({history}) {
   try{
   return (
     <>
+    {
+      openMenu &&
+      <center><p><b>{group}</b></p></center>
+    }
     {
       group!==undefined && group!=='' && group!==null &&
 
@@ -236,7 +240,7 @@ export default function MenuLayout({history}) {
         <DialogTitle id="simple-dialog-title">Entrar como:</DialogTitle>
         <List>
             {groups.map((group) => (
-            <ListItem button onClick={() => handleListItemClick(group.id,group.charge)} key={group}>
+            <ListItem button to="/app/home" onClick={() => handleListItemClick(group.id,group.charge)} key={group}>
                 <ListItemAvatar>
                 <Avatar className={classes.avatar}>
                     <PersonIcon />

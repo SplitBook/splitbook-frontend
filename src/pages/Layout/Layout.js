@@ -211,7 +211,7 @@ export default function MiniDrawer({history}) {
           (photo!==null && !open &&
           <Avatar alt='User' src={photo} className={classes.medium} />)
         
-         ||
+          ||
 
           (photo===null && !open &&
           <Gravatar email={email} default="mp" className={classes.medium} />)
@@ -237,13 +237,12 @@ export default function MiniDrawer({history}) {
             setDoned && 
             <p>{userInfo.username}</p>
           }
-          <p><b>{charge}</b></p>
           </>)
         } 
         
         </center>
          <List>
-            <MenuLayout history={history}/>
+            <MenuLayout history={history} openMenu={open}/>
         </List>
         
       </Drawer>
