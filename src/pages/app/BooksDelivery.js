@@ -42,7 +42,6 @@ export default function BooksDelivery(){
 
       setOpen(false);
     };
-    //
 
 
     return (
@@ -50,18 +49,18 @@ export default function BooksDelivery(){
         <Header title='Entrega de Livros'/>
 
         <form onSubmit={changeNumAluno}>
-        <Grid container spacing={2}>
-            <Grid item >
-                <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
-            </Grid>
-            <Grid item >
-                <Tooltip title="Procurar">
-                  <Button className="btnMargin" type="submit" color="primary" >
-                      <Search/>
-                  </Button>
-                </Tooltip>
-            </Grid>
-        </Grid>
+          <Grid container spacing={2}>
+              <Grid item >
+                  <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
+              </Grid>
+              <Grid item >
+                  <Tooltip title="Procurar">
+                    <Button className="btnMargin" type="submit" color="primary" >
+                        <Search/>
+                    </Button>
+                  </Tooltip>
+              </Grid>
+          </Grid>
         </form>
 
         { numAluno>0 && <BooksDeliveryTable numeroAluno={numAluno}/> }

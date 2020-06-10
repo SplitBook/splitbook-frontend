@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AccountPage(){  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [state,setState] = React.useState({ pictures: [] });
   const [user,setUser] = React.useState([]);
   const [bool,setBool] = React.useState(true);
   const [openEditUser, setOpenEditUser] = React.useState(false);

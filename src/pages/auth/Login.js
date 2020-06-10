@@ -16,8 +16,6 @@ import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
 import jwt_decode from 'jwt-decode';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -38,7 +36,7 @@ const groups = [];
 
 function SimpleDialog(props) {
     const classes = useStyles();
-    const { onClose, selectedValue, open } = props;
+    const { onClose, open } = props;
     
     if(props.open){
         setInfoAndCharge();
@@ -93,7 +91,6 @@ export default function Login({ history,props}){
     const [open, setOpen] = React.useState(false);
     
     const [opengroups, setOpengroups] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(groups[0]);
 
 
     async function handleSubmit(e){
@@ -150,7 +147,7 @@ export default function Login({ history,props}){
                 <input 
                     placeholder="Username"
                     value={username}
-                    type="usernam"
+                    type="username"
                     onChange={e => setUsername(e.target.value)}
                 />
                 <input 
@@ -171,7 +168,7 @@ export default function Login({ history,props}){
             </form>
         </div>
         <div>
-            <SimpleDialog selectedValue={selectedValue} open={opengroups} onClose={handleClose} />
+            <SimpleDialog open={opengroups} onClose={handleClose} />
         </div>
         </>
     );

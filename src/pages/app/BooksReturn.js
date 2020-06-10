@@ -47,18 +47,18 @@ export default function BooksReturn(){
       <>
         <Header title='Recolha de Livros'/>
         <form onSubmit={changeNumAluno}>
-        <Grid container spacing={2}>
-            <Grid item >
-                <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
-            </Grid>
-            <Grid item >
-                <Tooltip title="Procurar">
-                  <Button className="btnMargin" type="submit" color="primary" >
-                      <Search/>
-                  </Button>
-                </Tooltip>
-            </Grid>
-        </Grid>
+          <Grid container spacing={2}>
+              <Grid item >
+                  <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
+              </Grid>
+              <Grid item >
+                  <Tooltip title="Procurar">
+                    <Button className="btnMargin" type="submit" color="primary" >
+                        <Search/>
+                    </Button>
+                  </Tooltip>
+              </Grid>
+          </Grid>
         </form>
 
         { numAluno>0 && <BooksReturnTable/> }

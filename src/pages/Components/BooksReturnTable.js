@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BooksDeliveryANDReturnTable({numAluno}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
-  const [estado, setEstado] = React.useState();
+  //const [estado, setEstado] = React.useState();
   const list=[];
   
   const rows = [
@@ -41,12 +41,11 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: ''},
   ];
 
-  const handleChange = (event,row) => {
+  /*const handleChange = (event,row) => {
     console.log(event.target.value)
     setEstado(event.target.value)
     console.log(row)
-  };
-
+  };*/
 
   const handleChangeObs = (event) => {
     setObs(event.target.value)
