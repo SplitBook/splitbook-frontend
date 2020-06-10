@@ -67,6 +67,10 @@ export default function MenuLayout() {
     localStorage.clear();
   };
 
+  function ChangeUserGroup(){
+    
+  }
+
   const handleClose = () => {
     setOpen(false);
   };  
@@ -175,14 +179,12 @@ export default function MenuLayout() {
 
   {
     Cookies.getJSON('profiles').length>1 &&
-    <Link to="/user/group">
-      <ListItem button>
-        <ListItemIcon>
-          <SyncAlt />
-        </ListItemIcon>
-        <ListItemText primary="Trocar de perfil" />
-      </ListItem>
-    </Link>
+    <ListItem button onClick={ChangeUserGroup}>
+      <ListItemIcon>
+        <SyncAlt />
+      </ListItemIcon>
+      <ListItemText primary="Trocar de perfil" />
+    </ListItem>
   }
       <ListItem button onClick={handleClickOpen}>
         <ListItemIcon>

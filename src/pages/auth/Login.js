@@ -15,9 +15,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
-import jwt_decode from 'jwt-decode';
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -34,54 +31,52 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-const groups = [];
 
 function SimpleDialog(props) {
     const classes = useStyles();
-    const { onClose, selectedValue, open } = props;
+    const { groups,history, open } = props;
+    //const [groups,setGroups]= useState([])
+    const [bool,setBool]= useState(true)
     
-    if(props.open){
+    if(bool)
         setInfoAndCharge();
-    }
-  
-    const handleListItemClick = (value) => {
-      onClose(value);
-    };
     
-    async function setInfoAndCharge(){
-        console.log("OK");
-        var token = Cookies.get('token');
-        var decoded = jwt_decode(token);
-        try{
-            const {data} = await api.get('/users/'+decoded.user_id);
-            for(var i=0;i<data.profiles.lenght;i++){
-                groups.push(data.profiles[i]);
-            }
-        }
-        catch(error){
-            console.log(error);
-        }
-        
+    async function handleListItemClick(id,charge){
+        const {data} = await api.post('/login/profile',{profile_id:id,charge:charge,token:Cookies.get('tokenLogin')});
+        console.log(data)
+        Cookies.set('token',data.token,{ expires: 7 });
+        history.push('/app/home')
+    }
+    
+    function setInfoAndCharge(){
+        //setGroups(JSON.parse(Cookies.get('profiles')))
+        console.log("Gui::: ",groups);
+        if(groups.length!==0)
+            setBool(false);
     }
     
   
     return (
       <>
-      <Dialog  aria-labelledby="simple-dialog-title" open={open}>
-          <DialogTitle id="simple-dialog-title">Entrar como:</DialogTitle>
-          <List>
-              {groups.map((group) => (
-              <ListItem button onClick={() => handleListItemClick(group)} key={group}>
-                  <ListItemAvatar>
-                  <Avatar className={classes.avatar}>
-                      <PersonIcon />
-                  </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={group} />
-              </ListItem>
-              ))}
-          </List>
-      </Dialog>
+      {
+        groups.length!==0 &&
+        <Dialog  aria-labelledby="simple-dialog-title" open={open}>
+            <DialogTitle id="simple-dialog-title">Entrar como:</DialogTitle>
+            <List>
+                {groups.map((group) => (
+                <ListItem button onClick={() => handleListItemClick(group.id,group.charge)} key={group}>
+                    <ListItemAvatar>
+                    <Avatar className={classes.avatar}>
+                        <PersonIcon />
+                    </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={group.charge} />
+                </ListItem>
+                ))}
+            </List>
+        </Dialog>
+      }
+        
       </>
     );
   }
@@ -94,9 +89,10 @@ export default function Login({ history,props}){
     const [open, setOpen] = React.useState(false);
     
     const [opengroups, setOpengroups] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(groups[0]);
 
     const [activebackdrop, setActivebackdrop] = React.useState(false);
+    const [groups, setGroups] = React.useState([]);
+
 
 
     async function handleSubmit(e){
@@ -107,19 +103,19 @@ export default function Login({ history,props}){
             console.log(data);
             Cookies.set('tokenLogin',data.token,{ expires: 7 });
             Cookies.set('profiles',data.user.profiles,{ expires: 7 });
+            setGroups(data.user.profiles);
             console.log(data.user.profiles.length)
             if(data.user.profiles.length===0){
                 alert('Erro!! Utilizador sem perfis!');
                 history.push('/login')
             }
-            if(data.user.profiles.length>1){
+            else if(data.user.profiles.length>1){
                 setOpengroups(true);
             }
             else{
-                const data2 = await api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:data.token});
+                const data2 = await api.post('/login/profile',{profile_id:data.user.profiles[0].id,charge:data.user.profiles[0].name,token:Cookies.get('tokenLogin')});
                 console.log("Login2:: ",data2.data);
                 Cookies.set('token',data2.data.token,{ expires: 7 });
-                //sleep(4000)
                 console.log("Ei there!",Cookies.get('token'),data2)
                 localStorage.setItem('name',data.user.username)
                 history.push('/app/home')
@@ -130,15 +126,7 @@ export default function Login({ history,props}){
             console.log('Authentication Error:',Error)
             setOpen(true);
         }
-        
-        //setOpen(true); //mensagem de error
-        /*console.log(username);
-        const response = await api.post('/devs',{
-          username:username ,
-        });
-        console.log(response)
-        const {_id}= response.data
-        history.push(`/dev/${_id}`);*/
+    
     }
 
     async function redirectToRecoverPassword(){
@@ -181,14 +169,13 @@ export default function Login({ history,props}){
             </form>
         </div>
         <div>
-            <SimpleDialog selectedValue={selectedValue} open={opengroups} onClose={handleClose} />
-        </div>
-        <div>
-            <Backdrop className={classes.backdrop} autoHideDuration={5000} open={activebackdrop}>
-                <CircularProgress color="inherit" />
-            </Backdrop> 
+            <SimpleDialog open={opengroups} history={history} groups={groups}/>
         </div>
         </>
     );
 }
+
+/* 
+
+*/
 
