@@ -21,6 +21,7 @@ export default function BooksReturn(){
 
     const [text, setText] = React.useState('');
     const changeNumAluno = (event) => {
+        event.preventDefault();
         setNumAluno(num)
         console.log("Ei",numAluno)
         if(!(num>0)){
@@ -45,18 +46,20 @@ export default function BooksReturn(){
     return (
       <>
         <Header title='Recolha de Livros'/>
+        <form onSubmit={changeNumAluno}>
         <Grid container spacing={2}>
             <Grid item >
                 <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
             </Grid>
             <Grid item >
                 <Tooltip title="Procurar">
-                  <Button className="btnMargin" onClick={changeNumAluno} color="primary" >
+                  <Button className="btnMargin" type="submit" color="primary" >
                       <Search/>
                   </Button>
                 </Tooltip>
             </Grid>
         </Grid>
+        </form>
 
         { numAluno>0 && <BooksReturnTable/> }
 

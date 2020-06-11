@@ -14,6 +14,7 @@ import fetch from 'cross-fetch';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import Header from '../Components/Header';
+import api from '../../services/api';
 
 
 function sleep(delay = 0) {
@@ -26,23 +27,68 @@ export default function NovoRequisito(){
     const [aluno, setAluno] = React.useState('');
     const [numAluno, setNumAluno] = React.useState(0);
     const [group,setGroup] = React.useState('');
+    const [profileId,setProfileId] = React.useState(0);
+    const [students,setStudents] = React.useState([]);
+    
 
     if(group===''){
         var token = Cookies.get('token');
         var decoded = jwt_decode(token);
         setGroup(decoded.charge)
+        setProfileId(decoded.profile_id);
+        console.log("decoded",decoded)
+        if(group==='Encarregado de Educação')
+            getStudents(decoded.profile_id);
     }
+
+    async function getStudents(profile_id){
+        const {data} = await api.get('/guardians/'+profile_id)
+        console.log("Students List: ",data)
+        setStudents(data.students);     
+    }
+
+    function SelectStudents() {
+        const listItems = students.map((student) =>
+        <option value={student.id}>{student.name}</option>
+        );
+        return (
+            <Select
+            native
+            value={aluno}
+            onChange={handleChange}
+            label="Educando"
+            inputProps={{
+                name: 'NomeEducando',
+            }}
+            className="btn"
+            >
+            <option aria-label="None" value="" />
+            {listItems}
+            </Select>
+        );
+  }
 
     const handleChange = (event) => {
         setAluno(event.target.value);
         if(event.target.value != null && event.target.value !== ''){
-            setNumAluno(1)
+            getClassId(event.target.value);
         }
         else{
             setNumAluno(0)
         }
     };
 
+    async function getClassId(student_id){
+        console.log('student_id: ',student_id)
+        const {data} = await api.get('/school-enrollments/'+student_id)
+        getStudentBooks(data.class_id)
+    }
+
+    async function getStudentBooks(class_id){
+        console.log("Class id: ",class_id)
+        const {data} = await api.get('/resumes/adopted-books?class_id='+class_id)
+        console.log('Lista de Livros::: ',data)
+    }
 
     function efetuarRequisicao(){
         console.log();
@@ -91,19 +137,7 @@ export default function NovoRequisito(){
                 <Grid item>
                 <FormControl variant="outlined" className="maxwidth">
                     <InputLabel htmlFor="outlined-age-native-simple" >Educando</InputLabel>
-                        <Select
-                            native
-                            value={aluno}
-                            onChange={handleChange}
-                            label="Educando"
-                            inputProps={{
-                                name: 'NomeEducando',
-                            }}
-                            >
-                            <option aria-label="None" value="" />
-                            <option value={10}>Rafael Martins Santos Costa</option>
-                            <option value={20}>Guilherme Martins de Sousa</option>
-                        </Select>
+                        <SelectStudents/>
                 </FormControl>
                 </Grid>
             </Grid>

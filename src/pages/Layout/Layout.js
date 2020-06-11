@@ -117,8 +117,8 @@ export default function MiniDrawer({history}) {
   setInfoAndCharge();
   async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
-      var token = Cookies.get('token')
-      var decoded = jwt_decode(token)
+        var token = Cookies.get('token')
+        var decoded = jwt_decode(token)
       try{
         api.defaults.headers={'Authorization': 'Bearer '+Cookies.get("token")}
         const {data} = await api.get('/users/'+decoded.user_id);
@@ -145,14 +145,6 @@ export default function MiniDrawer({history}) {
   };
 
   //console.log("Variavel do utilizador (Layout Page 119line)",UserData)
-
-  const [name,setname] = React.useState('rafael.jpg');
-  var userimage;
-  try{
-    userimage = require('../../assets/users/'+name); 
-  }catch(e){
-    userimage = require('../../assets/users/notprofileimage.png'); 
-  }
 
 
   return (
@@ -250,8 +242,8 @@ export default function MiniDrawer({history}) {
       <div className={classes.toolbar} />
         <RoutesLayout history={history}/>
       </main>
-
     </div>
+    
   );
   
 

@@ -20,38 +20,36 @@ function createData(nome, numero, ano, turma) {
   return { nome, numero, ano, turma };
 }
 
-const rows = [
+/*const rows = [
   createData('Rafael Martins Santos Costa', 349, 12, 'C'),
   createData('Alexandra Santos Mogas', 478, 10, 'B'),
   createData('Nuno Francisco Alves', 599, 12, 'C'),
   createData('Francisco Miguel Areias Mota', 49, 7, 'A'),
   createData('Ricardo alexandre rodrigues de Jesus', 215, 12, 'C'),
-];
+];*/
 
-export default function SimpleTable() {
+export default function SimpleTable({rows}) {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="marginTop">
         <h3 className="paddingtext">Lista de Filiados</h3>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Nome</TableCell>
+            <TableCell align="center">ID Aluno</TableCell>
+            <TableCell align="left">Nome</TableCell>
             <TableCell align="center">Nº Aluno</TableCell>
-            <TableCell align="center">Ano</TableCell>
-            <TableCell align="center">Turma</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.nome}
+              <TableCell component="th" scope="row" align="center">
+                {row.id}
               </TableCell>
-              <TableCell align="center">{row.numero}</TableCell>
-              <TableCell align="center">{row.ano}</TableCell>
-              <TableCell align="center">{row.turma}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell align="center">{row.number}</TableCell>
             </TableRow>
           ))}
         </TableBody>

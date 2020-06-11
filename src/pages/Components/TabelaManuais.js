@@ -77,6 +77,7 @@ export default function TableManuais() {
     formData.append('cover',fileimg.file)
     formData.append('name',name)
     formData.append('publishing_company',publishing_company)
+    console.log(formData)
     const {data} = api_formdata.put('/books/'+isbn,formData);
     console.log(data);
   }

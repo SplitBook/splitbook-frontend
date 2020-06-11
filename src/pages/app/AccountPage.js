@@ -39,6 +39,8 @@ export default function AccountPage(){
   const [showWarning, setShowWarning] = React.useState(false);
   const token = Cookies.get('token');
   const [fileimg, setFileimg] = React.useState({file:null});
+  const [students,setStudents] = React.useState([]);
+
 
   function fileUpload(e){
     //setFileimg(e.target.files[0])
@@ -55,6 +57,7 @@ export default function AccountPage(){
     console.log("1: ",token)
     var decoded = jwt_decode(token)
     console.log("2: ",decoded)
+    getStudents(decoded.profile_id);
     var {data} = await api.get('/users/'+decoded.user_id);
     var tmp = data;
     if(tmp.born_date!==null){
@@ -90,7 +93,7 @@ export default function AccountPage(){
   }
 
   function SubmitConfirmation(){
-    //console.log("Info:::",editedInformation);
+    console.log("Info:::",editedInformation);
     const formData = new FormData();
     if(editedInformation.phone!==null)
       formData.append('phone',editedInformation.phone)
@@ -105,11 +108,15 @@ export default function AccountPage(){
     //console.log("1",fileimg.file);
     //console.log(fileimg.file!==null);
     //console.log(editedInformation.username!==null);
-    console.log(user)
     const {data} = api_formdata.put('/users/'+user.id,formData);
-    console.log(data);
+    console.log("Data: ",data);
     handleClose();
+  }
 
+  async function getStudents(profile_id){
+    const {data} = await api.get('/guardians/'+profile_id)
+    console.log("Students List: ",data)
+    setStudents(data.students);     
   }
 
     return (
@@ -176,7 +183,7 @@ export default function AccountPage(){
         jwt_decode(token).charge==='Encarregado de Educação' &&
         <Grid container spacing={2}>
           <Grid item >
-            <ListaFiliados/>
+            <ListaFiliados rows={students}/>
           </Grid> 
         </Grid>
       }
@@ -269,9 +276,9 @@ export default function AccountPage(){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-            <Button  color="primary" onClick={SubmitConfirmation}>
-              Continuar
-            </Button>
+          <Button  color="primary" onClick={SubmitConfirmation}>
+            Continuar
+          </Button>
         </DialogActions>
       </Dialog>
 
