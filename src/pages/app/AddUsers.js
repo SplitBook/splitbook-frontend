@@ -65,12 +65,10 @@ export default function AddUsers(){
           api.post('/guardians',{name:data.username,user_id:data.id});
         }
         if(instructor){
-          alert('creating an instructor is not available!')
-          //api.post('/teachers',{name:data.username,user_id:data.id});
+          api.post('/accounts',{name:data.username,user_id:data.id});
         }
         if(admin){
-          alert('creating an admin is not available!')
-          //api.post('/teachers',{name:data.username,user_id:data.id});
+          api.post('/accounts',{name:data.username,user_id:data.id,administrator:true});
         }
       }
       catch(error){

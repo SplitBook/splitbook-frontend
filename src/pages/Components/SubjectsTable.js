@@ -48,18 +48,6 @@ export default function SubjectsTable() {
   }
 
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  /*function guardar(){
-    console.log(state.data)
-  }*/
-
   return (
     <>
     <MaterialTable
@@ -86,7 +74,7 @@ export default function SubjectsTable() {
               resolve();
               if (oldData) {
                 setState((prevState) => {
-                  EditSubjects(oldData.school_subject,oldData.id)
+                  EditSubjects(newData.school_subject,oldData.id)
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
@@ -108,28 +96,6 @@ export default function SubjectsTable() {
           }),
       }}
     />
-        <Dialog
-          open={open}
-          TransitionComponent={Transition}
-          keepMounted
-          aria-labelledby="alert-dialog-slide-title"
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle id="alert-dialog-slide-title">{"Tem a certeza que pretende guardar as alterações?"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              Os dados antigos serão removidos de forma definitiva.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancelar
-            </Button>
-            <Button onClick={handleClose} color="primary">
-              Continuar
-            </Button>
-          </DialogActions>
-        </Dialog>
     </>
   );
 }
