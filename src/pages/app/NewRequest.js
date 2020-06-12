@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import './AppStyles.css'
-
+import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -42,7 +42,6 @@ export default function NovoRequisito(){
     }
 
     async function getStudents(profile_id){
-        console.log('ola');
         const {data} = await api.get('/guardians/'+profile_id)
         console.log("Students List: ",data)
         setStudents(data.students);     
@@ -144,9 +143,20 @@ export default function NovoRequisito(){
                 </Grid>
             </Grid>
         }
-
         {
-            group!=='Encarregado de Educação' && 
+            group==='Professor' && 
+
+            <Grid container spacing={2}>
+                <Grid item>
+                <FormControl variant="outlined" className="maxwidth">
+                    <InputLabel htmlFor="outlined-age-native-simple" >Educando</InputLabel>
+                        <SelectStudents/>
+                </FormControl>
+                </Grid>
+            </Grid>
+        }
+        {
+            group==='Docente' && group==='Administrador' && 
 
             <Grid container spacing={2}>
                 <Grid item>

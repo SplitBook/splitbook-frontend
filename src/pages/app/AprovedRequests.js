@@ -34,7 +34,7 @@ export default function AprovedRequests() {
             <li>{texto}</li>
             );
             return (
-            <ul>{listItems}</ul>
+            <ul className="mLeft">{listItems}</ul>
             );
       }
 
