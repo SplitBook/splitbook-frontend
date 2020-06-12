@@ -14,6 +14,11 @@ import AllRequests from '../pages/app/AllRequests';
 import AprovedRequests from '../pages/app/AprovedRequests';
 import Subjects from '../pages/app/Subjects';
 import Cookies from 'js-cookie';
+import AddUsers from '../pages/app/AddUsers';
+import AddStudent from '../pages/app/AddStudent';
+import AddRegistration from '../pages/app/AddRegistration';
+import GeneralClasses from '../pages/app/GeneralClasses';
+import SchoolYears from '../pages/app/SchoolYears';
 
 
 export default function RoutesLayout({history}){
@@ -30,6 +35,11 @@ export default function RoutesLayout({history}){
                     <Route path="/app/books/delivery" component={BooksDelivery}/>
                     <Route path="/app/books/return" component={BooksReturn}/>
                     <Route path="/app/requests" component={AllRequests}/>
+                    <Route path="/app/add/user" component={AddUsers}/>
+                    <Route path="/app/add/student" component={AddStudent}/>
+                    <Route path="/app/add/registration" component={AddRegistration}/>
+                    <Route path="/app/classes" component={GeneralClasses}/>
+                    <Route path="/app/schoolyears" component={SchoolYears}/>
                     <Route path="/app/aproved/requests" component={AprovedRequests}/>
                 </BrowserRouter>
                 

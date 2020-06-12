@@ -36,12 +36,13 @@ export default function NovoRequisito(){
         var decoded = jwt_decode(token);
         setGroup(decoded.charge)
         setProfileId(decoded.profile_id);
-        console.log("decoded",decoded)
-        if(group==='Encarregado de Educação')
+        //console.log("decoded",decoded)
+        if(decoded.charge==='Encarregado de Educação')
             getStudents(decoded.profile_id);
     }
 
     async function getStudents(profile_id){
+        console.log('ola');
         const {data} = await api.get('/guardians/'+profile_id)
         console.log("Students List: ",data)
         setStudents(data.students);     
@@ -82,6 +83,7 @@ export default function NovoRequisito(){
         console.log('student_id: ',student_id)
         const {data} = await api.get('/school-enrollments/'+student_id)
         getStudentBooks(data.class_id)
+        setNumAluno(1);
     }
 
     async function getStudentBooks(class_id){

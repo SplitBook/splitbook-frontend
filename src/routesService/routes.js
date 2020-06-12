@@ -28,6 +28,11 @@ export default function Routes(){
                         <Route path="/app/books/delivery" component={App}/>
                         <Route path="/app/books/return" component={App}/>
                         <Route path="/app/requests" component={App}/>
+                        <Route path="/app/add/user" component={App}/>
+                        <Route path="/app/add/student" component={App}/>
+                        <Route path="/app/add/registration" component={App}/>
+                        <Route path="/app/classes" component={App}/>
+                        <Route path="/app/schoolyears" component={App}/>
                         <Route path="/app/aproved/requests" component={App}/>
                     </Route>
                 <Route path="" redirectTo="/login"/>

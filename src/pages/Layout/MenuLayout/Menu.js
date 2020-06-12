@@ -14,8 +14,13 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import SyncAlt from '@material-ui/icons/SyncAlt';
 import VpnKey from '@material-ui/icons/VpnKey';
+import AccessTime from '@material-ui/icons/AccessTime';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
+import GroupAdd from '@material-ui/icons/GroupAdd';
+import ChildCare from '@material-ui/icons/ChildCare';
+import PostAdd from '@material-ui/icons/PostAdd';
+import ListAlt from '@material-ui/icons/ListAlt';
 import {Link} from 'react-router-dom';
 import './Menu.css';
 import Button from '@material-ui/core/Button';
@@ -175,6 +180,43 @@ export default function MenuLayout({history,openMenu}) {
     </>
   }
   {
+    (group==='Administrador' || group==='Docente') &&
+    <>
+      <Link to="/app/classes">
+        <ListItem button>
+          <ListItemIcon>
+            <ListAlt />
+          </ListItemIcon>
+          <ListItemText primary="Turmas" />
+        </ListItem>
+      </Link>
+      <Link to="/app/add/user">
+        <ListItem button>
+          <ListItemIcon>
+            <GroupAdd />
+          </ListItemIcon>
+          <ListItemText primary="Adicionar Utilizadores" />
+        </ListItem>
+      </Link>
+      <Link to="/app/add/student">
+        <ListItem button>
+          <ListItemIcon>
+            <ChildCare />
+          </ListItemIcon>
+          <ListItemText primary="Adicionar Alunos" />
+        </ListItem>
+      </Link>
+      <Link to="/app/add/registration">
+        <ListItem button>
+          <ListItemIcon>
+            <PostAdd />
+          </ListItemIcon>
+          <ListItemText primary="Criar Matriculas" />
+        </ListItem>
+      </Link>
+    </>
+  }
+  {
     group==='Administrador' &&
     <>
       <Link to="/app/permissions">
@@ -183,6 +225,14 @@ export default function MenuLayout({history,openMenu}) {
             <VpnKey />
           </ListItemIcon>
           <ListItemText primary="Gestor de permissões" />
+        </ListItem>
+      </Link>
+      <Link to="/app/schoolyears">
+        <ListItem button>
+          <ListItemIcon>
+            <AccessTime />
+          </ListItemIcon>
+          <ListItemText primary="Anos Letivos" />
         </ListItem>
       </Link>
     </>
@@ -257,4 +307,6 @@ export default function MenuLayout({history,openMenu}) {
 
   }
 }
+
+
 

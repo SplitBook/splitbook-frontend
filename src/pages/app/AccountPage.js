@@ -59,6 +59,10 @@ export default function AccountPage(){
     console.log("2: ",decoded)
     getStudents(decoded.profile_id);
     var {data} = await api.get('/users/'+decoded.user_id);
+    setTmp(data)
+  }
+
+  function setTmp(data){
     var tmp = data;
     if(tmp.born_date!==null){
       var new_date = tmp.born_date.split('T');
@@ -92,12 +96,12 @@ export default function AccountPage(){
     setShowWarning(true);
   }
 
-  function SubmitConfirmation(){
+  async function SubmitConfirmation(){
     console.log("Info:::",editedInformation);
     const formData = new FormData();
     if(editedInformation.phone!==null)
       formData.append('phone',editedInformation.phone)
-    if(editedInformation.name!==null)
+    if(editedInformation.email!==null)
       formData.append('email',editedInformation.name)
     if(editedInformation.username!==null)
       formData.append('username',editedInformation.username)
@@ -105,11 +109,9 @@ export default function AccountPage(){
       formData.append('born_date',editedInformation.born_date)
     if(fileimg.file!==null)
       formData.append('foto',fileimg.file)
-    //console.log("1",fileimg.file);
-    //console.log(fileimg.file!==null);
-    //console.log(editedInformation.username!==null);
-    const {data} = api_formdata.put('/users/'+user.id,formData);
-    console.log("Data: ",data);
+    const {data} = await api_formdata.put('/users/'+user.id,formData);
+    //console.log("Data: ",data);
+    setTmp(data)
     handleClose();
   }
 
