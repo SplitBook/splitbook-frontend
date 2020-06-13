@@ -19,6 +19,7 @@ import AddStudent from '../pages/app/AddStudent';
 import AddRegistration from '../pages/app/AddRegistration';
 import GeneralClasses from '../pages/app/GeneralClasses';
 import SchoolYears from '../pages/app/SchoolYears';
+import AddResumes from '../pages/app/AddResumes';
 
 
 export default function RoutesLayout({history}){
@@ -39,6 +40,7 @@ export default function RoutesLayout({history}){
                     <Route path="/app/add/student" component={AddStudent}/>
                     <Route path="/app/add/registration" component={AddRegistration}/>
                     <Route path="/app/classes" component={GeneralClasses}/>
+                    <Route path="/app/add/resume" component={AddResumes}/>
                     <Route path="/app/schoolyears" component={SchoolYears}/>
                     <Route path="/app/aproved/requests" component={AprovedRequests}/>
                 </BrowserRouter>
