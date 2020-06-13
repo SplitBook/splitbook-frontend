@@ -34,7 +34,7 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function TransferList() {
+export default function TransferList({books}) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState(['Matemática A', 'Português', 'Francês', 'Gestão','Fisico-Quimica','Redes de Comunicação','Programação','Inglês','Área de integração']);

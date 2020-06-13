@@ -7,7 +7,7 @@ export default function Manual(){
 
     return (
         <>
-            <Header title='Manuais escolares'/>
+            <Header title='Manuais escolares adotados'/>
             <TableManual/>
         </>
     );

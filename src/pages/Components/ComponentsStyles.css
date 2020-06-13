@@ -54,3 +54,7 @@ p.legenda{
 .marginTop{
     margin-top: 20px;
 }
+
+.pointer{
+    cursor: pointer;
+}

@@ -17,9 +17,13 @@ import VpnKey from '@material-ui/icons/VpnKey';
 import AccessTime from '@material-ui/icons/AccessTime';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
+import Inbox from '@material-ui/icons/Inbox';
 import GroupAdd from '@material-ui/icons/GroupAdd';
 import ChildCare from '@material-ui/icons/ChildCare';
 import PostAdd from '@material-ui/icons/PostAdd';
+import Book from '@material-ui/icons/Book';
+import Settings from '@material-ui/icons/Settings';
+import SettingsSystemDaydream from '@material-ui/icons/SettingsSystemDaydream';
 import ListAlt from '@material-ui/icons/ListAlt';
 import {Link} from 'react-router-dom';
 import './Menu.css';
@@ -34,7 +38,9 @@ import Avatar from '@material-ui/core/Avatar';
 import api from '../../../services/api';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import PersonIcon from '@material-ui/icons/Person';
-
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -52,12 +58,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 export default function MenuLayout({history,openMenu}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openChangeGroupDialog, setOpenChangeGroupDialog] = React.useState(false);
   const [group,setGroup] = React.useState('');
   const [groups,setGroups] = React.useState(JSON.parse(Cookies.get('profiles')));
+  const [lista1, setLista1] = React.useState(false);
+  const [lista2, setLista2] = React.useState(false);
+  const [lista3, setLista3] = React.useState(false);
+  const [lista4, setLista4] = React.useState(false);
+
 
   if(group===''){
     var token = Cookies.get('token');
@@ -87,6 +99,24 @@ export default function MenuLayout({history,openMenu}) {
     setOpenChangeGroupDialog(false)
     //history.push('/app/home')
 }
+
+const handleClick = () => {
+  setLista1(!lista1);
+};
+
+const handleClick2 = () => {
+  setLista2(!lista2);
+};
+
+const handleClick3 = () => {
+  setLista3(!lista3);
+};
+
+const handleClick4 = () => {
+  setLista4(!lista4);
+};
+
+
 
   function ChangeUserGroup(){
     setOpenChangeGroupDialog(true);
@@ -129,91 +159,152 @@ export default function MenuLayout({history,openMenu}) {
     {
       group!=='Encarregado de Educação' &&
       <>
-      <Link to="/app/requests">
-        <ListItem button>
-          <ListItemIcon>
-            <MenuBook />
-          </ListItemIcon>
-          <ListItemText primary="Reqs. por aprovar" />
-        </ListItem>
-      </Link>
-      <Link to="/app/aproved/requests">
-        <ListItem button>
-          <ListItemIcon>
-            <PlaylistAddCheck />
-          </ListItemIcon>
-          <ListItemText primary="Reqs. aprovadas" />
-        </ListItem>
-      </Link>
-      <Link to="/app/add/manual">
-        <ListItem button>
-          <ListItemIcon>
-            <ImportContacts/>
-          </ListItemIcon>
-          <ListItemText primary="Manuais" />
-        </ListItem>
-      </Link>
-      <Link to="/app/add/subjects">
-        <ListItem button>
-          <ListItemIcon>
-            <CollectionsBookmark />
-          </ListItemIcon>
-          <ListItemText primary="Disciplinas" />
-        </ListItem>
-      </Link>
-      <Link to="/app/books/delivery">
-        <ListItem button>
-          <ListItemIcon>
-            <AllInbox />
-          </ListItemIcon>
-          <ListItemText primary="Entrega de Livros" />
-        </ListItem>
-      </Link>
-      <Link to="/app/books/return">
-        <ListItem button>
-          <ListItemIcon>
-            <AssignmentReturned />
-          </ListItemIcon>
-          <ListItemText primary="Recolha de Livros" />
-        </ListItem>
-      </Link>
+      <ListItem button onClick={handleClick2}>
+        <ListItemIcon>
+          <SettingsSystemDaydream />
+        </ListItemIcon>
+        <ListItemText primary="Ferramentas II" />
+        {lista2? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={lista2 && openMenu} timeout="auto" >
+        <List component="div" disablePadding>
+        <Link to="/app/add/manual">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <ImportContacts/>
+            </ListItemIcon>
+            <ListItemText primary="Manuais" />
+          </ListItem>
+        </Link>
+        <Link to="/app/add/subjects">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <CollectionsBookmark />
+            </ListItemIcon>
+            <ListItemText primary="Disciplinas" />
+          </ListItem>
+        </Link>
+        <Link to="/app/classes">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <ListAlt />
+            </ListItemIcon>
+            <ListItemText primary="Turmas" />
+          </ListItem>
+        </Link>
+        {
+          group==='Administrador' &&
+            <Link to="/app/schoolyears" >
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <AccessTime />
+                </ListItemIcon>
+                <ListItemText primary="Anos Letivos" />
+              </ListItem>
+            </Link>
+        }
+        </List>
+      </Collapse>
+
+      <ListItem button onClick={handleClick3}>
+        <ListItemIcon>
+          <Book />
+        </ListItemIcon>
+        <ListItemText primary="Requisições" />
+        {lista3? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={lista3 && openMenu} timeout="auto" >
+        <List component="div" disablePadding>
+          <Link to="/app/requests">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <MenuBook />
+              </ListItemIcon>
+              <ListItemText primary="Reqs. por aprovar" />
+            </ListItem>
+          </Link>
+          <Link to="/app/aproved/requests">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <PlaylistAddCheck />
+              </ListItemIcon>
+              <ListItemText primary="Reqs. aprovadas" />
+            </ListItem>
+          </Link>
+        </List>
+      </Collapse>
+
+
+      <ListItem button onClick={handleClick4}>
+        <ListItemIcon>
+          <AllInbox />
+        </ListItemIcon>
+        <ListItemText primary="Entrega/Recolha" />
+        {lista4? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={lista4 && openMenu} timeout="auto" >
+        <List component="div" disablePadding>
+          <Link to="/app/books/delivery">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <Inbox/>
+              </ListItemIcon>
+              <ListItemText primary="Entrega de Livros" />
+            </ListItem>
+          </Link>
+          <Link to="/app/books/return">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <AssignmentReturned />
+              </ListItemIcon>
+              <ListItemText primary="Recolha de Livros" />
+            </ListItem>
+          </Link>
+        </List>
+      </Collapse>
+      
+      
     </>
   }
   {
     (group==='Administrador' || group==='Docente') &&
     <>
-      <Link to="/app/classes">
-        <ListItem button>
-          <ListItemIcon>
-            <ListAlt />
-          </ListItemIcon>
-          <ListItemText primary="Turmas" />
-        </ListItem>
-      </Link>
-      <Link to="/app/add/user">
-        <ListItem button>
-          <ListItemIcon>
-            <GroupAdd />
-          </ListItemIcon>
-          <ListItemText primary="Adicionar Utilizadores" />
-        </ListItem>
-      </Link>
-      <Link to="/app/add/student">
-        <ListItem button>
-          <ListItemIcon>
-            <ChildCare />
-          </ListItemIcon>
-          <ListItemText primary="Adicionar Alunos" />
-        </ListItem>
-      </Link>
-      <Link to="/app/add/registration">
-        <ListItem button>
-          <ListItemIcon>
-            <PostAdd />
-          </ListItemIcon>
-          <ListItemText primary="Criar Matriculas" />
-        </ListItem>
-      </Link>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>
+          <Settings />
+        </ListItemIcon>
+        <ListItemText primary="Ferramentas I" />
+        {lista1? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={lista1 && openMenu} timeout="auto" >
+        <List component="div" disablePadding>
+          <Link to="/app/add/user">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <GroupAdd />
+              </ListItemIcon>
+              <ListItemText primary="Adicionar Utilizadores" />
+            </ListItem>
+          </Link>
+          <Link to="/app/add/student">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <ChildCare />
+              </ListItemIcon>
+              <ListItemText primary="Adicionar Alunos" />
+            </ListItem>
+          </Link>
+          <Link to="/app/add/registration">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <PostAdd />
+              </ListItemIcon>
+              <ListItemText primary="Criar Matriculas" />
+            </ListItem>
+          </Link>
+        </List>
+      </Collapse>
+      
     </>
   }
   {
@@ -225,14 +316,6 @@ export default function MenuLayout({history,openMenu}) {
             <VpnKey />
           </ListItemIcon>
           <ListItemText primary="Gestor de permissões" />
-        </ListItem>
-      </Link>
-      <Link to="/app/schoolyears">
-        <ListItem button>
-          <ListItemIcon>
-            <AccessTime />
-          </ListItemIcon>
-          <ListItemText primary="Anos Letivos" />
         </ListItem>
       </Link>
     </>

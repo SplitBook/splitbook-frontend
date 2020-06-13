@@ -7,7 +7,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import api from '../../services/api';
 import api_formdata from '../../services/api_multipart_form_data';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import NoteAddOutlined from '@material-ui/icons/NoteAddOutlined';
+import DialogActions from '@material-ui/core/DialogActions';
+import TextField from '@material-ui/core/TextField';
 
+import './ComponentsStyles.css';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -15,7 +20,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function TableManuais() {
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const [fileimg, setFileimg] = React.useState({file:null});
+  const [infoLivro,setInfoLivro] = React.useState({isbn:null,codigo:null});
   
   const [state, setState] = React.useState({
     columns: [
@@ -23,14 +31,24 @@ export default function TableManuais() {
       { title: 'Código', field: 'code' },
       { title: 'Disciplina', field: 'name' },
       { title: 'Editora', field: 'publishing_company'},
-      { title: 'capa', field: 'cover',render: rowData => (     
-        <>   
-        <Button onClick={() => openImg(rowData.cover)} autoFocus>Ver capa</Button>
+      { title: 'Capa', field: 'cover',render: rowData => (     
+        <>
+          <ImageOutlined onClick={() => openImg(rowData.cover)} className="pointer"/>
         </>
       )},
-      { title: 'Descarregar capa', field: 'img',render: rowData => (     
+      { title: 'Descarregar capa',render: rowData => (     
         <>   
         <input type="file" onChange={fileUpload} />
+        </>
+      )},
+      { title: 'Gerar',render: rowData => (     
+        <>   
+        <NoteAddOutlined onClick={() => openGenerate(rowData.isbn,rowData.code)} className="pointer"/>
+        </>
+      )},
+      { title: 'Livros',render: rowData => (     
+        <>   
+        <Button onClick={() => setOpen2(true)}>Livros</Button>
         </>
       )},
     ],
@@ -38,10 +56,16 @@ export default function TableManuais() {
   });
 
   const [photo_photo, setPhoto_photo] = React.useState('');
+
   function openImg(path){
     console.log(path)
     setPhoto_photo(path)
     setOpen(true);
+  }
+
+  function openGenerate(isbn,code){
+    setInfoLivro({isbn:isbn,code:code})
+    setOpen1(true)
   }
 
  
@@ -84,6 +108,8 @@ export default function TableManuais() {
 
   const handleClose = () => {
     setOpen(false);
+    setOpen1(false);
+    setOpen2(false);
   };
 
   return (
@@ -146,6 +172,45 @@ export default function TableManuais() {
           <DialogTitle id="alert-dialog-slide-title">Visualização da capa do livro</DialogTitle>
           <DialogContent>
             <img src={photo_photo} alt="capa do livro"/>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={open1}
+          TransitionComponent={Transition}
+          keepMounted
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">Gerar livros físicos</DialogTitle>
+          <DialogContent>
+
+            <p><b>ISBN: </b> {infoLivro.isbn}</p>
+            <p><b>Code: </b> {infoLivro.code}</p>
+            <TextField type="number" label="Qtd. livros a gerar" defaultValue={1} style={{marginTop:20}}/>
+
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Gerar Livros
+          </Button>
+        </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={open2}
+          onClose={handleClose}
+          TransitionComponent={Transition}
+          keepMounted
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">Lista de livros físicos</DialogTitle>
+          <DialogContent>
+            tabela com a lista de livros de fisicos
           </DialogContent>
         </Dialog>
 

@@ -29,6 +29,7 @@ export default function NovoRequisito(){
     const [group,setGroup] = React.useState('');
     const [profileId,setProfileId] = React.useState(0);
     const [students,setStudents] = React.useState([]);
+    const [books,setBooks] = React.useState([]);
     
 
     if(group===''){
@@ -88,7 +89,8 @@ export default function NovoRequisito(){
     async function getStudentBooks(class_id){
         console.log("Class id: ",class_id)
         const {data} = await api.get('/resumes/adopted-books?class_id='+class_id)
-        console.log('Lista de Livros::: ',data)
+        setBooks(data)
+        console.log('Lista de Livros::: ',books)
     }
 
     function efetuarRequisicao(){
@@ -156,7 +158,7 @@ export default function NovoRequisito(){
             </Grid>
         }
         {
-            group==='Docente' && group==='Administrador' && 
+            (group==='Docente' || group==='Administrador') && 
 
             <Grid container spacing={2}>
                 <Grid item>
@@ -198,7 +200,7 @@ export default function NovoRequisito(){
         {
             numAluno>0 &&
             <>
-                <TabelasLivros/>
+                <TabelasLivros books={books}/>
             </>
         }
         
