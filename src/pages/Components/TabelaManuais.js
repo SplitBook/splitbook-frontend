@@ -24,6 +24,7 @@ export default function TableManuais() {
   const [open2, setOpen2] = React.useState(false);
   const [fileimg, setFileimg] = React.useState({file:null});
   const [infoLivro,setInfoLivro] = React.useState({isbn:null,codigo:null});
+  const [num,setNum] = React.useState(1);
   
   const [state, setState] = React.useState({
     columns: [
@@ -46,11 +47,11 @@ export default function TableManuais() {
         <NoteAddOutlined onClick={() => openGenerate(rowData.isbn,rowData.code)} className="pointer"/>
         </>
       )},
-      { title: 'Livros',render: rowData => (     
+      /*{ title: 'Livros',render: rowData => (     
         <>   
         <Button onClick={() => setOpen2(true)}>Livros</Button>
         </>
-      )},
+      )},*/
     ],
     data: [],
   });
@@ -66,6 +67,15 @@ export default function TableManuais() {
   function openGenerate(isbn,code){
     setInfoLivro({isbn:isbn,code:code})
     setOpen1(true)
+  }
+
+  async function GeneratePhysicalBooks(){
+    console.log(num,infoLivro.isbn)
+    for(var i=0;i<num;i++){
+      const {data} = await api.post('/physical-books',{book_isbn:infoLivro.isbn})
+      console.log(data)
+    }
+    setOpen1(false)
   }
 
  
@@ -187,14 +197,14 @@ export default function TableManuais() {
 
             <p><b>ISBN: </b> {infoLivro.isbn}</p>
             <p><b>Code: </b> {infoLivro.code}</p>
-            <TextField type="number" label="Qtd. livros a gerar" defaultValue={1} style={{marginTop:20}}/>
+            <TextField type="number" label="Qtd. livros a gerar" defaultValue={num} onChange={(e) => setNum(e.target.value)} style={{marginTop:20}}/>
 
           </DialogContent>
           <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => GeneratePhysicalBooks()} color="primary">
             Gerar Livros
           </Button>
         </DialogActions>

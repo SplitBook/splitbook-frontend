@@ -20,6 +20,7 @@ import AddRegistration from '../pages/app/AddRegistration';
 import GeneralClasses from '../pages/app/GeneralClasses';
 import SchoolYears from '../pages/app/SchoolYears';
 import AddResumes from '../pages/app/AddResumes';
+import SearchPhysicalBook from '../pages/app/SearchPhysicalBook';
 
 
 export default function RoutesLayout({history}){
@@ -42,6 +43,7 @@ export default function RoutesLayout({history}){
                     <Route path="/app/classes" component={GeneralClasses}/>
                     <Route path="/app/add/resume" component={AddResumes}/>
                     <Route path="/app/schoolyears" component={SchoolYears}/>
+                    <Route path="/app/search/physicalbook" component={SearchPhysicalBook}/>
                     <Route path="/app/aproved/requests" component={AprovedRequests}/>
                 </BrowserRouter>
                 

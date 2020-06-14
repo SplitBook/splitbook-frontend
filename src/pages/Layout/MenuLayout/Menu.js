@@ -18,6 +18,7 @@ import AccessTime from '@material-ui/icons/AccessTime';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
 import Inbox from '@material-ui/icons/Inbox';
+import FindInPage from '@material-ui/icons/FindInPage';
 import GroupAdd from '@material-ui/icons/GroupAdd';
 import ChildCare from '@material-ui/icons/ChildCare';
 import PostAdd from '@material-ui/icons/PostAdd';
@@ -174,6 +175,14 @@ const handleClick4 = () => {
               <ImportContacts/>
             </ListItemIcon>
             <ListItemText primary="Manuais" />
+          </ListItem>
+        </Link>
+        <Link to="/app/search/physicalbook">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <FindInPage />
+            </ListItemIcon>
+            <ListItemText primary="Livros Físicos" />
           </ListItem>
         </Link>
         <Link to="/app/add/subjects">
