@@ -22,7 +22,7 @@ export default function Routes(){
                         <Route path='/app/home' component={App}/>
                         <Route path='/app/new/request' component={App}/>
                         <Route path="/app/add/manual" component={App}/>
-                        <Route path="/app/add/subjects" component={App}/>r
+                        <Route path="/app/add/subjects" component={App}/>
                         <Route path="/app/account" component={App} />
                         <Route path="/app/permissions" component={App}/>
                         <Route path="/app/books/delivery" component={App}/>
@@ -34,6 +34,8 @@ export default function Routes(){
                         <Route path="/app/classes" component={App}/>
                         <Route path="/app/schoolyears" component={App}/>
                         <Route path="/app/add/resume" component={App}/>
+                        <Route path="/app/books/states" component={App}/>
+                        <Route path="/app/books/location" component={App}/>
                         <Route path="/app/search/physicalbook" component={App}/>
                         <Route path="/app/aproved/requests" component={App}/>
                     </Route>

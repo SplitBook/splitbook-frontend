@@ -25,12 +25,14 @@ function sleep(delay = 0) {
 
 export default function NovoRequisito(){
     const [aluno, setAluno] = React.useState('');
-    const [numAluno, setNumAluno] = React.useState(0);
     const [group,setGroup] = React.useState('');
     const [profileId,setProfileId] = React.useState(0);
     const [students,setStudents] = React.useState([]);
     const [books,setBooks] = React.useState([]);
+    const [schoolEnrollmentsID,setSchoolEnrollmentsID] = React.useState(null);
     
+
+
 
     if(group===''){
         var token = Cookies.get('token');
@@ -56,7 +58,7 @@ export default function NovoRequisito(){
             <Select
             native
             value={aluno}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.value)}
             label="Educando"
             inputProps={{
                 name: 'NomeEducando',
@@ -70,27 +72,23 @@ export default function NovoRequisito(){
   }
 
     const handleChange = (event) => {
-        setAluno(event.target.value);
-        if(event.target.value != null && event.target.value !== ''){
-            getClassId(event.target.value);
-        }
-        else{
-            setNumAluno(0)
+        setAluno(event);
+        if(event != null && event !== ''){
+            getClassId(event);
         }
     };
 
     async function getClassId(student_id){
         console.log('student_id: ',student_id)
         const {data} = await api.get('/school-enrollments/'+student_id)
+        setSchoolEnrollmentsID(data.id)
         getStudentBooks(data.class_id)
-        setNumAluno(1);
     }
 
     async function getStudentBooks(class_id){
-        console.log("Class id: ",class_id)
         const {data} = await api.get('/resumes/adopted-books?class_id='+class_id)
-        setBooks(data)
-        console.log('Lista de Livros::: ',books)
+        setBooks(data)        
+        //console.log('Lista de Livros::: ',books)
     }
 
     function efetuarRequisicao(){
@@ -98,36 +96,40 @@ export default function NovoRequisito(){
     }
 
     const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState([]);
-    const loading = open && options.length === 0;
 
-    React.useEffect(() => {
-        let active = true;
+    
 
-        if (!loading) {
-        return undefined;
-        }
+    const [studentOfList,setStudentOfList] = React.useState(null);
+    const [studentsList,setStudentsList] = React.useState([]);
 
-        (async () => {
-        const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
-        await sleep(1e3); // For demo purposes.
-        const countries = await response.json();
+    const handlerAutoCompleteAllStudents = (event) => {
+        console.log(event.target.value)
+        var tmp = "";
+        tmp = event.target.value;
+        if(tmp.length>3)
+          getAllStudents(tmp);
+      };
+  
+      async function getAllStudents(tmp){
+        const {data} = await api.get('/school-enrollments?search=',tmp);
+        setStudentsList(data.data);
+        console.log(studentsList)
+      }
 
-        if (active) {
-            setOptions(Object.keys(countries).map((key) => countries[key].item[0]));
-        }
-        })();
+      const handlerAutoCompleteTeachersStudents = (event) => {
+        console.log(event.target.value)
+        var tmp = "";
+        tmp = event.target.value;
+        if(tmp.length>3)
+            getTeachersStudents(tmp);
+      };
 
-        return () => {
-            active = false;
-            };
-    }, [loading]);
-
-    React.useEffect(() => {
-        if (!open) {
-        setOptions([]);
-        }
-    }, [open]);
+      async function getTeachersStudents(tmp){
+        //const {data} = await api.get('/school-enrollments?search=',tmp);
+        //setStudentsList(data.data);
+        //console.log(studentsList)
+        alert('Á espera de saber como ir buscar a lista de alunos da turma do prof logado!');
+      }
 
     return (
         <>
@@ -150,10 +152,16 @@ export default function NovoRequisito(){
 
             <Grid container spacing={2}>
                 <Grid item>
-                <FormControl variant="outlined" className="maxwidth">
-                    <InputLabel htmlFor="outlined-age-native-simple" >Educando</InputLabel>
-                        <SelectStudents/>
-                </FormControl>
+                <Autocomplete
+                    options={studentsList}
+                    getOptionLabel={(option) => option.student_name}
+                    style={{ width: 300}}
+                    onChange={(event,newValue) => {
+                    console.log(event,'ola',newValue)
+                    //setStudentOfList(newValue)
+                    }}
+                    renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteTeachersStudents} variant="outlined" />}
+                />
                 </Grid>
             </Grid>
         }
@@ -163,44 +171,23 @@ export default function NovoRequisito(){
             <Grid container spacing={2}>
                 <Grid item>
                 <Autocomplete
-                    id="asynchronous-demo"
-                    style={{ width: 300 }}
-                    open={open}
-                    onOpen={() => {
-                        setOpen(true);
+                    options={studentsList}
+                    getOptionLabel={(option) => option.student_name}
+                    style={{ width: 300}}
+                    onChange={(event,newValue) => {
+                    //console.log(event,'ola',newValue)
+                    handleChange(newValue.id)
+                    //setStudentOfList(newValue)
                     }}
-                    onClose={() => {
-                        setOpen(false);
-                    }}
-                    onChange={handleChange}
-                    getOptionSelected={(option, value) => option.name === value.name}
-                    getOptionLabel={(option) => option.name}
-                    options={options}
-                    loading={loading}
-                    renderInput={(params) => (
-                        <TextField
-                        {...params}
-                        label="Aluno"
-                        variant="outlined"
-                        InputProps={{
-                            ...params.InputProps,
-                            endAdornment: (
-                            <React.Fragment>
-                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                                {params.InputProps.endAdornment}
-                            </React.Fragment>
-                            ),
-                        }}
-                        />
-                    )}
+                    renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteAllStudents} variant="outlined" />}
                 />
                 </Grid>
             </Grid>
         }
         {
-            numAluno>0 &&
+            books.length>0 &&
             <>
-                <TabelasLivros books={books}/>
+                <TabelasLivros books={books} schoolEnrollmentsID={schoolEnrollmentsID}/>
             </>
         }
         

@@ -9,6 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
+import api from '../../services/api';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,10 +35,14 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function TransferList({books}) {
+export default function TransferList({books,schoolEnrollmentsID}) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState(['Matemática A', 'Português', 'Francês', 'Gestão','Fisico-Quimica','Redes de Comunicação','Programação','Inglês','Área de integração']);
+  var lista_livros = [];  
+  for(var i=0;i<books.length;i++){
+    lista_livros.push(books[i].school_subject);
+  }
+  const [left, setLeft] = React.useState(lista_livros);
   const [right, setRight] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
@@ -78,8 +83,18 @@ export default function TransferList({books}) {
     setRight([]);
   };
 
-  function efetuarRequisicao(){
+  async function efetuarRequisicao(){
     console.log(right);
+    var booksid = [];
+
+    for(var i=0;i<books.length;i++){
+      if(books[0].school_subject === right[0]){
+        booksid.push(books[0].id)
+      }
+    }
+    console.log(booksid,schoolEnrollmentsID);
+    const {data} = await api.post('/requisition/adopted-books',{school_enrollment_id:schoolEnrollmentsID,adopted_books_ids:booksid});
+    console.log(data);
 }
 
   const customList = (items) => (

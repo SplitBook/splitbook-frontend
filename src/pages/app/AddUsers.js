@@ -151,7 +151,7 @@ export default function AddUsers(){
                   onChange={handleChangeInstructor}
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
-                Docente
+                Secretaria
               </Grid>
               <Grid item >
                 <Checkbox
@@ -159,6 +159,7 @@ export default function AddUsers(){
                   color="primary"
                   onChange={handleChangeAdmin}
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  //disabled={(instructor || teacher)? false:true}
                 />
                 Admin
               </Grid>

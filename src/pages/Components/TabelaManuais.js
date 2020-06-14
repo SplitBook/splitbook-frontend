@@ -11,12 +11,15 @@ import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import NoteAddOutlined from '@material-ui/icons/NoteAddOutlined';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
+import Edit from '@material-ui/icons/Edit';
 
 import './ComponentsStyles.css';
+import TableNewPhysicalBooks from './TableNewPhysicalBooks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 
 export default function TableManuais() {
   const [open, setOpen] = React.useState(false);
@@ -47,11 +50,6 @@ export default function TableManuais() {
         <NoteAddOutlined onClick={() => openGenerate(rowData.isbn,rowData.code)} className="pointer"/>
         </>
       )},
-      /*{ title: 'Livros',render: rowData => (     
-        <>   
-        <Button onClick={() => setOpen2(true)}>Livros</Button>
-        </>
-      )},*/
     ],
     data: [],
   });
@@ -69,13 +67,17 @@ export default function TableManuais() {
     setOpen1(true)
   }
 
+  const [physicalBooks, setPhysicalBooks] = React.useState([]);
+
   async function GeneratePhysicalBooks(){
     console.log(num,infoLivro.isbn)
-    for(var i=0;i<num;i++){
-      const {data} = await api.post('/physical-books',{book_isbn:infoLivro.isbn})
-      console.log(data)
-    }
+    const {data} = await api.post('/physical-books?quantity='+num,{book_isbn:infoLivro.isbn})
+    console.log("ola",data)
+    var tmp = []
+    tmp.push(data)
+    setPhysicalBooks(tmp)
     setOpen1(false)
+    setOpen2(true)
   }
 
  
@@ -84,8 +86,6 @@ export default function TableManuais() {
     fileimg.file=e.target.files[0]
     console.log("file::: ",fileimg);
   }
-
-
 
   if(state.data)
     getBooks();
@@ -119,7 +119,7 @@ export default function TableManuais() {
   const handleClose = () => {
     setOpen(false);
     setOpen1(false);
-    setOpen2(false);
+    setOpen2(false)
   };
 
   return (
@@ -209,20 +209,24 @@ export default function TableManuais() {
           </Button>
         </DialogActions>
         </Dialog>
-
+      {
+        physicalBooks.length>0 &&
         <Dialog
           open={open2}
-          onClose={handleClose}
           TransitionComponent={Transition}
           keepMounted
           aria-labelledby="alert-dialog-slide-title"
           aria-describedby="alert-dialog-slide-description"
         >
-          <DialogTitle id="alert-dialog-slide-title">Lista de livros físicos</DialogTitle>
+          <DialogTitle id="alert-dialog-slide-title">Lista de livros físicos gerados</DialogTitle>
           <DialogContent>
-            tabela com a lista de livros de fisicos
+            <TableNewPhysicalBooks physicalBooks={physicalBooks} num={physicalBooks.length}/>
           </DialogContent>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
         </Dialog>
+      }
 
     </>
   );

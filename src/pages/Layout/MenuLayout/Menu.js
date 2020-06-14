@@ -14,6 +14,8 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import SyncAlt from '@material-ui/icons/SyncAlt';
 import VpnKey from '@material-ui/icons/VpnKey';
+import Star from '@material-ui/icons/Star';
+import AddLocation from '@material-ui/icons/AddLocation';
 import AccessTime from '@material-ui/icons/AccessTime';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
 import AllInbox from '@material-ui/icons/AllInbox';
@@ -199,6 +201,22 @@ const handleClick4 = () => {
               <ListAlt />
             </ListItemIcon>
             <ListItemText primary="Turmas" />
+          </ListItem>
+        </Link>
+        <Link to="/app/books/states">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Star />
+            </ListItemIcon>
+            <ListItemText primary="Estados dos Livros" />
+          </ListItem>
+        </Link>
+        <Link to="/app/books/location">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <AddLocation />
+            </ListItemIcon>
+            <ListItemText primary="Localização dos Livros" />
           </ListItem>
         </Link>
         {
