@@ -11,7 +11,7 @@ import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import NoteAddOutlined from '@material-ui/icons/NoteAddOutlined';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
-import Edit from '@material-ui/icons/Edit';
+import Cookies from 'js-cookie';
 
 import './ComponentsStyles.css';
 import TableNewPhysicalBooks from './TableNewPhysicalBooks';
@@ -87,8 +87,8 @@ export default function TableManuais() {
     console.log("file::: ",fileimg);
   }
 
-  if(state.data)
-    getBooks();
+  //if(state.data)
+    //getBooks();
 
   async function getBooks(){
     const {data} = await api.get('/books');
@@ -121,13 +121,30 @@ export default function TableManuais() {
     setOpen1(false);
     setOpen2(false)
   };
-
+  console.log('url','http://localhost:8085/books')
   return (
     <>
     <MaterialTable
       title=" "
       columns={state.columns}
-      data={state.data}
+      data={query =>
+        new Promise((resolve, reject) => {
+          let url = 'http://localhost:8085/books'
+          //url += 'limite=' + query.pageSize
+          url += '?page=' + (query.page + 1)
+          console.log("URL??",url)
+          fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+            .then(response => response.json())
+            .then(result => {
+              resolve({
+                data: result.data,
+                page: result.page - 1,
+                totalCount: result.total,
+                
+              })
+            })
+        })
+      }
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve) => {
