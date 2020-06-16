@@ -37,7 +37,7 @@ export default function SchoolEnrollmentsTable() {
       data={query =>
         new Promise((resolve, reject) => {
           let url = 'http://localhost:8085/school-enrollments'
-          url += '?limite=' + query.pageSize
+          url += '?limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
@@ -81,7 +81,7 @@ export default function SchoolEnrollmentsTable() {
       data={query =>
         new Promise((resolve, reject) => {
           let url = 'http://localhost:8085/school-enrollments'
-          url += '?limite=' + query.pageSize
+          url += '?limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})

@@ -35,7 +35,7 @@ export default function MaterialTableDemo({idStatus}) {
             url += 'http://localhost:8085/requisitions?guardian_id='+decoded.profile_id
           else
             url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
-          url += '&limite=' + query.pageSize
+          url += '&limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
@@ -78,7 +78,7 @@ export default function MaterialTableDemo({idStatus}) {
             url += 'http://localhost:8085/requisitions?guardian_id='+decoded.profile_id
           else
             url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
-          url += '&limite=' + query.pageSize
+          url += '&limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
