@@ -92,7 +92,7 @@ export default function TransferList({books,schoolEnrollmentsID}) {
         booksid.push(books[0].id)
       }
     }
-    console.log(booksid,schoolEnrollmentsID);
+    console.log("Requisição: ",booksid,schoolEnrollmentsID);
     const {data} = await api.post('/requisition/adopted-books',{school_enrollment_id:schoolEnrollmentsID,adopted_books_ids:booksid});
     console.log(data);
 }
@@ -193,7 +193,7 @@ export default function TransferList({books,schoolEnrollmentsID}) {
       * Selecione os manuais que prentende requisitar e transponha-os para 
       a tabela da direita através dos botões centrais.
     </p>
-    <Button variant="contained" onClick={efetuarRequisicao} color="primary">
+    <Button variant="contained" onClick={efetuarRequisicao} color="primary" href='/app/new/request'>
         Efetuar requisição
     </Button>
     

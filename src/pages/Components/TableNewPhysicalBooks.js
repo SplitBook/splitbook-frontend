@@ -47,6 +47,8 @@ export default function TableNewPhysicalBooks({physicalBooks,num}) {
     }
     const {data} = await api.get('/generate/qr-codes?codes='+txt);
     console.log(data);
+    var fileDownload = require('js-file-download');
+    fileDownload(data,'file.csv');
   }
   
 

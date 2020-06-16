@@ -14,14 +14,17 @@ export default function AddResumes(){
     const [classes, setClasses] = React.useState(null);
     const [subjectslist, setSubjectslist] = React.useState([]);
     const [classeslist, setClasseslist] = React.useState([]);
+    var num1 = 0;
+    var num2 = 0;
 
-    if(classeslist.length===0)
+    if(classeslist.length===0 && num1===0)
       getClasses();
 
-   if(subjectslist.length===0)
+   if(subjectslist.length===0 && num2===0)
       getSubjects();
 
     async function getClasses(){
+      num1=1
       const {data} = await api.get('/classes');
       setClasseslist(data.data);
     }
@@ -39,7 +42,8 @@ export default function AddResumes(){
         getGuardians(tmp);
     };*/
 
-    async function getSubjects(tmp){
+    async function getSubjects(){
+      num2=0
       const {data} = await api.get('/school-subjects');
       setSubjectslist(data);
     }
@@ -48,11 +52,13 @@ export default function AddResumes(){
       //console.log(subject,classes)
       console.log(subject.id,classes.class_id)
       api.post('/resumes',{school_subject_id:subject.id,class_id:classes.class_id});
+      setSubject(null)
+      setClasses(null)
     }
 
     return (
       <>
-      <Header title='Criar resumo'/>
+      <Header title='Criar Currículo'/>
       <div>
       
          
@@ -80,8 +86,8 @@ export default function AddResumes(){
       />
 
       <div className="margTop">
-        <Button variant="outlined" color="primary" onClick={submit}>
-          Criar Resumo
+        <Button variant="outlined" color="primary" onClick={submit} disabled={(classes===null || subject===null)? true:false}>
+          Criar Currículo
         </Button>
       </div>
 

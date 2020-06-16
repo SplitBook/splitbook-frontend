@@ -42,6 +42,8 @@ export default function SearchPhysicalBook(){
     async function generateOneQRCode(id){
       const {data} = await api.get('/generate/qr-codes?codes='+id);
       console.log(data);
+      var fileDownload = require('js-file-download');
+      fileDownload(data,'file.csv');
     }
     const handleChangeState = (event) => {
       setState(event)
@@ -56,11 +58,13 @@ export default function SearchPhysicalBook(){
   const [state,setState] = React.useState(0);
 
   async function getList(){
+    bool=false
     const {data} = await api.get('/book-states')
     setBookstates(data)
   }
 
-  if(bookstates.length===0){
+  var bool=true
+  if(bookstates.length===0 && bool){
     getList()
   }
 
@@ -88,19 +92,25 @@ export default function SearchPhysicalBook(){
       );
     }
 
-    async function getLocations(){
-      const {data} = await api.get('/book-locations')
-      setLocationList(data)
-    }
+    
 
     const [locationList,setLocationList] = React.useState([]);
     const [location,setLocation] = React.useState(0);
     const [description,setDescription] = React.useState('');
+    const [bool2,setBool2] = React.useState(true);
 
+    async function getLocations(){
+      setBool2(false)
+      const {data} = await api.get('/book-locations')
+      setLocationList(data)
+    }
 
-    if(locationList.length===0){
+    
+    if(locationList.length===0 && bool2){
       getLocations()
     }
+
+    
   
       function SelectLocation({id}) {
         if(location===0)

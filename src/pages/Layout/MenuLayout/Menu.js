@@ -14,6 +14,7 @@ import AccountBox from '@material-ui/icons/AccountBox';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import SyncAlt from '@material-ui/icons/SyncAlt';
 import VpnKey from '@material-ui/icons/VpnKey';
+import Description from '@material-ui/icons/Description';
 import Star from '@material-ui/icons/Star';
 import AddLocation from '@material-ui/icons/AddLocation';
 import AccessTime from '@material-ui/icons/AccessTime';
@@ -143,6 +144,9 @@ const handleClick4 = () => {
       aria-labelledby="nested-list-subheader"
       className={classes.root}
     >
+    {
+
+      (group==='Encarregado de Educação' || group==='Professor') &&
     <Link to="/app/home" >
       <ListItem button >
         <ListItemIcon >
@@ -151,6 +155,8 @@ const handleClick4 = () => {
         <ListItemText primary="Minhas requisições" className="BtnMenu"/>
       </ListItem>
     </Link>
+    }
+    
     <Link to="/app/new/request">
       <ListItem button>
         <ListItemIcon>
@@ -201,6 +207,14 @@ const handleClick4 = () => {
               <ListAlt />
             </ListItemIcon>
             <ListItemText primary="Turmas" />
+          </ListItem>
+        </Link>
+        <Link to="/app/add/resume">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <Description />
+            </ListItemIcon>
+            <ListItemText primary="Criar Curriculos" />
           </ListItem>
         </Link>
         <Link to="/app/books/states">

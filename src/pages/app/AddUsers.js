@@ -18,10 +18,10 @@ export default function AddUsers(){
     const [admin, setAdmin] = React.useState(false);
     const token = Cookies.get('token');
     var decoded = jwt_decode(token)
-    const [username, setUsername] = React.useState(null);
-    const [email, setEmail] = React.useState(null);
-    const [born_date, setBorn_date] = React.useState(null);
-    const [phone, setPhone] = React.useState(null);
+    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [born_date, setBorn_date] = React.useState('');
+    const [phone, setPhone] = React.useState('');
 
     function fileUpload(e){
       //setFileimg(e.target.files[0])
@@ -73,15 +73,23 @@ export default function AddUsers(){
       }
       catch(error){
         alert('Erro! Preencha corretamente os campos!')
-        setBorn_date(null)
-        setEmail(null)
-        setPhone(null)
-        setUsername(null)
+        setBorn_date('')
+        setEmail('')
+        setPhone('')
+        setUsername('')
+        setAdmin(false)
+        setGuardian(false)
+        setInstructor(false)
+        setTeacher(false)
       }
-      setBorn_date(null)
-      setEmail(null)
-      setUsername(null)
-      setPhone(null)
+      setBorn_date('')
+      setEmail('')
+      setUsername('')
+      setPhone('')
+      setAdmin(false)
+      setGuardian(false)
+      setInstructor(false)
+      setTeacher(false)
     }
 
     return (
@@ -149,6 +157,7 @@ export default function AddUsers(){
                   checked={instructor}
                   color="primary"
                   onChange={handleChangeInstructor}
+                  disabled={admin}
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
                 />
                 Secretaria
@@ -158,6 +167,7 @@ export default function AddUsers(){
                   checked={admin}
                   color="primary"
                   onChange={handleChangeAdmin}
+                  disabled={instructor}
                   inputProps={{ 'aria-label': 'secondary checkbox' }}
                   //disabled={(instructor || teacher)? false:true}
                 />
@@ -169,7 +179,7 @@ export default function AddUsers(){
         </Grid>
         </div>
         <div className="margTop">
-          <Button variant="outlined" color="primary" onClick={submit}>
+          <Button variant="outlined" color="primary" onClick={submit} disabled={(username==='' || email==='' || (!teacher && !instructor && !guardian && !admin))?true:false}>
             Adicionar Utilizador
           </Button>
         </div>

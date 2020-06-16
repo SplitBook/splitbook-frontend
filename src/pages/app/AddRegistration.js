@@ -16,11 +16,13 @@ export default function AddRegistration(){
     const [guardianList, setGuardianList] = React.useState([]);
     const [classeslist, setClasseslist] = React.useState([]);
     const [studentlist, setStudentList] = React.useState([]);
+    var num = 0;
 
-    if(classeslist.length===0)
+    if(classeslist.length===0 && num===0)
       getClasses();
 
     async function getClasses(){
+      num=1
       const {data} = await api.get('/classes');
       setClasseslist(data.data);
     }
@@ -60,8 +62,11 @@ export default function AddRegistration(){
 
     async function submit(){
       //console.log(guardian,student,classes)
-      console.log(guardian.id,student.id,classes.id)
-      const {data} = await api.post('/school-enrollments',{guardian_id:guardian.id,student_id:student.id,class_id:classes.id});
+      console.log(guardian.id,student.id,classes.class_id)
+      const {data} = await api.post('/school-enrollments',{guardian_id:guardian.id,student_id:student.id,class_id:classes.class_id});
+      setClasses(null)
+      setGuardian(null)
+      setstudent(null)
     }
 
     return (
@@ -104,7 +109,7 @@ export default function AddRegistration(){
       />
 
       <div className="margTop">
-        <Button variant="outlined" color="primary" onClick={submit}>
+        <Button variant="outlined" color="primary" onClick={submit} disabled={(classes===null || guardian===null || student===null)? true:false}>
           Criar matrícula
         </Button>
       </div>

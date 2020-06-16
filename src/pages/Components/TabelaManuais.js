@@ -31,8 +31,8 @@ export default function TableManuais() {
   
   const [state, setState] = React.useState({
     columns: [
-      { title: 'ISBN', field: 'isbn'},
-      { title: 'Código', field: 'code' },
+      { title: 'ISBN', field: 'isbn',editable: 'never'},
+      { title: 'Código', field: 'code',editable: 'never'},
       { title: 'Disciplina', field: 'name' },
       { title: 'Editora', field: 'publishing_company'},
       { title: 'Capa', field: 'cover',render: rowData => (     
@@ -100,8 +100,8 @@ export default function TableManuais() {
     console.log(data);
   }
 
-  async function addBooks(isbn,code,name){
-    const {data} = await api.post('/books',{isbn:isbn,name:name,code:code});
+  async function addBooks(isbn,code,name,publishing_company){
+    const {data} = await api.post('/books',{isbn:isbn,name:name,code:code,publishing_company:publishing_company});
     console.log(data);
   }
 
@@ -134,7 +134,7 @@ export default function TableManuais() {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
-                addBooks(newData.isbn,newData.code,newData.name);
+                addBooks(newData.isbn,newData.code,newData.name,newData.publishing_company);
                 const data = [...prevState.data];
                 data.push(newData);
                 return { ...prevState, data };

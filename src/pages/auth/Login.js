@@ -15,6 +15,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import PersonIcon from '@material-ui/icons/Person';
 import { blue } from '@material-ui/core/colors';
+import jwt_decode from 'jwt-decode';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -45,7 +46,13 @@ function SimpleDialog(props) {
         const {data} = await api.post('/login/profile',{profile_id:id,charge:charge,token:Cookies.get('tokenLogin')});
         console.log(data)
         Cookies.set('token',data.token,{ expires: 7 });
-        history.push('/app/home')
+        var decoded = jwt_decode(data.token)
+        if(decoded.charge==='Encarregado de Educação' || decoded.charge==='Professor')
+            history.push('/app/home')
+        else{
+            history.push('/app/requests')
+        }
+   
     }
     
     function setInfoAndCharge(){
@@ -118,7 +125,12 @@ export default function Login({ history,props}){
                 Cookies.set('token',data2.data.token,{ expires: 7 });
                 console.log("Ei there!",Cookies.get('token'),data2)
                 localStorage.setItem('name',data.user.username)
-                history.push('/app/home')
+                var decoded = jwt_decode(data2.data.token)
+                if(decoded.charge==='Encarregado de Educação' || decoded.charge==='Professor')
+                    history.push('/app/home')
+                else{
+                    history.push('/app/requests')
+                }
             }     
         }
         catch(Error){
