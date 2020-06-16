@@ -1,22 +1,12 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import api from '../../services/api';
-import Button from '@material-ui/core/Button';
-import AddBox from '@material-ui/icons/AddBox';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import './ComponentsStyles.css';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 import Cookies from 'js-cookie';
 
 
 
 export default function TableTheClasses() {
-  const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     columns: [
       { title: 'Turma ID', field: 'class_id',editable: 'never'},
@@ -29,15 +19,10 @@ export default function TableTheClasses() {
     data: [],
   });
 
-  async function deleteClasses(id){
-    const {data} = await api.delete('/general-classe/'+id);
-    console.log(data);
-  }
+  async function deleteClasses(class_id,school_year_id){
+    const {data} = await api.delete('/classe/'+class_id+'/'+school_year_id);
+    console.log(data);  }
 
-  async function EditClasses(classname,id){
-    const {data} = await api.post('/general-classe/'+id,{class:classname,active:false});
-    console.log(data);
-  }
 
 
   return (
@@ -69,7 +54,7 @@ export default function TableTheClasses() {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
-                deleteClasses(oldData.id)
+                deleteClasses(oldData.class_id,oldData.school_year_id)
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };
