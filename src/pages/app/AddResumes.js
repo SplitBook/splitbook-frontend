@@ -29,21 +29,8 @@ export default function AddResumes(){
       setClasseslist(data.data);
     }
 
-    /*const sleep = (milliseconds) => {
-      return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }*/
-
-    /*const handlerAutoCompleteGuardians = (event) => {
-      console.log(event.target.value)
-      sleep(300);
-      var tmp = "";
-      tmp = event.target.value;
-      if(tmp.length>2)
-        getGuardians(tmp);
-    };*/
-
     async function getSubjects(){
-      num2=0
+      num2=1
       const {data} = await api.get('/school-subjects');
       setSubjectslist(data);
     }

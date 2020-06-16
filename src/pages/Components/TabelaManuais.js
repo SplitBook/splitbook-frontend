@@ -87,14 +87,6 @@ export default function TableManuais() {
     console.log("file::: ",fileimg);
   }
 
-  //if(state.data)
-    //getBooks();
-
-  async function getBooks(){
-    const {data} = await api.get('/books');
-    state.data=data.data;
-  }
-
   async function deleteBooks(isbn){
     const {data} = await api.delete('/books/'+isbn);
     console.log(data);

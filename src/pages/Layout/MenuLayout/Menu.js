@@ -201,6 +201,14 @@ const handleClick4 = () => {
             <ListItemText primary="Disciplinas" />
           </ListItem>
         </Link>
+        <Link to="/app/general/classes">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <ListAlt />
+            </ListItemIcon>
+            <ListItemText primary="Turmas (Geral)" />
+          </ListItem>
+        </Link>
         <Link to="/app/classes">
           <ListItem button className={classes.nested}>
             <ListItemIcon>

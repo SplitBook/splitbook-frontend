@@ -21,6 +21,7 @@ import AddResumes from '../pages/app/AddResumes';
 import SearchPhysicalBook from '../pages/app/SearchPhysicalBook';
 import BookStates from '../pages/app/BookStates';
 import BooksLocations from '../pages/app/BooksLocations';
+import Classes from '../pages/app/Classes';
 
 
 export default function RoutesLayout({history}){
@@ -40,7 +41,8 @@ export default function RoutesLayout({history}){
                     <Route path="/app/add/user" component={AddUsers}/>
                     <Route path="/app/add/student" component={AddStudent}/>
                     <Route path="/app/add/registration" component={AddRegistration}/>
-                    <Route path="/app/classes" component={GeneralClasses}/>
+                    <Route path="/app/general/classes" component={GeneralClasses}/>
+                    <Route path="/app/classes" component={Classes}/>
                     <Route path="/app/add/resume" component={AddResumes}/>
                     <Route path="/app/schoolyears" component={SchoolYears}/>
                     <Route path="/app/search/physicalbook" component={SearchPhysicalBook}/>

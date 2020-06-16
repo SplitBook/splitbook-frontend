@@ -20,37 +20,7 @@ export default function MaterialTableDemo({idStatus}) {
   const [id, setID] = React.useState(0)
   const [charge, setCharge] = React.useState('')
   var token = Cookies.get('token');
-  var bool = true;
-
-  if(id===0){
-    var decoded = jwt_decode(token);
-    console.log('decoded token: ',decoded)
-    setID(decoded.profile_id)
-    setCharge(decoded.charge)
-  }
-
-  if(id!==0 && charge!=='' && bool){
-    if(charge==='Encarregado de Educação'){
-      bool=false
-      GuardianRequisitions();
-    }
-    if(charge==='Professor'){
-      bool=false
-      TeacherRequisitions();
-    }
-  }
-
-  async function GuardianRequisitions(){
-    const {data} = await api.get('/requisitions?guardian_id='+id)
-    console.log('GuardianRequisitions',data)
-    state.data=data
-  }
-
-  async function TeacherRequisitions(){
-    const {data} = await api.get('/requisitions?head_class_id='+id)
-    console.log('TeacherRequisitions',data)
-    state.data=data
-  }
+  var decoded = jwt_decode(token);
 
   if(idStatus===1)
   return (
@@ -58,7 +28,28 @@ export default function MaterialTableDemo({idStatus}) {
     <MaterialTable
       title="Requisições"
       columns={state.columns}
-      data={state.data}
+      data={query =>
+        new Promise((resolve, reject) => {
+          let url = ''
+          if(decoded.charge==='Encarregado de Educação')
+            url += 'http://localhost:8085/requisitions?guardian_id='+decoded.profile_id
+          else
+            url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
+          //url += 'limite=' + query.pageSize
+          url += '&page=' + (query.page + 1)
+          console.log("URL??",url)
+          fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+            .then(response => response.json())
+            .then(result => {
+              resolve({
+                data: result.data,
+                page: result.page - 1,
+                totalCount: result.total,
+                
+              })
+            })
+        })
+      }
       editable={{
           onRowDelete: (oldData) =>
           new Promise((resolve) => {
@@ -80,7 +71,24 @@ export default function MaterialTableDemo({idStatus}) {
       <MaterialTable
         title="Requisições"
         columns={state.columns}
-        data={state.data}
+        data={query =>
+        new Promise((resolve, reject) => {
+          let url = 'http://localhost:8085/requisitions'
+          //url += 'limite=' + query.pageSize
+          url += '?page=' + (query.page + 1)
+          console.log("URL??",url)
+          fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+            .then(response => response.json())
+            .then(result => {
+              resolve({
+                data: result.data,
+                page: result.page - 1,
+                totalCount: result.total,
+                
+              })
+            })
+        })
+      }
       />
     );
   }

@@ -6,7 +6,7 @@ export default function GeneralClasses(){
 
     return (
         <>
-            <Header title='Lista de Turmas'/>
+            <Header title='Lista de Turmas (Geral)'/>
             <TableClasses/>
         </>
     );
