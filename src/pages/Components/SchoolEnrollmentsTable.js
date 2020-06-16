@@ -1,41 +1,43 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import jwt_decode from 'jwt-decode';
-import Cookies from 'js-cookie';
 import api from '../../services/api';
+import './ComponentsStyles.css';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 
-export default function MaterialTableDemo({idStatus}) {
+
+
+export default function SchoolEnrollmentsTable() {
+  const token = Cookies.get('token');
+  var decoded = jwt_decode(token)
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Nº Aluno', field: 'num'},
-      { title: 'Disciplina', field: 'disciplina' },
-      { title: 'Ano', field: 'ano'},
-      {title: 'OBS:', field:'obs'},
-    ],
-    data: [
-      /*{ num: 349, disciplina: 'Matemática A', ano: 12, obs: 'N/D' },
-      { num: 599, disciplina: 'Português', ano: 12, obs: 'N/D'},*/
-    ],
-  });
-  const [id, setID] = React.useState(0)
-  const [charge, setCharge] = React.useState('')
-  var token = Cookies.get('token');
-  var decoded = jwt_decode(token);
+      { title: 'ID', field: 'id'},
+      { title: 'Nome E.E', field: 'guardian_name' },
+      { title: 'Ano escolar', field: 'school_year' },
+      { title: 'Nome aluno', field: 'student_name' },
+      { title: 'Nº Aluno', field: 'student_number' },
+      { title: 'Turma', field: 'class' },
 
-  if(idStatus===1)
+    ],
+    data: [],
+  });
+
+  function deleteClasses(id){
+    api.delete('/school-enrollments/'+id);
+  }
+
+
+  if(decoded.charge === 'Administrador')
   return (
     <>
     <MaterialTable
-      title="Requisições"
+      title=" "
       columns={state.columns}
       data={query =>
         new Promise((resolve, reject) => {
-          let url = ''
-          if(decoded.charge==='Encarregado de Educação')
-            url += 'http://localhost:8085/requisitions?guardian_id='+decoded.profile_id
-          else
-            url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
-          url += '&limite=' + query.pageSize
+          let url = 'http://localhost:8085/school-enrollments'
+          url += '?limite=' + query.pageSize
           url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
@@ -50,12 +52,13 @@ export default function MaterialTableDemo({idStatus}) {
             })
         })
       }
-      editable={{
-          onRowDelete: (oldData) =>
+        editable={{
+        onRowDelete: (oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
+                deleteClasses(oldData.id)
                 const data = [...prevState.data];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };
@@ -63,22 +66,22 @@ export default function MaterialTableDemo({idStatus}) {
             }, 600);
           }),
       }}
+      
+      
     />
+    
     </>
   );
-  else{
-    return (
-      <MaterialTable
-        title="Requisições"
-        columns={state.columns}
-        data={query =>
+  else
+  return (
+    <>
+    <MaterialTable
+      title=" "
+      columns={state.columns}
+      data={query =>
         new Promise((resolve, reject) => {
-          let url = ''
-          if(decoded.charge==='Encarregado de Educação')
-            url += 'http://localhost:8085/requisitions?guardian_id='+decoded.profile_id
-          else
-            url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
-          url += '&limite=' + query.pageSize
+          let url = 'http://localhost:8085/school-enrollments'
+          url += '?limite=' + query.pageSize
           url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
@@ -92,8 +95,9 @@ export default function MaterialTableDemo({idStatus}) {
               })
             })
         })
-      }
-      />
-    );
-  }
+      }  
+    />
+    
+    </>
+  );
 }

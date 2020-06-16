@@ -122,8 +122,8 @@ export default function TableManuais() {
       data={query =>
         new Promise((resolve, reject) => {
           let url = 'http://localhost:8085/books'
-          //url += 'limite=' + query.pageSize
-          url += '?page=' + (query.page + 1)
+          url += '?limite=' + query.pageSize
+          url += '&page=' + (query.page + 1)
           console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())

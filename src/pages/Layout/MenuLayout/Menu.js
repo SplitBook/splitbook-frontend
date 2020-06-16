@@ -351,6 +351,14 @@ const handleClick4 = () => {
               <ListItemText primary="Criar Matriculas" />
             </ListItem>
           </Link>
+          <Link to="/app/registrations">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <FindInPage />
+              </ListItemIcon>
+              <ListItemText primary="Consultar Matriculas" />
+            </ListItem>
+          </Link>
         </List>
       </Collapse>
       

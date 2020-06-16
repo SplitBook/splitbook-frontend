@@ -31,6 +31,7 @@ export default function Routes(){
                         <Route path="/app/add/user" component={App}/>
                         <Route path="/app/add/student" component={App}/>
                         <Route path="/app/add/registration" component={App}/>
+                        <Route path="/app/registrations" component={App}/>
                         <Route path="/app/general/classes" component={App}/>
                         <Route path="/app/schoolyears" component={App}/>
                         <Route path="/app/add/resume" component={App}/>
