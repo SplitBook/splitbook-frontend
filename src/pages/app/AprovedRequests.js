@@ -3,9 +3,17 @@ import MaterialTable from 'material-table';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Header from '../Components/Header';
+import Cookies from 'js-cookie';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import Slide from '@material-ui/core/Slide';
+import DialogActions from '@material-ui/core/DialogActions';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+      return <Slide direction="up" ref={ref} {...props} />;
+    });
+
 
 
 export default function AprovedRequests() {
@@ -18,25 +26,31 @@ export default function AprovedRequests() {
             { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
       ]);
 
+      const [reqId, setReqId] = React.useState(0);
+      const [openBookList, setOpenBookList] = React.useState(false);
       const handleChange = (value) => {
-            //alert(value)
-            setTxt(value);
-            setOpen(true);
+            console.log("req id",value)
+            setReqId(value);
+            setOpenBookList(true);
       };
 
       const handleClose = () => {
-            setOpen(false);
+            setOpenBookList(false)
       };
 
-      function TxtList(props) {
-            const listatxt = props.txt;
-            const listItems = listatxt.map((texto) =>
-            <li>{texto}</li>
-            );
-            return (
-            <ul className="mLeft">{listItems}</ul>
-            );
+      const [photo_photo, setPhoto_photo] = React.useState('');
+      const [openPhoto, setOpenPhoto] = React.useState(false);
+
+      function openImg(path){
+      console.log(path)
+      setPhoto_photo(path)
+      setOpenPhoto(true);
       }
+
+      const handleCloseIMG = () => {
+            setOpenPhoto(false);
+      };  
+
 
   const tableRef = React.createRef();
   return (
@@ -46,40 +60,103 @@ export default function AprovedRequests() {
             <MaterialTable
                   title="Lista de Requisitos"
                   columns={[
-                  { title: 'ID', field: 'id' },
-                  { title: 'EE', field: 'ee' },
-                  { title: 'Nº Aluno', field: 'naluno'},
-                  { title: 'Nome Aluno', field: 'nomealuno'},
-                  { title: 'Ano', field: 'ano'},
-                  { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
-                        <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
-                  ),},
+                        { title: 'ID', field: 'id' },
+                        { title: 'EE', field: 'guardian_name' },
+                        { title: 'Nº Aluno', field: 'student_number'},
+                        { title: 'Nome Aluno', field: 'student_name'},
+                        { title: 'Turma', field: 'class'},
+                        { title: 'Ano letivo', field: 'school_year'},
+                        { title: 'Mais informações', field: 'listalivros',render: rowData => (        
+                              <Button onClick={() => handleChange(rowData.id)}>Consultar</Button>
+                        ),},
                   ]}
                   tableRef={tableRef}
-                  data={state}
-                  actions={[
-                  {
-                  icon: 'refresh',
-                  tooltip: 'Refresh Data',
-                  isFreeAction: true,
-                  onClick: () => tableRef.current ,
+                  data={query =>
+                        new Promise((resolve, reject) => {
+                        let url = 'http://localhost:8085/requisitions?state_id=2'
+                        url += '&limit=' + query.pageSize
+                        url += '&page=' + (query.page + 1)
+                        fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+                        .then(response => response.json())
+                        .then(result => {
+                              resolve({
+                              data: result.data,
+                              page: result.page - 1,
+                              totalCount: result.total,
+                              })
+                        })
+                        })
                   }
+                  actions={[
+                        {
+                        icon: 'refresh',
+                        tooltip: 'Atualizar informação',
+                        isFreeAction: true,
+                        onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+                        }
                   ]}
                   
             />
+
             <Dialog
-            open={open}
-            onClose={handleClose}
+            open={openBookList}
+            //onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             >
-            <DialogTitle id="alert-dialog-title">Lista de Livros</DialogTitle>
+            <DialogTitle id="alert-dialog-title">Lista de Livros requisitados</DialogTitle>
             <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-                  <TxtList txt={txt} />
-            </DialogContentText>
+            <MaterialTable
+                  title=" "
+                  columns={[
+                  { title: 'Id', field: 'id'},
+                  { title: 'Nome', field: 'name'},
+                  { title: 'ISBN', field: 'isbn' },
+                  { title: 'Capa', field: 'cover',render: rowData => (     
+                  <>
+                  <ImageOutlined onClick={() => openImg(rowData.cover)} className="pointer"/>
+                  </>
+                  )},
+      
+            ]}
+                  data={query =>
+                  new Promise((resolve, reject) => {
+                  console.log('ID req::',reqId)
+                  let url = 'http://localhost:8085/requisitions/'+reqId
+                  console.log('url::',url)
+                  fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+                  .then(response => response.json())
+                  .then(result => {
+                        resolve({
+                        data: result.book_requisitions,
+                        
+                        })
+                  })
+                  })
+            }
+            />
             </DialogContent>
+            <DialogActions>
+            <Button onClick={handleClose} color="primary">
+                  Sair
+            </Button>
+            </DialogActions>
+
             </Dialog>
+
+            <Dialog
+                  open={openPhoto}
+                  onClose={handleCloseIMG}
+                  TransitionComponent={Transition}
+                  aria-labelledby="alert-dialog-slide-title"
+                  aria-describedby="alert-dialog-slide-description"
+                  >
+                  <DialogTitle id="alert-dialog-slide-title">Visualização da capa do livro</DialogTitle>
+                  <DialogContent>
+                        <img src={photo_photo} alt="capa do livro"/>
+                  </DialogContent>
+            </Dialog>
+
     </>
   );
 }

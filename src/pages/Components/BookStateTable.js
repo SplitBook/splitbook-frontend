@@ -7,6 +7,7 @@ import api from '../../services/api';
 export default function BookStateTable() {
   const [state, setState] = React.useState({
     columns: [
+      { title: 'ID', field: 'id',editable: 'never' },
       { title: 'Estado', field: 'state' },
     ],
     data: [],
@@ -32,7 +33,7 @@ export default function BookStateTable() {
   }
 
   async function EditStates(state,id){
-    const {data} = await api.post('/requisition-states/'+id,{state:state});
+    const {data} = await api.put('/requisition-states/'+id,{state:state});
     console.log(data);
   }
 
@@ -44,7 +45,7 @@ export default function BookStateTable() {
       columns={state.columns}
       data={state.data}
       editable={{
-        onRowAdd: (newData) =>
+        /*onRowAdd: (newData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
@@ -56,7 +57,7 @@ export default function BookStateTable() {
                 return { ...prevState, data };
               });
             }, 600);
-          }),
+          }),*/
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
@@ -71,7 +72,7 @@ export default function BookStateTable() {
               }
             }, 600);
           }),
-        onRowDelete: (oldData) =>
+        /*onRowDelete: (oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
@@ -82,7 +83,7 @@ export default function BookStateTable() {
                 return { ...prevState, data };
               });
             }, 600);
-          }),
+          }),*/
       }}
     />
     </>

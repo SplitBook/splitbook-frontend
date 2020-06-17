@@ -96,9 +96,6 @@ export default function NovoRequisito(){
     }
 
     const [open, setOpen] = React.useState(false);
-
-    
-
     const [studentOfList,setStudentOfList] = React.useState(null);
     const [studentsList,setStudentsList] = React.useState([]);
 

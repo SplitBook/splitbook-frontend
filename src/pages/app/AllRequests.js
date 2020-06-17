@@ -10,46 +10,48 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import './AppStyles.css';
 import Header from '../Components/Header';
+import Cookies from 'js-cookie';
+import api from '../../services/api';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import Slide from '@material-ui/core/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+      return <Slide direction="up" ref={ref} {...props} />;
+    });
 
 export default function AllRequests() {
-
 
   const [state, setState] = React.useState({
         columns:[
             { title: 'ID', field: 'id' },
-            { title: 'EE', field: 'ee' },
-            { title: 'Nº Aluno', field: 'naluno'},
-            { title: 'Nome Aluno', field: 'nomealuno'},
-            { title: 'Ano', field: 'ano'},
-            { title: 'Lista de Livros', field: 'listalivros',render: rowData => (        
-                  <Button onClick={() => handleChange(rowData.listalivros)}>Consultar</Button>
+            { title: 'EE', field: 'guardian_name' },
+            { title: 'Nº Aluno', field: 'student_number'},
+            { title: 'Nome Aluno', field: 'student_name'},
+            { title: 'Turma', field: 'class'},
+            { title: 'Ano letivo', field: 'school_year'},
+            { title: 'Mais informações', field: 'listalivros',render: rowData => (        
+                  <Button onClick={() => handleChange(rowData.id)}>Consultar</Button>
             ),},
-            ],
-        data:[
-            { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
-            { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
-            { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
-      ]
+            ]
   });
   const [obs, setObs] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [open1, setOpen1] = React.useState(false);
   const [dataDeletedRow, setDataDeletedRow] = React.useState({});
   const [showWarning, setShowWarning] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  //rowData.listalivros
-  const [txt, setTxt] = React.useState({});
 
+  const [reqId, setReqId] = React.useState(0);
+  const [openBookList, setOpenBookList] = React.useState(false);
   const handleChange = (value) => {
-      //alert(value)
-      setTxt(value);
-      setOpen1(true);
-  };
+      console.log("req id",value)
+      setReqId(value);
+      setOpenBookList(true);
+    };
 
   const handleClose = () => {
-      setOpen1(false);
+      setOpenBookList(false)
   };
 
   const handleClose1 = () => {
@@ -71,20 +73,35 @@ export default function AllRequests() {
       
   };
 
-  const handleChangeObs = (event) => {
-      setObs(event.target.value)
-      console.log(event.target.value)
+      const handleChangeObs = (event) => {
+            setObs(event.target.value)
+            console.log(event.target.value)
       };
 
-      function TxtList(props) {
-            const listatxt = props.txt;
-            const listItems = listatxt.map((texto) =>
-              <li>{texto}</li>
-            );
-            return (
-              <ul className="mLeft">{listItems}</ul>
-            );
+      const handleCloseIMG = () => {
+            setOpenPhoto(false);
+      };  
+        
+ 
+      async function EditRequisition(data){
+            //console.log(data)
+            api.put('/requisitions/'+data.id,{state_id:2})
       }
+
+      async function DenyRequistion(data){
+            api.put('/requisitions/'+data.id,{state_id:3})
+      }
+
+      const [photo_photo, setPhoto_photo] = React.useState('');
+      const [openPhoto, setOpenPhoto] = React.useState(false);
+
+      function openImg(path){
+      console.log(path)
+      setPhoto_photo(path)
+      setOpenPhoto(true);
+      }
+
+      const tableRef = React.createRef();
 
   return (
         <>
@@ -92,24 +109,50 @@ export default function AllRequests() {
 
             <MaterialTable
                   title="Lista de Requisitos"
+                  tableRef={tableRef}
                   columns={state.columns}
-                  data={state.data}
+                  data={query =>
+                        new Promise((resolve, reject) => {
+                        let url = 'http://localhost:8085/requisitions?state_id=1'
+                        url += '&limit=' + query.pageSize
+                        url += '&page=' + (query.page + 1)
+                        fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+                        .then(response => response.json())
+                        .then(result => {
+                              resolve({
+                              data: result.data,
+                              page: result.page - 1,
+                              totalCount: result.total,
+                              })
+                        })
+                        })
+                  }
                   actions={[
                         {
                         icon: 'done',
                         tooltip: 'Aceitar pedido',
-                        onClick: (event, rowData) => alert("You saved " + rowData.name)
+                        onClick: (event, rowData) => EditRequisition(rowData) && tableRef.current && tableRef.current.onQueryChange()
+                        },
+                        {
+                        icon: 'refresh',
+                        tooltip: 'Atualizar informação',
+                        isFreeAction: true,
+                        onClick: () => tableRef.current && tableRef.current.onQueryChange(),
                         }
                   ]}
                   editable={{
-                  onRowDelete: (oldData) =>
-                  new Promise((resolve) => {
-                        setTimeout(() => {
-                        resolve();
-                        setDataDeletedRow(oldData)
-                        setOpen(true);
-                        }, 600);
-                  }),
+                        onRowDelete: (oldData) =>
+                        new Promise((resolve) => {
+                              setTimeout(() => {
+                              resolve();
+                              setState((prevState) => {
+                              DenyRequistion(oldData.id)
+                              const data = [...prevState.data];
+                              data.splice(data.indexOf(oldData), 1);
+                              return { ...prevState, data };
+                              });
+                              }, 600);
+                        }),
                   }}
             />
             
@@ -119,7 +162,7 @@ export default function AllRequests() {
                   open={open}
                   aria-labelledby="responsive-dialog-title"
                   >
-                  <DialogTitle id="responsive-dialog-title">Tem a certeza que pretende eliminar a requsição</DialogTitle>
+                  <DialogTitle id="responsive-dialog-title">Tem a certeza que pretende eliminar a requisição</DialogTitle>
                   <DialogContent>          
                   <DialogContentText>
                         <b>ID:</b> {dataDeletedRow.id}<br/>
@@ -142,22 +185,67 @@ export default function AllRequests() {
                   </Button>
                   </DialogActions>
                   </Dialog>
-
-                  <Dialog
-                  open={open1}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                  >
-                  <DialogTitle id="alert-dialog-title">Lista de Livros</DialogTitle>
-                  <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                        <TxtList txt={txt} />
-                  </DialogContentText>
-                  </DialogContent>
-                  </Dialog>
                   
             </div>
+
+            <Dialog
+            open={openBookList}
+            //onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            >
+            <DialogTitle id="alert-dialog-title">Lista de Livros requisitados</DialogTitle>
+            <DialogContent>
+            <MaterialTable
+                  title=" "
+                  columns={[
+                  { title: 'Id', field: 'id'},
+                  { title: 'Nome', field: 'name'},
+                  { title: 'ISBN', field: 'isbn' },
+                  { title: 'Capa', field: 'cover',render: rowData => (     
+                  <>
+                  <ImageOutlined onClick={() => openImg(rowData.cover)} className="pointer"/>
+                  </>
+                  )},
+      
+            ]}
+                  data={query =>
+                  new Promise((resolve, reject) => {
+                  console.log('ID req::',reqId)
+                  let url = 'http://localhost:8085/requisitions/'+reqId
+                  console.log('url::',url)
+                  fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+                  .then(response => response.json())
+                  .then(result => {
+                        resolve({
+                        data: result.book_requisitions,
+                        
+                        })
+                  })
+                  })
+            }
+            />
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={handleClose} color="primary">
+                  Sair
+            </Button>
+            </DialogActions>
+
+            </Dialog>
+
+            <Dialog
+                  open={openPhoto}
+                  onClose={handleCloseIMG}
+                  TransitionComponent={Transition}
+                  aria-labelledby="alert-dialog-slide-title"
+                  aria-describedby="alert-dialog-slide-description"
+                  >
+                  <DialogTitle id="alert-dialog-slide-title">Visualização da capa do livro</DialogTitle>
+                  <DialogContent>
+                        <img src={photo_photo} alt="capa do livro"/>
+                  </DialogContent>
+            </Dialog>
     </>
   );
 }

@@ -13,16 +13,7 @@ export default function MainPageEE({props}){
     return (
       <>
       <Header title='As minhas requisições'/>
-      <div>
-        <Grid container spacing={2}>
-          <Grid item sm>
-            <Table idStatus={idStatus}/>
-          </Grid>
-          <Grid item xs>
-            <Card idStatus={idStatus}/>
-          </Grid>
-        </Grid>  
-      </div>
+      <Table idStatus={idStatus}/>
       </>
       );
 
