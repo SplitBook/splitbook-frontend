@@ -122,7 +122,7 @@ export default function NovoRequisito(){
       };
 
       async function getTeachersStudents(tmp){
-        //const {data} = await api.get('/school-enrollments?search=',tmp);
+        //const {data} = await api.get('/school-enrollments?search='+tmp);
         //setStudentsList(data.data);
         //console.log(studentsList)
         alert('Á espera de saber como ir buscar a lista de alunos da turma do prof logado!');

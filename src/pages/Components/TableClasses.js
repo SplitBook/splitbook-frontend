@@ -85,7 +85,7 @@ export default function TableClasses() {
   };
 
   async function getTeachers(tmp){
-    const {data} = await api.get('/teachers?search=',tmp);
+    const {data} = await api.get('/teachers?search='+tmp);
     setTeacherlist(data.data);
     console.log(teacherlist)
   }

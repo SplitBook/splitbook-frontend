@@ -16,6 +16,11 @@ import Typography from '@material-ui/core/Typography';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Checkbox from '@material-ui/core/Checkbox';
+import api from '../../services/api';
+import TextField from '@material-ui/core/TextField';
+import MaterialTable from 'material-table';
+import Cookies from 'js-cookie';
+
 
 
 
@@ -38,28 +43,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-var livrosdisponiveis = [
-  {select:false,id: 1,isbn: "192-9472-12"},
-  {select:false,id: 3,isbn: "192-9472-12"},
-  {select:false,id: 4,isbn: "341-1403-33"},
-  {select:false,id: 5,isbn: "055-1234-15"},
-];
 
 
-const livrosSelecionados = [];
 
 
 function Row(props) {
+
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
   function tmp(row,event){
-    row.select=event;
-    console.log(row,event)
-    livrosdisponiveis.push({select:false,id: 7,isbn: "055-1234-15"});
-    
+    //row.select=event;
+    console.log(row,event) 
   }
+
+  const [numberOfRows, setNumberOfRows] = React.useState(0);
+
 
   return (
     <React.Fragment>
@@ -70,10 +70,9 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.disciplina}
+          {row.isbn}
         </TableCell>
-        <TableCell align="right">{row.nome}</TableCell>
-        <TableCell align="right">{row.ano}</TableCell>
+        <TableCell align="right">{row.name}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -82,31 +81,38 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 Manuais disponiveis:
               </Typography>
-                <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Selecione</TableCell>
-                    <TableCell align="right">id</TableCell>
-                    <TableCell align="right">isbn</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {livrosdisponiveis.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        <Checkbox
-                          value={row.select}
-                          color="primary"
-                          onChange={ e => tmp(row,e.target.checked)}
-                          inputProps={{ 'aria-label': 'secondary checkbox' }}
-                        />
-                      </TableCell>
-                      <TableCell align="right">{row.id}</TableCell>
-                      <TableCell align="right">{row.isbn}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <MaterialTable
+                title=" "
+                columns={[
+                { title: 'ID', field: 'id' },
+                { title: 'Estado', field: 'state' },
+                ]}
+                options={{
+                  selection: true,
+                  selectionProps: rowData => ({
+                    disabled: rowData.id!==null && numberOfRows>0,
+                    color: 'primary'
+                  })
+                }}
+                onSelectionChange={(rows) => setNumberOfRows(rows.length)}
+                data={query =>
+                  new Promise((resolve, reject) => {
+                    let url = 'http://localhost:8085/physical-books?available=true&book_isbn='+row.isbn
+                    url += '&limit=' + query.pageSize
+                    url += '&page=' + (query.page + 1)
+                    fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
+                      .then(response => response.json())
+                      .then(result => {
+                        resolve({
+                          data: result.data,
+                          page: result.page - 1,
+                          totalCount: result.total,
+                          
+                        })
+                      })
+                  })
+                }  
+              />
             </Box>
           </Collapse>
         </TableCell>
@@ -115,16 +121,24 @@ function Row(props) {
   );
 }
 
-const rows = [
-  {disciplina: 'Português',isbn: "192-9472-12",nome: "Dialogos 12",ano:12},
-  {disciplina: 'Inglês',isbn: "192-9472-12",nome: "Hands On",ano:12},
-  {disciplina: 'Educação Fisíca',isbn: "341-1403-33",nome: "Correr para crer",ano:12},
-  {disciplina: 'Programação de Sistemas Informáticos',isbn: "055-1234-15",nome: "Programação C++",ano:12},
-];
 
-export default function BooksDeliveryANDReturnTable({numAluno}) {
+
+export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,guardianName}) {
   const [obs, setObs] = React.useState('');
   const [estado, setEstado] = React.useState();
+
+  const [rows, setRows] = React.useState([]);
+
+  var bool = true
+  if(rows.length===0 && bool)
+    getBookRequisitions()
+
+  async function getBookRequisitions(){
+    bool=false
+    const {data} = await api.get('/requisitions/'+requisitionId)
+    setRows(data.book_requisitions)
+    console.log("data: ",data);
+  }
 
   const handleChangeObs = (event) => {
     setObs(event.target.value)
@@ -133,27 +147,19 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
 
   function Submit(){
     console.log(rows)
-    var lixo = {id: 5,nome: "055-1234-15",isbn: "Programação C++"};
-    rows.push(lixo);
   }
 
-  /*function tmp(json,event){
-    json.estado=event;
-    modifyList(json)
-    console.log("Lista:",rows)
-  }*/
-
-  function modifyList(json){
-    for(var i=0;i<rows.length;i++){
-      if(rows[i].id === json.id){
-        rows[i]=json;
-        break;
-      }
-    }
-  }
 
   return (
     <>
+    <Grid container spacing={2}>
+      <Grid item >
+        <TextField variant="outlined" defaultValue={stdnumber} helperText="Nº de Aluno" disabled/>
+      </Grid>
+      <Grid item >
+        <TextField variant="outlined" defaultValue={guardianName} helperText="Encarregado de Educação" disabled/>
+      </Grid>
+    </Grid>
     <Grid container spacing={2}>
         <Grid item xs={8}>
           <TableContainer component={Paper}>
@@ -161,9 +167,8 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
               <TableHead>
                 <TableRow>
                   <TableCell />
-                  <TableCell>Disciplina</TableCell>
+                  <TableCell>ISBN</TableCell>
                   <TableCell align="right">Nome</TableCell>
-                  <TableCell align="right">Ano</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

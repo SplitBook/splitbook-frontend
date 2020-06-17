@@ -10,11 +10,13 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Header from '../Components/Header';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import api from '../../services/api';
 
 
 export default function BooksDelivery(){
     const [num, setNum] = React.useState(0);
-    const [numAluno, setNumAluno] = React.useState(0);
+    const [requisitionId, setRequisitionId] = React.useState(0);
 
 
     const changeNum = (event) => {
@@ -22,18 +24,16 @@ export default function BooksDelivery(){
       };
 
     const [text, setText] = React.useState('');
-    const changeNumAluno = (event) => {
-        event.preventDefault();
-        setNumAluno(num)
-        console.log("Ei",numAluno)
-        if(!(num>0)){
-          setText('Please enter a valid number!')
-          setOpen(true);
-        }
-      };
+
+    async function submit(value){
+      console.log('value:',value.requisition_id)
+      setStudentOfList(value)
+      setRequisitionId(value.requisition_id)
+    }
 
     //snacbar
     const [open, setOpen] = React.useState(false);
+    const [studentOfList,setStudentOfList] = React.useState();
 
     const handleClose = (event, reason) => {
       if (reason === 'clickaway') {
@@ -42,28 +42,44 @@ export default function BooksDelivery(){
 
       setOpen(false);
     };
-    //
+
+    const [studentsList,setStudentsList] = React.useState([]);
+    const handlerAutoCompleteStudents = (event) => {
+      console.log(event.target.value)
+      var tmp;
+      tmp = event.target.value;
+      if(tmp.length>3)
+          getStudents(tmp);
+    };
+
+    async function getStudents(tmp){
+      console.log('/school-enrollments?search='+tmp)
+      const {data} = await api.get('/school-enrollments?search='+tmp);
+      setStudentsList(data.data);
+      console.log(studentsList)
+    }
 
 
     return (
       <>
         <Header title='Entrega de Livros'/>
-        <form onSubmit={changeNumAluno}>
         <Grid container spacing={2}>
-            <Grid item >
-                <TextField id="outlined-basic" label="Nº Aluno" value={num} onChange={changeNum} variant="outlined" />
-            </Grid>
-            <Grid item >
-                <Tooltip title="Procurar">
-                  <Button className="btnMargin" type="submit" color="primary" >
-                      <Search/>
-                  </Button>
-                </Tooltip>
+            <Grid item>
+              <Autocomplete
+                  options={studentsList}
+                  getOptionLabel={(option) => option.student_name}
+                  style={{ width: 300}}
+                  onChange={(event,newValue) => {
+                    submit(newValue)
+                    console.log(newValue)
+                  }}
+                  disabled={requisitionId>0}
+                  renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteStudents} variant="outlined" />}
+              />
             </Grid>
         </Grid>
-        </form>
 
-        { numAluno>0 && <BooksDeliveryTable numeroAluno={numAluno}/> }
+        { requisitionId>0 && <BooksDeliveryTable requisitionId={requisitionId} stdnumber={studentOfList.student_number} guardianName={studentOfList.guardian_name}/> }
 
         <div>
           <Snackbar

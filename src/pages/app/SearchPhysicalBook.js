@@ -34,7 +34,7 @@ export default function SearchPhysicalBook(){
     };
 
     async function getPhysicalBook(tmp){
-      const {data} = await api.get('/physical-books?search=',tmp);
+      const {data} = await api.get('/physical-books?search='+tmp);
       setPhysicalBookList(data.data);
       console.log(physicalBookList)
     }
