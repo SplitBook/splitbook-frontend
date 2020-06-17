@@ -182,10 +182,6 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
         <Grid item xs={1}>
             <h3><b>Observações:</b></h3>
             <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
-        </Grid>
-    </Grid>
-    <Grid container spacing={2}>
-        <Grid item >
             <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
                 Submeter
             </Button>
