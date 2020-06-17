@@ -124,7 +124,6 @@ export default function TableManuais() {
           let url = 'http://localhost:8085/books'
           url += '?limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
-          console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())
             .then(result => {

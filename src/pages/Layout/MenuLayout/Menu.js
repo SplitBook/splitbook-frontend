@@ -280,6 +280,14 @@ const handleClick4 = () => {
               <ListItemText primary="Reqs. aprovadas" />
             </ListItem>
           </Link>
+          <Link to="/app/requisitions/states">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <ListAlt />
+              </ListItemIcon>
+              <ListItemText primary="Estados (req.)" />
+            </ListItem>
+          </Link>
         </List>
       </Collapse>
 
@@ -430,7 +438,7 @@ const handleClick4 = () => {
         <DialogTitle id="simple-dialog-title">Entrar como:</DialogTitle>
         <List>
             {groups.map((group) => (
-            <ListItem button to="/app/home" onClick={() => handleListItemClick(group.id,group.charge)} key={group}>
+            <ListItem button onClick={() => handleListItemClick(group.id,group.charge)} key={group}>
                 <ListItemAvatar>
                 <Avatar className={classes.avatar}>
                     <PersonIcon />

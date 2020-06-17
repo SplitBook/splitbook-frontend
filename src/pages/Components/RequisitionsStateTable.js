@@ -4,7 +4,7 @@ import api from '../../services/api';
 
 
 
-export default function BookStateTable() {
+export default function RequisitionsStateTable() {
   const [state, setState] = React.useState({
     columns: [
       { title: 'Estado', field: 'state' },
@@ -16,23 +16,23 @@ export default function BookStateTable() {
     getStates();
 
   async function getStates(){
-    const {data} = await api.get('/requisition-states');
+    const {data} = await api.get('/book-states');
     console.log(data);
     state.data=data;
   }
 
   async function deleteStates(id){
-    const {data} = await api.delete('/requisition-states/'+id);
+    const {data} = await api.delete('/book-states/'+id);
     console.log(data);
   }
 
   async function addStates(state){
-    const {data} = await api.post('/requisition-states',{state:state});
+    const {data} = await api.post('/book-states',{state:state});
     console.log(data);
   }
 
   async function EditStates(state,id){
-    const {data} = await api.post('/requisition-states/'+id,{state:state});
+    const {data} = await api.post('/book-states/'+id,{state:state});
     console.log(data);
   }
 

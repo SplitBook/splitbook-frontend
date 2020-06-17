@@ -17,8 +17,7 @@ export default function MaterialTableDemo({idStatus}) {
       { num: 599, disciplina: 'Português', ano: 12, obs: 'N/D'},*/
     ],
   });
-  const [id, setID] = React.useState(0)
-  const [charge, setCharge] = React.useState('')
+  const [statusId, setStatusId] = React.useState(0)
   var token = Cookies.get('token');
   var decoded = jwt_decode(token);
 
@@ -37,7 +36,6 @@ export default function MaterialTableDemo({idStatus}) {
             url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
           url += '&limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
-          console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())
             .then(result => {
@@ -80,7 +78,6 @@ export default function MaterialTableDemo({idStatus}) {
             url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
           url += '&limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
-          console.log("URL??",url)
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())
             .then(result => {
