@@ -172,7 +172,7 @@ const handleClick4 = () => {
         <ListItemIcon>
           <SettingsSystemDaydream />
         </ListItemIcon>
-        <ListItemText primary="Ferramentas II" />
+        <ListItemText primary="Adm. dados" />
         {lista2? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={lista2 && openMenu} timeout="auto" >
@@ -330,7 +330,7 @@ const handleClick4 = () => {
         <ListItemIcon>
           <Settings />
         </ListItemIcon>
-        <ListItemText primary="Ferramentas I" />
+        <ListItemText primary="Ferramentas" />
         {lista1? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={lista1 && openMenu} timeout="auto" >

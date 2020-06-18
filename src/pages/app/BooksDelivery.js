@@ -7,12 +7,15 @@ import TextField from '@material-ui/core/TextField';
 import Header from '../Components/Header';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import api from '../../services/api';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 export default function BooksDelivery(){
     const [num, setNum] = React.useState(0);
     const [requisitionId, setRequisitionId] = React.useState(0);
-
+    const [text, setText] = React.useState('');
+    const [open, setOpen] = React.useState(false);
 
     const changeNum = (event) => {
         setNum(event.target.value)
@@ -21,9 +24,23 @@ export default function BooksDelivery(){
     
 
     async function submit(value){
-      console.log('value:',value.requisition_id)
-      setStudentOfList(value)
-      setRequisitionId(value.requisition_id)
+      console.log(value.requisition_id);
+      if(value.requisition_id===null){
+        setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
+        setOpen(true)
+      }
+      else{
+        try{
+          console.log('value:',value.requisition_id)
+          setStudentOfList(value)
+          setRequisitionId(value.requisition_id)
+        }
+        catch(error){
+          alert(error)
+        }
+      }
+      
+      
     }
 
     //snacbar
@@ -45,6 +62,14 @@ export default function BooksDelivery(){
       setStudentsList(data.data);
       console.log(studentsList)
     }
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen(false);
+    };
 
 
     return (
@@ -68,7 +93,25 @@ export default function BooksDelivery(){
 
         { requisitionId>0 && <BooksDeliveryTable requisitionId={requisitionId} stdnumber={studentOfList.student_number} guardianName={studentOfList.guardian_name}/> }
         
-
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleClose}
+            message={text}
+            action={
+              <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
+        </div>
       </>
     );
 

@@ -209,7 +209,7 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
         setOpen(true)
       }
       catch(error){
-        setText('Por favor verifique se a requisição já foi aceite!')
+        setText('Por favor verifique se a requisição já foi aceite ou entregue!')
         setOpen(true)
       }
     }
