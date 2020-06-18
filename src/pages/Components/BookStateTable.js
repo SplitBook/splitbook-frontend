@@ -17,23 +17,23 @@ export default function BookStateTable() {
     getStates();
 
   async function getStates(){
-    const {data} = await api.get('/requisition-states');
+    const {data} = await api.get('/book-states');
     console.log(data);
     state.data=data;
   }
 
   async function deleteStates(id){
-    const {data} = await api.delete('/requisition-states/'+id);
+    const {data} = await api.delete('/book-states/'+id);
     console.log(data);
   }
 
   async function addStates(state){
-    const {data} = await api.post('/requisition-states',{state:state});
+    const {data} = await api.post('/book-states',{state:state});
     console.log(data);
   }
 
   async function EditStates(state,id){
-    const {data} = await api.put('/requisition-states/'+id,{state:state});
+    const {data} = await api.put('/book-states/'+id,{state:state});
     console.log(data);
   }
 
@@ -45,7 +45,7 @@ export default function BookStateTable() {
       columns={state.columns}
       data={state.data}
       editable={{
-        /*onRowAdd: (newData) =>
+        onRowAdd: (newData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
@@ -57,7 +57,7 @@ export default function BookStateTable() {
                 return { ...prevState, data };
               });
             }, 600);
-          }),*/
+          }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
@@ -72,7 +72,7 @@ export default function BookStateTable() {
               }
             }, 600);
           }),
-        /*onRowDelete: (oldData) =>
+        onRowDelete: (oldData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
@@ -83,7 +83,7 @@ export default function BookStateTable() {
                 return { ...prevState, data };
               });
             }, 600);
-          }),*/
+          }),
       }}
     />
     </>
