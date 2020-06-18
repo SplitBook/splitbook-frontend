@@ -58,10 +58,11 @@ export default function AllRequests() {
       setOpen(false);
   };
 
-  const handleClose2 = () =>{
+  const handleClose2 = (oldData) =>{
       if(obs!==null && obs!==''){
             setOpen(false);
             setState((prevState) => {
+                  DenyRequistion()
                   const data = [...prevState.data];
                   data.splice(data.indexOf(dataDeletedRow), 1);
                   return { ...prevState, data };
@@ -88,8 +89,8 @@ export default function AllRequests() {
             api.put('/requisitions/'+data.id,{state_id:2})
       }
 
-      async function DenyRequistion(data){
-            api.put('/requisitions/'+data.id,{state_id:3})
+      async function DenyRequistion(){
+            api.put('/requisitions/'+dataDeletedRow.id,{state_id:3,reason:obs})
       }
 
       const [photo_photo, setPhoto_photo] = React.useState('');
@@ -145,12 +146,13 @@ export default function AllRequests() {
                         new Promise((resolve) => {
                               setTimeout(() => {
                               resolve();
-                              setState((prevState) => {
-                              DenyRequistion(oldData.id)
-                              const data = [...prevState.data];
-                              data.splice(data.indexOf(oldData), 1);
-                              return { ...prevState, data };
-                              });
+                              setDataDeletedRow(oldData)
+                              setOpen(true)
+                              /*setState((prevState) => {
+                                    const data = [...prevState.data];
+                                    data.splice(data.indexOf(oldData), 1);
+                                    return { ...prevState, data };
+                                    });*/
                               }, 600);
                         }),
                   }}
@@ -166,14 +168,14 @@ export default function AllRequests() {
                   <DialogContent>          
                   <DialogContentText>
                         <b>ID:</b> {dataDeletedRow.id}<br/>
-                        <b>Encarregado de Educação:</b> {dataDeletedRow.ee}<br/>
-                        <b>Nome do Aluno:</b> {dataDeletedRow.nomealuno}<br/>
+                        <b>Encarregado de Educação:</b> {dataDeletedRow.guardian_name}<br/>
+                        <b>Nome do Aluno:</b> {dataDeletedRow.student_name}<br/>
                         Esta ação necessita de uma justificação:
                   </DialogContentText>
                   <textarea value={obs} onChange={handleChangeObs} rows="10" cols="60"/>
                   {
                         showWarning &&
-                        <p className="warnText">Porfavor preencha o campo das observações</p>
+                        <p className="warnText">Por favor preencha o campo das observações</p>
                   }
                   </DialogContent>
                   <DialogActions>

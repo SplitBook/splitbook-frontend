@@ -20,7 +20,10 @@ import api from '../../services/api';
 import TextField from '@material-ui/core/TextField';
 import MaterialTable from 'material-table';
 import Cookies from 'js-cookie';
-
+import Search from '@material-ui/icons/Search';
+import Tooltip from '@material-ui/core/Tooltip';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 
@@ -47,18 +50,64 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Row(props) {
+var selectedPhysicalBooks = [];
 
+function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  const [numberOfRows, setNumberOfRows] = React.useState(0);
 
-  function tmp(row,event){
-    //row.select=event;
-    console.log(row,event) 
+  function SelectionChange(rows,id,event){
+    console.log(rows,'::',event)
+    setNumberOfRows(rows.length)
+    console.info(id)
+    if(rows.length===1){
+      console.log('Rows: ',rows)
+      if(rows.length>1){
+        var num=0
+        for(var i=0;i<rows.length;i++){
+          if(rows[0].isbn===rows[i].isbn)
+            num+=1
+        }
+        if(num===1){
+          verifyList(rows[0],id)
+        }
+      }
+      else{
+        verifyList(rows[0],id)
+      }
+    }
+    else if(rows.length!==1){
+      var tmp = []
+      for(var i=0;i<selectedPhysicalBooks.length;i++){
+        if(selectedPhysicalBooks[i].book_requisition_id!==id){
+          tmp.push(selectedPhysicalBooks[i])
+        }
+      }
+      selectedPhysicalBooks=tmp
+      console.log(tmp,'Done',selectedPhysicalBooks)      
+    }
+    
   }
 
-  const [numberOfRows, setNumberOfRows] = React.useState(0);
+  function verifyList(row,id){
+    console.log('Row:',row)
+    var bool=true
+    for(var i=0;i<selectedPhysicalBooks.length;i++){
+      if(row.isbn === selectedPhysicalBooks[i].isbn){
+        bool=false
+        selectedPhysicalBooks[i]={book_requisition_id:id,physical_book_id:row.id,book_state_id:row.state_id}
+        break;
+      }
+    }
+    if(bool){
+      row.book_requisition_id=id
+      //row
+      selectedPhysicalBooks.push({book_requisition_id:id,physical_book_id:row.id,book_state_id:row.state_id})
+      console.log(selectedPhysicalBooks)
+    }
+  }
 
 
   return (
@@ -94,7 +143,7 @@ function Row(props) {
                     color: 'primary'
                   })
                 }}
-                onSelectionChange={(rows) => setNumberOfRows(rows.length)}
+                onSelectionChange={(rows,event) => SelectionChange(rows,row.id,event)}
                 data={query =>
                   new Promise((resolve, reject) => {
                     let url = 'http://localhost:8085/physical-books?available=true&book_isbn='+row.isbn
@@ -125,9 +174,10 @@ function Row(props) {
 
 export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,guardianName}) {
   const [obs, setObs] = React.useState('');
-  const [estado, setEstado] = React.useState();
-
   const [rows, setRows] = React.useState([]);
+  const [bookRequisitionsLength, setBookRequisitionsLength] = React.useState(0);
+  const [text, setText] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
   var bool = true
   if(rows.length===0 && bool)
@@ -138,6 +188,7 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
     const {data} = await api.get('/requisitions/'+requisitionId)
     setRows(data.book_requisitions)
     console.log("data: ",data);
+    setBookRequisitionsLength(data.book_requisitions.length)
   }
 
   const handleChangeObs = (event) => {
@@ -145,10 +196,32 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
     console.log(event.target.value)
   };
 
-  function Submit(){
-    console.log(rows)
+  async function Submit(){
+    console.log('Submit',bookRequisitionsLength,':',selectedPhysicalBooks)
+    if(selectedPhysicalBooks.length!==1){
+      alert('Para submeter a entrega dos livros é necessário efetuar a entrega de livros fisicos')
+    }
+    else{
+      try{
+        const {data} = await api.post('/physical-books/deliveries',{requisitions_physical_book:selectedPhysicalBooks})
+        console.log(data);
+        setText('Efetuado com Sucesso!')
+        setOpen(true)
+      }
+      catch(error){
+        setText('Por favor verifique se a requisição já foi aceite!')
+        setOpen(true)
+      }
+    }
   }
 
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen(false);
+    };
 
   return (
     <>
@@ -188,6 +261,25 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
         </Grid>
     </Grid>
     
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleClose}
+            message={text}
+            action={
+              <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
+        </div>
     </>
   );
 }
