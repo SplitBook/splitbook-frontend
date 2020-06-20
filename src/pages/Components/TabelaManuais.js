@@ -9,9 +9,11 @@ import api from '../../services/api';
 import api_formdata from '../../services/api_multipart_form_data';
 import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import NoteAddOutlined from '@material-ui/icons/NoteAddOutlined';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Cookies from 'js-cookie';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import './ComponentsStyles.css';
 import TableNewPhysicalBooks from './TableNewPhysicalBooks';
@@ -25,9 +27,12 @@ export default function TableManuais() {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
+  const [open3, setOpen3] = React.useState(false);
   const [fileimg, setFileimg] = React.useState({file:null});
   const [infoLivro,setInfoLivro] = React.useState({isbn:null,codigo:null});
   const [num,setNum] = React.useState(1);
+  const [resume, setResume] = React.useState(null);
+  const [resumeList, setResumeList] = React.useState([]);
   
   const [state, setState] = React.useState({
     columns: [
@@ -50,6 +55,11 @@ export default function TableManuais() {
         <NoteAddOutlined onClick={() => openGenerate(rowData.isbn,rowData.code)} className="pointer"/>
         </>
       )},
+      { title: 'Adoptar livro',render: rowData => (     
+        <>   
+        <LibraryBooks onClick={() => openAdoptBook(rowData.isbn)} className="pointer"/>
+        </>
+      )},
     ],
     data: [],
   });
@@ -62,6 +72,11 @@ export default function TableManuais() {
     setOpen(true);
   }
 
+  function openAdoptBook(isbn){
+    setInfoLivro({isbn:isbn})
+    setOpen3(true)
+  }
+
   function openGenerate(isbn,code){
     setInfoLivro({isbn:isbn,code:code})
     setOpen1(true)
@@ -72,12 +87,18 @@ export default function TableManuais() {
   async function GeneratePhysicalBooks(){
     console.log(num,infoLivro.isbn)
     const {data} = await api.post('/physical-books?quantity='+num,{book_isbn:infoLivro.isbn})
-    console.log("ola",data)
+    console.log("data (GeneratePhysicalBooks):",data)
     var tmp = []
     tmp.push(data)
     setPhysicalBooks(tmp)
     setOpen1(false)
     setOpen2(true)
+  }
+
+  async function AdoptBook(){
+    //console.log('resume: ',resume.id,infoLivro.isbn);
+    /*const {data} = await */api.post('/adopted-books',{resume_id:resume.id,book_isbn:infoLivro.isbn})
+    setOpen3(false)
   }
 
  
@@ -112,8 +133,22 @@ export default function TableManuais() {
     setOpen(false);
     setOpen1(false);
     setOpen2(false)
+    setOpen3(false)
   };
-  console.log('url','http://localhost:8085/books')
+
+  const handlerAutoCompleteResumes = (event) => {
+    var tmp = "";
+    tmp = event.target.value;
+    if(tmp.length>2)
+    getResumes(tmp);
+  };
+
+  async function getResumes(tmp){
+    const {data} = await api.get('/resumes?search='+tmp);
+    setResumeList(data.data);
+    console.log(resumeList)
+  }
+
   return (
     <>
     <MaterialTable
@@ -130,7 +165,7 @@ export default function TableManuais() {
               resolve({
                 data: result.data,
                 page: result.page - 1,
-                totalCount: result.total,
+                totalCount: result.totalCount,
                 
               })
             })
@@ -191,6 +226,39 @@ export default function TableManuais() {
           <DialogContent>
             <img src={photo_photo} alt="capa do livro"/>
           </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={open3}
+          TransitionComponent={Transition}
+          keepMounted
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">Adoptar Livro</DialogTitle>
+          <DialogContent>
+
+            <p><b>ISBN: </b> {infoLivro.isbn}</p>
+            
+            <Autocomplete
+              options={resumeList}
+              getOptionLabel={(option) => option.school_subject+' - '+option.class+' - '+option.school_year}
+              onChange={(event,newValue) => {
+                setResume(newValue)
+              }}
+              style={{ width: 300 , marginTop:15}}
+              renderInput={(params) => <TextField {...params} label="Curriculo" onChange={handlerAutoCompleteResumes} variant="outlined" />}
+            />
+
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={() => AdoptBook()} color="primary">
+            Adoptar Livro
+          </Button>
+        </DialogActions>
         </Dialog>
 
         <Dialog

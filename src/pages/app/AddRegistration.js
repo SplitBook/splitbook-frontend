@@ -41,7 +41,7 @@ export default function AddRegistration(){
     };
 
     async function getGuardians(tmp){
-      const {data} = await api.get('/guardians?search=',tmp);
+      const {data} = await api.get('/guardians?search='+tmp);
       setGuardianList(data.data);
       console.log(guardianList)
     }
@@ -55,7 +55,7 @@ export default function AddRegistration(){
     };
 
     async function getStudents(tmp){
-      const {data} = await api.get('/students?search=',tmp);
+      const {data} = await api.get('/students?search='+tmp);
       setStudentList(data.data);
       console.log(studentlist)
     }
@@ -77,7 +77,7 @@ export default function AddRegistration(){
          
       <Autocomplete
         options={guardianList}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) => option.name+' - '+option.email}
         style={{ width: 300, marginTop:15}}
         onChange={(event,newValue) => {
           console.log(newValue)
@@ -88,7 +88,7 @@ export default function AddRegistration(){
 
       <Autocomplete
         options={studentlist}
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) => option.name+' - '+option.number}
         onChange={(event,newValue) => {
           //console.log(newValue)
           setstudent(newValue)

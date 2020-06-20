@@ -91,11 +91,6 @@ export default function NovoRequisito(){
         //console.log('Lista de Livros::: ',books)
     }
 
-    function efetuarRequisicao(){
-        console.log();
-    }
-
-    const [open, setOpen] = React.useState(false);
     const [studentOfList,setStudentOfList] = React.useState(null);
     const [studentsList,setStudentsList] = React.useState([]);
 
@@ -108,7 +103,7 @@ export default function NovoRequisito(){
       };
   
       async function getAllStudents(tmp){
-        const {data} = await api.get('/school-enrollments?search=',tmp);
+        const {data} = await api.get('/school-enrollments?search='+tmp);
         setStudentsList(data.data);
         console.log(studentsList)
       }
@@ -151,7 +146,7 @@ export default function NovoRequisito(){
                 <Grid item>
                 <Autocomplete
                     options={studentsList}
-                    getOptionLabel={(option) => option.student_name}
+                    getOptionLabel={(option) => option.student_name+' - '+option.student_number}
                     style={{ width: 300}}
                     onChange={(event,newValue) => {
                     console.log(event,'ola',newValue)
@@ -169,7 +164,7 @@ export default function NovoRequisito(){
                 <Grid item>
                 <Autocomplete
                     options={studentsList}
-                    getOptionLabel={(option) => option.student_name}
+                    getOptionLabel={(option) => option.student_name+' - '+option.student_number}
                     style={{ width: 300}}
                     onChange={(event,newValue) => {
                     //console.log(event,'ola',newValue)

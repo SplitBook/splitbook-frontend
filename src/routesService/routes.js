@@ -41,6 +41,7 @@ export default function Routes(){
                         <Route path="/app/books/location" component={App}/>
                         <Route path="/app/search/physicalbook" component={App}/>
                         <Route path="/app/aproved/requests" component={App}/>
+                        <Route path="/app/adopted/books" component={App}/>
                     </Route>
                 <Route path="" redirectTo="/login"/>
                 <Route exact path="/" render={() => (

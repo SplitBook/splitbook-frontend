@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import BooksDeliveryTable from '../Components/BooksDeliveryTable'
 import './AppStyles.css';
 import TextField from '@material-ui/core/TextField';
@@ -12,19 +11,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 
 export default function BooksDelivery(){
-    const [num, setNum] = React.useState(0);
     const [requisitionId, setRequisitionId] = React.useState(0);
     const [text, setText] = React.useState('');
     const [open, setOpen] = React.useState(false);
 
-    const changeNum = (event) => {
-        setNum(event.target.value)
-      };
-
-    
 
     async function submit(value){
-      console.log(value.requisition_id);
       if(value.requisition_id===null){
         setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
         setOpen(true)
@@ -43,10 +35,8 @@ export default function BooksDelivery(){
       
     }
 
-    //snacbar
     const [studentOfList,setStudentOfList] = React.useState();
     
-
     const [studentsList,setStudentsList] = React.useState([]);
     const handlerAutoCompleteStudents = (event) => {
       console.log(event.target.value)
@@ -79,7 +69,7 @@ export default function BooksDelivery(){
             <Grid item>
               <Autocomplete
                   options={studentsList}
-                  getOptionLabel={(option) => option.student_name}
+                  getOptionLabel={(option) => option.student_name+' - '+option.student_number}
                   style={{ width: 300}}
                   onChange={(event,newValue) => {
                     submit(newValue)

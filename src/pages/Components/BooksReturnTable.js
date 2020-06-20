@@ -7,11 +7,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import api from '../../services/api';
+import TextField from '@material-ui/core/TextField';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,24 +28,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function BooksDeliveryANDReturnTable({numAluno}) {
+export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,guardianName}) {
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
-  const [estado, setEstado] = React.useState();
-  const list=[];
+  const [rows, setRows] = React.useState([]);
+  var [booksListWithState, setBooksListWithState] = React.useState([]);
+  const [state, setState] = React.useState('');
+  const [bookStates,setBooksStates] = React.useState([]);
   
-  const rows = [
-    {id: 1,nome: "192-9472-12",isbn: "Inglês",estado: ''},
-    {id: 2,nome: "192-9472-12",isbn: "Matemática A",estado: ''},
-    {id: 3,nome: "341-1403-33",isbn: "Português",estado: ''},
-    {id: 4,nome: "055-1234-15",isbn: "Programação C++",estado: ''},
-  ];
+  if(bookStates.length===0){
+    getBooksStates();
+  }
+  
+ 
+  var bool = true
+  if(rows.length===0 && bool)
+    getBookRequisitions()
 
-  const handleChange = (event,row) => {
-    console.log(event.target.value)
-    setEstado(event.target.value)
-    console.log(row)
-  };
+  async function getBookRequisitions(){
+    bool=false
+    const {data} = await api.get('/requisitions/'+requisitionId)
+    setRows(data.reports[0].deliveries)
+    console.log("data: ",data);
+  }
 
 
   const handleChangeObs = (event) => {
@@ -53,41 +58,84 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
     console.log(event.target.value)
   };
 
-  function tmp(json,event){
-    json.estado=event;
-    modifyList(json)
-    console.log("Lista:",list)
+  function Submit(){
+    console.log(booksListWithState);
+    api.post('/physical-books/returns',booksListWithState);
   }
 
-  function modifyList(json){
-    var bool=true;
-    for(var i=0;i<list.length;i++){
-      if(list[i].id === json.id){
-        list[i]=json;
-        bool=false;
-        break;
+  
+  async function getBooksStates(){
+    const {data} = await api.get('/book-states')
+    console.log("bookStates List: ",data)
+    setBooksStates(data);     
+}
+
+function SelectBooksStates({rowId}) {
+  const listItems = bookStates.map((state) =>
+  <option value={state.id}>{state.state}</option>
+  );
+  return (
+      <Select
+      native
+      value={state}
+      onChange={(e) => handleChange(e.target.value,rowId)}
+      label="Estado"
+      inputProps={{
+          name: 'Estado do livro',
+      }}
+      className="btn"
+      >
+      <option aria-label="None" value={''}/> 
+      {listItems}
+      </Select>
+  );
+}
+
+
+
+const handleChange = (event,rowId) => {
+  console.log('event:',Number(event))
+  setState(event);
+  if(Number(event)===0){
+    var tmp = [];
+    for(var i=0;i<booksListWithState.length;i++){
+      if(booksListWithState[i].id !== rowId){
+        tmp.push({id:rowId,book_state_id:Number(event)});
       }
     }
-    if(bool){
-      list.push(json);
+    booksListWithState = tmp;
+  }
+  else{
+    let ok = true
+    for(let i=0;i<booksListWithState.length;i++){
+      if(booksListWithState[i].id === rowId){
+        ok=false;
+      }
+    }
+    if(ok){
+      booksListWithState.push({id:rowId,book_state_id:Number(event)})
     }
   }
-
-  function Submit(){
-    console.log(list);
-  }
+  console.log(booksListWithState);
+};
 
  
   return (
     <>
+    <Grid container spacing={2}>
+      
+      <Grid item >
+        <TextField variant="outlined" defaultValue={guardianName} helperText="Encarregado de Educação" disabled/>
+      </Grid>
+    </Grid>
     <Grid container spacing={2}>
         <Grid item>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell align="right">Diciplina</TableCell>
+                <TableCell>ID Entrega</TableCell>
+                <TableCell align="right">ID livro físico</TableCell>
                 <TableCell align="right">ISBN</TableCell>
                 <TableCell align="right">Estado</TableCell>
               </TableRow>
@@ -98,24 +146,10 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
                   <TableCell component="th" scope="row">
                     {row.id}
                   </TableCell>
-                  <TableCell align="right">{row.nome}</TableCell>
-                  <TableCell align="right">{row.isbn}</TableCell>
+                  <TableCell align="right">{row.physical_book_id}</TableCell>
+                  <TableCell align="right">{row.book_isbn}</TableCell>
                   <TableCell align="right">
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        defaultValue={row.estado}
-                        onChange={ e => tmp(row,e.target.value)}
-                      >
-                        <MenuItem value={''}> - </MenuItem>
-                        <MenuItem value={'Mau'}>Mau</MenuItem>
-                        <MenuItem value={'Mediocre'}>Mediocre</MenuItem>
-                        <MenuItem value={'Razoavél'}>Razoavél</MenuItem>
-                        <MenuItem value={'Bom'}>Bom</MenuItem>
-                        <MenuItem value={'Ótimo'}>Ótimo</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <SelectBooksStates rowId={row.id}/>
                   </TableCell>
                 </TableRow>
               ))}
@@ -123,15 +157,13 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
           </Table>
         </TableContainer>
         </Grid>
-        <Grid item >
+        <Grid item xs={1}>
             <h3><b>Observações:</b></h3>
             <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
-        </Grid>
-    </Grid>
-    <Grid container>
-        <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
+            <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
             Submeter
-        </Button>
+            </Button>
+        </Grid>
     </Grid>
     
     </>
@@ -139,4 +171,8 @@ export default function BooksDeliveryANDReturnTable({numAluno}) {
 }
 
 
-
+/*
+<Grid item >
+   <TextField variant="outlined" defaultValue={stdnumber} helperText="Nº de Aluno" disabled/>
+</Grid>
+*/

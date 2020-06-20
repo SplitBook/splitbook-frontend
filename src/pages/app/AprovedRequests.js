@@ -58,7 +58,7 @@ export default function AprovedRequests() {
             <Header title='Requisições aprovadas'/>
 
             <MaterialTable
-                  title="Lista de Requisitos"
+                  title="Lista de Requisições"
                   columns={[
                         { title: 'ID', field: 'id' },
                         { title: 'EE', field: 'guardian_name' },
@@ -82,7 +82,7 @@ export default function AprovedRequests() {
                               resolve({
                               data: result.data,
                               page: result.page - 1,
-                              totalCount: result.total,
+                              totalCount: result.totalCount,
                               })
                         })
                         })

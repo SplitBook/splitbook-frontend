@@ -41,8 +41,7 @@ export default function TableTheClasses() {
               resolve({
                 data: result.data,
                 page: result.page - 1,
-                totalCount: result.total,
-                
+                totalCount: result.totalCount,
               })
             })
         })

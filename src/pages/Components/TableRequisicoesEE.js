@@ -24,7 +24,7 @@ export default function MaterialTableDemo() {
       { title: 'Nº Aluno', field: 'student_number'},
       { title: 'Nome Aluno', field: 'student_name' },
       { title: 'Turma', field: 'class'},
-      { title: 'Status', field: 'state'},
+      { title: 'Estado', field: 'state'},
       { title: ' ', field: 'state_id',render: rowData => (     
         <>
         {
@@ -102,7 +102,7 @@ export default function MaterialTableDemo() {
                   resolve({
                     data: result.data,
                     page: result.page - 1,
-                    totalCount: result.total,
+                    totalCount: result.totalCount,
                   })
                 })
             })
@@ -142,7 +142,7 @@ export default function MaterialTableDemo() {
                 resolve({
                   data: result.data,
                   page: result.page - 1,
-                  totalCount: result.total,
+                  totalCount: result.totalCount,
                   
                 })
               })
@@ -183,7 +183,8 @@ export default function MaterialTableDemo() {
                 .then(result => {
                   resolve({
                     data: result.book_requisitions,
-                    
+                    //page: result.page - 1,
+                    //totalCount: result.book_requisitions.length,
                   })
                 })
             })

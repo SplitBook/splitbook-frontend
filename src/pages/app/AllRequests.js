@@ -109,7 +109,7 @@ export default function AllRequests() {
         <Header title='Requisições por aprovar'/>
 
             <MaterialTable
-                  title="Lista de Requisitos"
+                  title="Lista de Requisições"
                   tableRef={tableRef}
                   columns={state.columns}
                   data={query =>
@@ -123,7 +123,7 @@ export default function AllRequests() {
                               resolve({
                               data: result.data,
                               page: result.page - 1,
-                              totalCount: result.total,
+                              totalCount: result.totalCount,
                               })
                         })
                         })
@@ -221,7 +221,6 @@ export default function AllRequests() {
                   .then(result => {
                         resolve({
                         data: result.book_requisitions,
-                        
                         })
                   })
                   })

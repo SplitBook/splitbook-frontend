@@ -15,13 +15,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import Checkbox from '@material-ui/core/Checkbox';
 import api from '../../services/api';
 import TextField from '@material-ui/core/TextField';
 import MaterialTable from 'material-table';
 import Cookies from 'js-cookie';
-import Search from '@material-ui/icons/Search';
-import Tooltip from '@material-ui/core/Tooltip';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -66,7 +63,7 @@ function Row(props) {
       console.log('Rows: ',rows)
       if(rows.length>1){
         var num=0
-        for(var i=0;i<rows.length;i++){
+        for(let i=0;i<rows.length;i++){
           if(rows[0].isbn===rows[i].isbn)
             num+=1
         }
@@ -80,7 +77,7 @@ function Row(props) {
     }
     else if(rows.length!==1){
       var tmp = []
-      for(var i=0;i<selectedPhysicalBooks.length;i++){
+      for(let i=0;i<selectedPhysicalBooks.length;i++){
         if(selectedPhysicalBooks[i].book_requisition_id!==id){
           tmp.push(selectedPhysicalBooks[i])
         }
@@ -155,7 +152,7 @@ function Row(props) {
                         resolve({
                           data: result.data,
                           page: result.page - 1,
-                          totalCount: result.total,
+                          totalCount: result.totalCount,
                           
                         })
                       })
@@ -227,9 +224,6 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
     <>
     <Grid container spacing={2}>
       <Grid item >
-        <TextField variant="outlined" defaultValue={stdnumber} helperText="Nº de Aluno" disabled/>
-      </Grid>
-      <Grid item >
         <TextField variant="outlined" defaultValue={guardianName} helperText="Encarregado de Educação" disabled/>
       </Grid>
     </Grid>
@@ -285,9 +279,8 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
 }
 
 
-/*const rows = [
-  {disciplina: 'PT',isbn: "192-9472-12",nome: "LETRAS",ano:12},
-  {disciplina: 'ING',isbn: "192-9472-12",nome: "Matemática +",ano:12},
-  {disciplina: 'EF',isbn: "341-1403-33",nome: "correr para crer",ano:12},
-  {disciplina: 'PSI',isbn: "055-1234-15",nome: "Programação C++",ano:12},
-];*/
+
+
+/*<Grid item >
+    <TextField variant="outlined" defaultValue={stdnumber} helperText="Nº de Aluno" disabled/>
+  </Grid>*/

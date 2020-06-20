@@ -166,7 +166,7 @@ const handleClick4 = () => {
       </ListItem>
     </Link>
     {
-      group!=='Encarregado de Educação' &&
+      (group!=='Encarregado de Educação' && group!=='Professor')&&
       <>
       <ListItem button onClick={handleClick2}>
         <ListItemIcon>
@@ -254,7 +254,11 @@ const handleClick4 = () => {
         }
         </List>
       </Collapse>
-
+      </>
+    }
+    {
+      (group!=='Encarregado de Educação' && group!=='Professor')&&
+      <>
       <ListItem button onClick={handleClick3}>
         <ListItemIcon>
           <Book />
@@ -280,18 +284,25 @@ const handleClick4 = () => {
               <ListItemText primary="Reqs. aprovadas" />
             </ListItem>
           </Link>
-          <Link to="/app/requisitions/states">
-            <ListItem button className={classes.nested}>
-              <ListItemIcon>
-                <ListAlt />
-              </ListItemIcon>
-              <ListItemText primary="Estados (req.)" />
-            </ListItem>
-          </Link>
+          {
+            (group!=='Professor')&&
+            <Link to="/app/requisitions/states">
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <ListAlt />
+                </ListItemIcon>
+                <ListItemText primary="Estados (req.)" />
+              </ListItem>
+            </Link>
+          }
+    
         </List>
       </Collapse>
-
-
+      </>
+    }
+    {
+      (group!=='Encarregado de Educação')&&
+      <>
       <ListItem button onClick={handleClick4}>
         <ListItemIcon>
           <AllInbox />

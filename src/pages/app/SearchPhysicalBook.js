@@ -152,7 +152,7 @@ export default function SearchPhysicalBook(){
             <Grid item >
               <Autocomplete
                 options={physicalBookList}
-                getOptionLabel={(option) => option.id}
+                getOptionLabel={(option) => option.id+' - '+option.name}
                 style={{ width: 300}}
                 onChange={(event,newValue) => {
                   console.log(newValue)

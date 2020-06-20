@@ -1,5 +1,5 @@
 import React from 'react';
-import TableManual from '../Components/TabelaManuais';
+import AdoptedBooksTable from '../Components/AdoptedBooksTable';
 import Header from '../Components/Header';
 
 
@@ -7,8 +7,8 @@ export default function Manual(){
 
     return (
         <>
-            <Header title='Manuais escolares'/>
-            <TableManual/>
+            <Header title='Manuais adotados'/>
+            <AdoptedBooksTable/>
         </>
     );
 }

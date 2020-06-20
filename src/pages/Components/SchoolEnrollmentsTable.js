@@ -45,7 +45,7 @@ export default function SchoolEnrollmentsTable() {
               resolve({
                 data: result.data,
                 page: result.page - 1,
-                totalCount: result.total,
+                totalCount: result.totalCount,
                 
               })
             })
@@ -88,7 +88,7 @@ export default function SchoolEnrollmentsTable() {
               resolve({
                 data: result.data,
                 page: result.page - 1,
-                totalCount: result.total,
+                totalCount: result.totalCount,
                 
               })
             })

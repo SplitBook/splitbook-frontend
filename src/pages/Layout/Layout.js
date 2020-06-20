@@ -113,7 +113,6 @@ export default function MiniDrawer({history}) {
   const [photo, setPhoto] = React.useState(null);
   const [email, setEmail] = React.useState(null);
 
-  //console.log(Cookies.get('token')!==undefined && Cookies.get('token')!==null && Cookies.get('token')!=='')
   setInfoAndCharge();
   async function setInfoAndCharge(){
     if(userInfo===null || userInfo===undefined){
@@ -144,7 +143,6 @@ export default function MiniDrawer({history}) {
     setOpen(false);
   };
 
-  //console.log("Variavel do utilizador (Layout Page 119line)",UserData)
 
 
   return (
