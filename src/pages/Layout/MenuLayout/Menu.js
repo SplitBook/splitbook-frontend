@@ -185,6 +185,14 @@ const handleClick4 = () => {
             <ListItemText primary="Manuais" />
           </ListItem>
         </Link>
+        <Link to="/app/adopted/books">
+          <ListItem button className={classes.nested}>
+            <ListItemIcon>
+              <ImportContacts/>
+            </ListItemIcon>
+            <ListItemText primary="Manuais Adotados" />
+          </ListItem>
+        </Link>
         <Link to="/app/search/physicalbook">
           <ListItem button className={classes.nested}>
             <ListItemIcon>

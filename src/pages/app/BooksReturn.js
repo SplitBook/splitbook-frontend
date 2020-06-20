@@ -8,6 +8,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Header from '../Components/Header';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import api from '../../services/api';
+import HighlightOff from '@material-ui/icons/HighlightOff';
+import Button from '@material-ui/core/Button';
 
 
 export default function BooksReturn(){
@@ -43,28 +45,25 @@ export default function BooksReturn(){
     };
 
     async function submit(value){
-    if(value.requisition_id===null){
-      setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
-      setOpen(true)
-    }
-    else{
-      try{
-        console.log('value:',value.requisition_id)
-        setStudentOfList(value)
-        setRequisitionId(value.requisition_id)
+      if(value){
+        if(value.requisition_id===null){
+          setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
+          setOpen(true)
+        }
+        else{
+          try{
+            console.log('value:',value.requisition_id)
+            setStudentOfList(value)
+            setRequisitionId(value.requisition_id)
+          }
+          catch(error){
+            alert(error)
+          }
+        }
       }
-      catch(error){
-        alert(error)
-      }
-    }
-      
-      
-      
-      
     }
     
 
-  
     return (
       <>
         <Header title='Recolha de Livros'/>
@@ -81,6 +80,11 @@ export default function BooksReturn(){
                   disabled={requisitionId>0}
                   renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteStudents} variant="outlined" />}
               />
+            </Grid>
+            <Grid item>
+              <Button color="primary" style={{padding:15}} onClick={() => setRequisitionId(0)}>
+                <HighlightOff/>
+              </Button>
             </Grid>
         </Grid>
 

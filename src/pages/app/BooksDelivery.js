@@ -9,6 +9,10 @@ import api from '../../services/api';
 import Snackbar from '@material-ui/core/Snackbar';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import HighlightOff from '@material-ui/icons/HighlightOff';
+import Button from '@material-ui/core/Button';
+
+
 
 export default function BooksDelivery(){
     const [requisitionId, setRequisitionId] = React.useState(0);
@@ -17,20 +21,23 @@ export default function BooksDelivery(){
 
 
     async function submit(value){
-      if(value.requisition_id===null){
-        setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
-        setOpen(true)
-      }
-      else{
-        try{
-          console.log('value:',value.requisition_id)
-          setStudentOfList(value)
-          setRequisitionId(value.requisition_id)
+      if(value){
+        if(value.requisition_id===null){
+          setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
+          setOpen(true)
         }
-        catch(error){
-          alert(error)
+        else{
+          try{
+            //console.log('value:',value.requisition_id)
+            setStudentOfList(value)
+            setRequisitionId(value.requisition_id)
+          }
+          catch(error){
+            alert(error)
+          }
         }
       }
+      
       
       
     }
@@ -78,6 +85,11 @@ export default function BooksDelivery(){
                   disabled={requisitionId>0}
                   renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteStudents} variant="outlined" />}
               />
+            </Grid>
+            <Grid item>
+              <Button color="primary" style={{padding:15}} onClick={() => setRequisitionId(0)}>
+                <HighlightOff/>
+              </Button>
             </Grid>
         </Grid>
 
