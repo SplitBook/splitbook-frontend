@@ -108,9 +108,9 @@ export default function AccountPage(){
     if(editedInformation.born_date!==null)
       formData.append('born_date',editedInformation.born_date)
     if(fileimg.file!==null)
-      formData.append('foto',fileimg.file)
+      formData.append('photo',fileimg.file)
     const {data} = await api_formdata.put('/users/'+user.id,formData);
-    //console.log("Data: ",data);
+    console.log("Data: ",data);
     setTmp(data)
     handleClose();
   }
@@ -278,7 +278,7 @@ export default function AccountPage(){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button  color="primary" onClick={SubmitConfirmation}>
+          <Button  color="primary" onClick={SubmitConfirmation} href='/app/account'>
             Continuar
           </Button>
         </DialogActions>

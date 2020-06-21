@@ -91,9 +91,9 @@ export default function MaterialTableDemo() {
             new Promise((resolve, reject) => {
               let url = ''
               if(decoded.charge==='Encarregado de Educação')
-                url += 'http://localhost:8085/requisitions?guardian_id='+decoded.profile_id
+                url += 'http://localhost:8085/requisitions?current_school_year=true&guardian_id='+decoded.profile_id
               else
-                url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
+                url += 'http://localhost:8085/requisitions?current_school_year=true&head_class_id='+decoded.profile_id
               url += '&limit=' + query.pageSize
               url += '&page=' + (query.page + 1)
               fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})

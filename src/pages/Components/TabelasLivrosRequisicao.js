@@ -194,7 +194,7 @@ export default function TransferList({books,schoolEnrollmentsID}) {
       * Selecione os manuais que prentende requisitar e transponha-os para 
       a tabela da direita através dos botões centrais.
     </p>
-    <Button variant="contained" onClick={efetuarRequisicao} color="primary" /*href='/app/new/request'*/>
+    <Button variant="contained" onClick={efetuarRequisicao} color="primary" href='/app/new/request'>
         Efetuar requisição
     </Button>
     

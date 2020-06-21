@@ -1,8 +1,24 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import api from '../../services/api';
+import Edit from '@material-ui/icons/Edit';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export default function TableSchoolYears() {
+  const [newYear, setNewYear] = React.useState(null)
+  const [open, setOpen] = React.useState(false)
+  const [listYears, setListYears] = React.useState([])
+  const [checked, setChecked] = React.useState(false);
+
   const [state, setState] = React.useState({
     columns: [
       { title: 'Ano letivo', field: 'school_year' },
@@ -10,33 +26,54 @@ export default function TableSchoolYears() {
     data: [],
   });
 
-  if(state.data.length===0)
+  const [bool, setBool] = React.useState(true)
+  if(bool){
     getSchoolYears();
-
-  async function getSchoolYears(){
-    const {data} = await api.get('/school-years');
-    //console.log(data);
-    state.data=data;
   }
 
+  async function getSchoolYears(){
+    setBool(false)
+    const {data} = await api.get('/school-years')
+    state.data=data;
+    setListYears(data)
+  }
+ 
   async function deleteSchoolYears(id){
-    const {data} = await api.delete('/school-years/'+id);
+    /*const {data} = await*/api.delete('/school-years/'+id);
     //console.log(data);
   }
 
   async function addSchoolYear(school_year){
-    const {data} = await api.post('/school-years',{school_year:school_year});
+    /*const {data} = await*/api.post('/school-years',{school_year:school_year});
     //console.log(data);
   }
 
   async function EditSchoolYears(school_year,id){
-    const {data} = await api.post('/school-years/'+id,{school_year:school_year,active:true});
+    /*const {data} = await*/api.post('/school-years/'+id,{school_year:school_year,active:true});
     //console.log(data);
   }
 
+  const handleClose = () => {
+    setOpen(false)
+  };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return (
     <>
+    <Grid container spacing={2} style={{marginBottom:10}}>
+      <Grid item>
+        <h3>Alteral ano letivo atual</h3>
+      </Grid>
+      <Grid item>
+          <Edit className="pointer" onClick={()=>setOpen(true)}/>
+      </Grid>
+    </Grid>
+    
+    
+
     <MaterialTable
       title=" "
       columns={state.columns}
@@ -83,6 +120,45 @@ export default function TableSchoolYears() {
           }),
       }}
     />
+
+      <Dialog
+        open={open}
+        //onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Alterar ano letivo atual!</DialogTitle>
+        <DialogContent>
+
+          <Autocomplete
+          options={listYears}
+          getOptionLabel={(option) => 'ID:'+option.id+' - '+option.school_year}
+          style={{ width: 300, marginTop:15}}
+          onChange={(event,newValue) => {
+            console.log(newValue)
+            setNewYear(newValue)
+          }}
+          renderInput={(params) => <TextField {...params} label="Ano letivo" variant="outlined" />}
+        />
+
+        <FormControlLabel
+            control={<Checkbox checked={checked} onChange={handleChange}/>}
+            label="Confirme para submeter!"
+          />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button  color="primary" onClick={handleClose} disabled={(!checked || newYear===null)}>
+            Submeter
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
     </>
   );
 }

@@ -151,7 +151,7 @@ export default function TableClasses() {
 
           <Autocomplete
             options={teacherlist}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => option.name+' - '+option.email}
             style={{ width: 300, marginTop:15}}
             onChange={(event,newValue) => {
               console.log(newValue)

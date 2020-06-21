@@ -114,7 +114,7 @@ export default function AllRequests() {
                   columns={state.columns}
                   data={query =>
                         new Promise((resolve, reject) => {
-                        let url = 'http://localhost:8085/requisitions?state_id=1'
+                        let url = 'http://localhost:8085/requisitions?current_school_year=true&state_id=1'
                         url += '&limit=' + query.pageSize
                         url += '&page=' + (query.page + 1)
                         fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})

@@ -18,14 +18,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function AprovedRequests() {
 
-      const [txt, setTxt] = React.useState({});
-      const [open, setOpen] = React.useState(false);
-      const [state, setState] = React.useState([
-            { id: 1, ee: 'Rogério Costa', naluno: 478, nomealuno: 'Rafael Santos Costa', ano: 12,listalivros:["Português","Matemática A","Fisico-Quimica A","Inglês","Matemática"]},
-            { id: 2, ee: 'Rosa Maria Cardiga', naluno: 129, nomealuno: 'Gonçalo Afonso', ano: 12,listalivros:["Inglês","Matemática"]},
-            { id: 3, ee: 'Francisco Costa', naluno: 70, nomealuno: 'Guilherme Sousa', ano: 12,listalivros:["Português","Matemática A"]},
-      ]);
-
       const [reqId, setReqId] = React.useState(0);
       const [openBookList, setOpenBookList] = React.useState(false);
       const handleChange = (value) => {
@@ -73,7 +65,7 @@ export default function AprovedRequests() {
                   tableRef={tableRef}
                   data={query =>
                         new Promise((resolve, reject) => {
-                        let url = 'http://localhost:8085/requisitions?state_id=2'
+                        let url = 'http://localhost:8085/requisitions?current_school_year=true&state_id=2'
                         url += '&limit=' + query.pageSize
                         url += '&page=' + (query.page + 1)
                         fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})

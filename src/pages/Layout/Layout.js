@@ -215,7 +215,6 @@ export default function MiniDrawer({history}) {
             setDoned && 
             <p>{userInfo.username}</p>
           }
-          <p><b>{charge}</b></p>
           </>)
         
           ||
