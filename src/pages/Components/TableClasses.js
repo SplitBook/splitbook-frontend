@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 
 
 export default function TableClasses() {
+  const [bool, setBool] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     columns: [
@@ -38,10 +39,11 @@ export default function TableClasses() {
   }
 
 
-  if(state.data.length===0)
+  if(bool)
   getGeneralClasses();
 
   async function getGeneralClasses(){
+    setBool(false)
     const {data} = await api.get('/general-classes');
     console.log(data);
     state.data=data;

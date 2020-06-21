@@ -25,6 +25,8 @@ import Classes from '../pages/app/Classes';
 import SchoolEnrollments from '../pages/app/SchoolEnrollments';
 import RequisitionsStates from '../pages/app/RequisitionsStates';
 import AdoptedBooks from '../pages/app/AdoptedBooks';
+import SearchUsers from '../pages/app/SearchUsers';
+import Students from '../pages/app/Students';
 
 export default function RoutesLayout({history}){
     
@@ -52,6 +54,8 @@ export default function RoutesLayout({history}){
                     <Route path="/app/schoolyears" component={SchoolYears}/>
                     <Route path="/app/search/physicalbook" component={SearchPhysicalBook}/>
                     <Route path="/app/books/states" component={BookStates}/>
+                    <Route path="/app/users" component={SearchUsers}/>
+                    <Route path="/app/students" component={Students}/>
                     <Route path="/app/books/location" component={BooksLocations}/>
                     <Route path="/app/aproved/requests" component={AprovedRequests}/>
                 </BrowserRouter>

@@ -29,7 +29,7 @@ export default function AllRequests() {
             { title: 'Nome Aluno', field: 'student_name'},
             { title: 'Turma', field: 'class'},
             { title: 'Ano letivo', field: 'school_year'},
-            { title: 'Mais informações', field: 'listalivros',render: rowData => (        
+            { title: '+ info.', field: 'listalivros',render: rowData => (        
                   <Button onClick={() => handleChange(rowData.id)}>Consultar</Button>
             ),},
             ]
@@ -117,6 +117,7 @@ export default function AllRequests() {
                         let url = 'http://localhost:8085/requisitions?current_school_year=true&state_id=1'
                         url += '&limit=' + query.pageSize
                         url += '&page=' + (query.page + 1)
+                        url += '&search=' + query.search
                         fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
                         .then(response => response.json())
                         .then(result => {
@@ -210,12 +211,15 @@ export default function AllRequests() {
                   </>
                   )},
       
-            ]}
+                  ]}
+                  options={{
+                        search: false,
+                        sorting: false
+                  }}
                   data={query =>
                   new Promise((resolve, reject) => {
                   console.log('ID req::',reqId)
                   let url = 'http://localhost:8085/requisitions/'+reqId
-                  console.log('url::',url)
                   fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
                   .then(response => response.json())
                   .then(result => {

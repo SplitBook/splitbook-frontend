@@ -5,6 +5,7 @@ import api from '../../services/api';
 
 export default function SubjectsTable() {
   const [open, setOpen] = React.useState(false);
+  const [bool, setBool] = React.useState(true); 
   const [state, setState] = React.useState({
     columns: [
       { title: 'Nome', field: 'school_subject' },
@@ -12,10 +13,11 @@ export default function SubjectsTable() {
     data: [],
   });
 
-  if(state.data.length===0)
+  if(bool)
     getSubjects();
 
   async function getSubjects(){
+    setBool(false)
     const {data} = await api.get('/school-subjects');
     console.log(data);
     state.data=data;

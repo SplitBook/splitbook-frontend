@@ -1,7 +1,5 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Table from '../Components/TableRequisicoesEE';
-import Card from '../Components/Card';
 import './AppStyles.css';
 import Header from '../Components/Header';
 

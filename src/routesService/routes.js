@@ -42,6 +42,8 @@ export default function Routes(){
                         <Route path="/app/books/location" component={App}/>
                         <Route path="/app/search/physicalbook" component={App}/>
                         <Route path="/app/aproved/requests" component={App}/>
+                        <Route path="/app/users" component={App}/>
+                        <Route path="/app/students" component={App}/>
                         <Route path="/app/adopted/books" component={App}/>
                     </Route>
                 <Route path="" redirectTo="/login"/>
@@ -49,7 +51,7 @@ export default function Routes(){
                 !(Cookies.get('token') && Cookies.get('tokenLogin'))? (
                     <Redirect to="/login"/>
                 ) : (
-                    (jwt_decode(token).charge === 'Encarregado de Educação' || jwt_decode(token).charge === 'Prpfessor')?
+                    (jwt_decode(token).charge === 'Encarregado de Educação' || jwt_decode(token).charge === 'Professor')?
                     (<Redirect to="/app/home"/>):
                     (<Redirect to="/app/requests"/>)
                 )

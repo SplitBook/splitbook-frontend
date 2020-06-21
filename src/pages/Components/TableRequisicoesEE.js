@@ -78,7 +78,7 @@ export default function MaterialTableDemo() {
     api.delete('/requisitions/'+id)
   }
 
-
+  const tableRef = React.createRef();
   return (
     <>
     {
@@ -86,7 +86,11 @@ export default function MaterialTableDemo() {
       (
         <MaterialTable
           title="Requisições"
+          tableRef={tableRef}
           columns={state.columns}
+          options={{
+            sorting: false
+          }}
           data={query =>
             new Promise((resolve, reject) => {
               let url = ''
@@ -96,6 +100,7 @@ export default function MaterialTableDemo() {
                 url += 'http://localhost:8085/requisitions?current_school_year=true&head_class_id='+decoded.profile_id
               url += '&limit=' + query.pageSize
               url += '&page=' + (query.page + 1)
+              url += '&search=' + query.search
               fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
                 .then(response => response.json())
                 .then(result => {
@@ -107,6 +112,14 @@ export default function MaterialTableDemo() {
                 })
             })
           }
+          actions={[
+            {
+              icon: 'refresh',
+              tooltip: 'Atualizar informação',
+              isFreeAction: true,
+              onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+            }
+          ]}
           editable={{
               onRowDelete: (oldData) =>
               new Promise((resolve) => {
@@ -126,7 +139,19 @@ export default function MaterialTableDemo() {
       (
         <MaterialTable
           title="Requisições"
+          tableRef={tableRef}
           columns={state.columns}
+          actions={[
+            {
+              icon: 'refresh',
+              tooltip: 'Atualizar informação',
+              isFreeAction: true,
+              onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+            }
+          ]}
+          options={{
+            sorting: false
+          }}
           data={query =>
           new Promise((resolve, reject) => {
             let url = ''
@@ -136,6 +161,7 @@ export default function MaterialTableDemo() {
               url += 'http://localhost:8085/requisitions?head_class_id='+decoded.profile_id
             url += '&limit=' + query.pageSize
             url += '&page=' + (query.page + 1)
+            url += '&search=' + query.search
             fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
               .then(response => response.json())
               .then(result => {

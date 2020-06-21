@@ -44,7 +44,7 @@ export default function TableManuais() {
         <>
           <ImageOutlined onClick={() => openImg(rowData.cover)} className="pointer"/>
         </>
-      )},
+      ),editable: 'never'},
       { title: 'Descarregar capa',render: rowData => (     
         <>   
         <input type="file" onChange={fileUpload} />
@@ -149,16 +149,20 @@ export default function TableManuais() {
     console.log(resumeList)
   }
 
+  const tableRef = React.createRef();
+
   return (
     <>
     <MaterialTable
       title=" "
+      tableRef={tableRef}
       columns={state.columns}
       data={query =>
         new Promise((resolve, reject) => {
           let url = 'http://localhost:8085/books'
           url += '?limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
+          url += '&search=' + query.search
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())
             .then(result => {
@@ -171,6 +175,14 @@ export default function TableManuais() {
             })
         })
       }
+      actions={[
+        {
+          icon: 'refresh',
+          tooltip: 'Atualizar informação',
+          isFreeAction: true,
+          onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+        }
+      ]}
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve) => {

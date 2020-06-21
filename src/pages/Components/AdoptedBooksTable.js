@@ -10,6 +10,7 @@ export default function AdoptedBooksTable() {
       { title: 'Código', field: 'code' },
       { title: 'Disciplina', field: 'school_subject' },
       { title: 'Turma', field: 'class' },
+      { title: 'Ano letivo', field: 'school_year' },
     ],
     data: [],
   });
@@ -31,17 +32,27 @@ export default function AdoptedBooksTable() {
     console.log(data);
   }*/
 
-
+  const tableRef = React.createRef();
   return (
     <>
     <MaterialTable
       title=" "
+      tableRef={tableRef}
       columns={state.columns}
+      actions={[
+        {
+          icon: 'refresh',
+          tooltip: 'Refresh Data',
+          isFreeAction: true,
+          onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+        }
+      ]}
       data={query =>
             new Promise((resolve, reject) => {
             let url = 'http://localhost:8085/adopted-books?current_school_year=true'
             url += '&limit=' + query.pageSize
             url += '&page=' + (query.page + 1)
+            url += '&search=' + query.search
             fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())
             .then(result => {

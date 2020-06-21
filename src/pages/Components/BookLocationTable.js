@@ -5,6 +5,7 @@ import api from '../../services/api';
 
 
 export default function BookLocationTable() {
+  const [bool, setBool] = React.useState(true);
   const [state, setState] = React.useState({
     columns: [
       { title: 'Localização', field: 'location' },
@@ -12,10 +13,11 @@ export default function BookLocationTable() {
     data: [],
   });
 
-  if(state.data.length===0)
+  if(bool)
     getLocation();
 
   async function getLocation(){
+    setBool(false)
     const {data} = await api.get('/book-locations');
     console.log(data);
     state.data=data;

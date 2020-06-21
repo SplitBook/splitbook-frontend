@@ -56,15 +56,16 @@ export default function SearchPhysicalBook(){
 
   const [bookstates,setBookstates] = React.useState([]);
   const [state,setState] = React.useState(0);
+  const [bool,setBool] = React.useState(true);
 
   async function getList(){
-    bool=false
+    setBool(false)
     const {data} = await api.get('/book-states')
     setBookstates(data)
   }
 
-  var bool=true
-  if(bookstates.length===0 && bool){
+
+  if(bool){
     getList()
   }
 

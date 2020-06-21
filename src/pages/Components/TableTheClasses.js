@@ -24,11 +24,13 @@ export default function TableTheClasses() {
     console.log(data);  }
 
 
+  const tableRef = React.createRef();
 
   return (
     <>
     <MaterialTable
       title=" "
+      tableRef={tableRef}
       columns={state.columns}
       data={query =>
         new Promise((resolve, reject) => {
@@ -46,6 +48,14 @@ export default function TableTheClasses() {
             })
         })
       }
+      actions={[
+        {
+          icon: 'refresh',
+          tooltip: 'Atualizar informação',
+          isFreeAction: true,
+          onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+        }
+      ]}
       editable={{
         onRowDelete: (oldData) =>
           new Promise((resolve) => {

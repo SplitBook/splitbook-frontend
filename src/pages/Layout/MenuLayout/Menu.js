@@ -10,12 +10,14 @@ import ViewList from '@material-ui/icons/ViewList';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CollectionsBookmark from '@material-ui/icons/CollectionsBookmark';
 import ImportContacts from '@material-ui/icons/ImportContacts';
+import Search from '@material-ui/icons/Search';
 import AccountBox from '@material-ui/icons/AccountBox';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 import SyncAlt from '@material-ui/icons/SyncAlt';
 import VpnKey from '@material-ui/icons/VpnKey';
 import Description from '@material-ui/icons/Description';
 import Star from '@material-ui/icons/Star';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
 import AddLocation from '@material-ui/icons/AddLocation';
 import AccessTime from '@material-ui/icons/AccessTime';
 import AssignmentReturned from '@material-ui/icons/AssignmentReturned';
@@ -188,7 +190,7 @@ const handleClick4 = () => {
         <Link to="/app/adopted/books">
           <ListItem button className={classes.nested}>
             <ListItemIcon>
-              <ImportContacts/>
+              <LibraryBooks/>
             </ListItemIcon>
             <ListItemText primary="Manuais Adotados" />
           </ListItem>
@@ -362,12 +364,28 @@ const handleClick4 = () => {
               <ListItemText primary="Adicionar Utilizadores" />
             </ListItem>
           </Link>
+          <Link to="/app/users">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <Search/>
+              </ListItemIcon>
+              <ListItemText primary="Pesquisar Utilizador" />
+            </ListItem>
+          </Link>
           <Link to="/app/add/student">
             <ListItem button className={classes.nested}>
               <ListItemIcon>
                 <ChildCare />
               </ListItemIcon>
-              <ListItemText primary="Adicionar Alunos" />
+              <ListItemText primary="Adicionar Aluno"/>
+            </ListItem>
+          </Link>
+          <Link to="/app/students">
+            <ListItem button className={classes.nested}>
+              <ListItemIcon>
+                <Search />
+              </ListItemIcon>
+              <ListItemText primary="Pesquisar Alunos" />
             </ListItem>
           </Link>
           <Link to="/app/add/registration">

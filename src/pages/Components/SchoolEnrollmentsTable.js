@@ -27,18 +27,21 @@ export default function SchoolEnrollmentsTable() {
     api.delete('/school-enrollments/'+id);
   }
 
+  const tableRef = React.createRef();
 
   if(decoded.charge === 'Administrador')
   return (
     <>
     <MaterialTable
       title=" "
+      tableRef={tableRef}
       columns={state.columns}
       data={query =>
         new Promise((resolve, reject) => {
           let url = 'http://localhost:8085/school-enrollments'
           url += '?limit=' + query.pageSize
           url += '&page=' + (query.page + 1)
+          url += '&search=' + query.search
           fetch(url,{headers: {method: 'GET','Authorization': 'Bearer '+Cookies.get("token")}})
             .then(response => response.json())
             .then(result => {
@@ -51,6 +54,14 @@ export default function SchoolEnrollmentsTable() {
             })
         })
       }
+      actions={[
+        {
+          icon: 'refresh',
+          tooltip: 'Atualizar informação',
+          isFreeAction: true,
+          onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+        }
+      ]}
         editable={{
         onRowDelete: (oldData) =>
           new Promise((resolve) => {

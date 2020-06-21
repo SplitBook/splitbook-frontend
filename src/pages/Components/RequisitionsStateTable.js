@@ -5,17 +5,19 @@ import api from '../../services/api';
 
 
 export default function RequisitionsStateTable() {
+  var [bool, setBool] = React.useState(true)
   const [state, setState] = React.useState({
     columns: [
       { title: 'Estado', field: 'state' },
     ],
     data: [],
   });
-
-  if(state.data.length===0)
+  
+  if(bool)
     getStates();
 
   async function getStates(){
+    setBool(false)
     const {data} = await api.get('/book-states');
     console.log(data);
     state.data=data;
