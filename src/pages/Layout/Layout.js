@@ -144,7 +144,6 @@ export default function MiniDrawer({history}) {
   };
 
 
-
   return (
     
     <div className={classes.root}>

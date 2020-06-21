@@ -6,12 +6,13 @@ import App from '../pages/Layout/Layout';
 import Error404 from '../pages/error/error404';
 import Cookies from 'js-cookie';
 import NewPassword from '../pages/auth/NewPassword';
+import jwt_decode from 'jwt-decode';
 
 
 
 
 export default function Routes(){
-
+    var token = Cookies.get('token')
     return(
             <BrowserRouter>
                 <Route path="/404" component={Error404}/>
@@ -48,7 +49,9 @@ export default function Routes(){
                 !(Cookies.get('token') && Cookies.get('tokenLogin'))? (
                     <Redirect to="/login"/>
                 ) : (
-                    <Redirect to="/app/home"/>
+                    (jwt_decode(token).charge === 'Encarregado de Educação' || jwt_decode(token).charge === 'Prpfessor')?
+                    (<Redirect to="/app/home"/>):
+                    (<Redirect to="/app/requests"/>)
                 )
                 )}/>
             </BrowserRouter>
