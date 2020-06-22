@@ -31,15 +31,29 @@ export default function NovoRequisito(){
     const [books,setBooks] = React.useState([]);
     const [schoolEnrollmentsID,setSchoolEnrollmentsID] = React.useState(null);
     const [bool,setBool] = React.useState(false);
+    const [teacherclasses,setTeacherClasses] = React.useState([]);
 
 
 
+
+    async function getTeacherClassId(id){
+        const {data} = await api.get('/teachers/'+id)
+        console.log('getTeacherClassId',data)
+        var tmp = [];
+        tmp = data.classes;
+        for(let i=0;i<tmp.length;i++){
+            setTeacherClasses([...teacherclasses,tmp[i].class_id])
+        }
+    }
 
     if(group===''){
         var token = Cookies.get('token');
         var decoded = jwt_decode(token);
         setGroup(decoded.charge)
         setProfileId(decoded.profile_id);
+        if(decoded.charge==='Professor'){
+            getTeacherClassId(decoded.profile_id)
+        }
         //console.log("decoded",decoded)
         if(decoded.charge==='Encarregado de Educação')
             getStudents(decoded.profile_id);
@@ -60,7 +74,6 @@ export default function NovoRequisito(){
             native
             value={aluno}
             onChange={(e) => {
-                console.log('ola mundo',e.target.value);
                 if(e.target.value==='')
                     setBool(false)
                 else
@@ -98,7 +111,6 @@ export default function NovoRequisito(){
         setBool(true)        
     }
 
-    const [studentOfList,setStudentOfList] = React.useState(null);
     const [studentsList,setStudentsList] = React.useState([]);
 
     const handlerAutoCompleteAllStudents = (event) => {
@@ -124,14 +136,16 @@ export default function NovoRequisito(){
       };
 
       async function getTeachersStudents(tmp){
-        var tmp = '1'
-        const {data} = await api.get('/school-enrollments?class_id='+tmp+'&search='+tmp);
+        console.log('IPE',teacherclasses)
+        let txt = '';
+        for(let i=0;i<teacherclasses.length;i++){
+            txt+=teacherclasses[i]+','
+        }
+        console.log('/school-enrollments?class_id='+txt+'&search='+tmp)
+        const {data} = await api.get('/school-enrollments?class_id='+txt+'&search='+tmp);
         setStudentsList(data.data);
-        //console.log(studentsList)
-        //alert('Á espera de saber como ir buscar a lista de alunos da turma do prof logado!');
       }
 
-      console.log('NunexBooks',books)
 
     return (
         <>
@@ -180,13 +194,12 @@ export default function NovoRequisito(){
                     getOptionLabel={(option) => option.student_name+' - '+option.student_number}
                     style={{ width: 300}}
                     onChange={(event,newValue) => {
-                    console.log(event,'ola',newValue)
+                    //console.log(event,'ola',newValue)
                     if(newValue===null){
                         setBool(false)
                     }
                     else
                         handleChange(newValue.id)
-                    //setStudentOfList(newValue)
                     }}
                     renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteAllStudents} variant="outlined" />}
                 />
