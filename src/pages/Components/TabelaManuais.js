@@ -33,6 +33,7 @@ export default function TableManuais() {
   const [num,setNum] = React.useState(1);
   const [resume, setResume] = React.useState(null);
   const [resumeList, setResumeList] = React.useState([]);
+
   const fullWidth = true;
   const maxWidth = 'sm';
   /*const [bool,setBool] = React.useState(true);
@@ -58,7 +59,7 @@ export default function TableManuais() {
       { title: 'Editora', field: 'publishing_company'},
       { title: 'Capa', field: 'cover',render: rowData => (     
         <>
-          <ImageOutlined onClick={() => openImg(rowData.cover)} className="pointer"/>
+          <ImageOutlined onClick={() => openImg(rowData.cover)} className="pointer"/>          
         </>
       ),editable: 'never'},
       { title: 'Descarregar capa',render: rowData => (     
@@ -129,9 +130,20 @@ export default function TableManuais() {
     console.log(data);
   }
 
-  async function addBooks(isbn,code,name,publishing_company,subject_id){
-    const {data} = await api.post('/books',{isbn:isbn,name:name,code:code,publishing_company:publishing_company,subject_id:subject_id});
+  async function addBooks(newData){
+    console.log(newData,':::',fileimg.file)
+    const formData1 = new FormData();
+    formData1.append('isbn',newData.isbn)
+    formData1.append('name',newData.name)
+    formData1.append('code',newData.code)
+    formData1.append('publishing_company',newData.publishing_company)
+    formData1.append('subject_id',newData.subject_id)
+    formData1.append('cover',fileimg.file)
+    const {data} = api_formdata.post('/books',formData1);
     console.log(data);
+
+    /*const {data} = await api.post('/books',{isbn:isbn,name:name,code:code,publishing_company:publishing_company,subject_id:subject_id});
+    console.log(data);*/
   }
 
   function EditBooks(isbn,name,publishing_company,subject_id){
@@ -201,12 +213,13 @@ export default function TableManuais() {
         }
       ]}
       editable={{
+        
         onRowAdd: (newData) =>
           new Promise((resolve) => {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
-                addBooks(newData.isbn,newData.code,newData.name,newData.publishing_company,newData.subject_id);
+                addBooks(newData);
                 const data = [...prevState.data];
                 data.push(newData);
                 return { ...prevState, data };
