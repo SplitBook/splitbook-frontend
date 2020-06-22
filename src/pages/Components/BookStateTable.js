@@ -18,10 +18,10 @@ export default function BookStateTable() {
     getStates();
 
   async function getStates(){
-    setBool(false)
     const {data} = await api.get('/book-states');
     console.log(data);
     state.data=data;
+    setBool(false)
   }
 
   async function deleteStates(id){

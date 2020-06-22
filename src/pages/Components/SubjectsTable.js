@@ -18,10 +18,10 @@ export default function SubjectsTable() {
     getSubjects();
 
   async function getSubjects(){
-    setBool(false)
     const {data} = await api.get('/school-subjects');
     console.log(data);
     state.data=data;
+    setBool(false)
   }
 
   async function deleteSubject(id){
@@ -35,7 +35,7 @@ export default function SubjectsTable() {
   }
 
   async function EditSubjects(subject,id){
-    const {data} = await api.post('/school-subjects/'+id,{school_subject:subject,active:false});
+    const {data} = await api.put('/school-subjects/'+id,{school_subject:subject});
     console.log(data);
   }
 
@@ -59,6 +59,7 @@ export default function SubjectsTable() {
                 return { ...prevState, data };
               });
             }, 600);
+            
           }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {

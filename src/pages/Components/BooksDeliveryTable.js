@@ -55,64 +55,38 @@ const useStyles1 = makeStyles((theme) => ({
 }));
 
 
-var selectedPhysicalBooks = [];
 
 function Row(props) {
-  const { row } = props;
+  const { row,setList,list } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const [numberOfRows, setNumberOfRows] = React.useState(0);
 
   function SelectionChange(rows,id,event){
     console.log(rows,'::',event)
+    setList([...list,{book_requisition_id: id,physical_book_id: rows[0].id,book_state_id: rows[0].state_id}])
     setNumberOfRows(rows.length)
     console.info(id)
-    if(rows.length===1){
-      console.log('Rows: ',rows)
-      if(rows.length>1){
-        var num=0
-        for(let i=0;i<rows.length;i++){
-          if(rows[0].isbn===rows[i].isbn)
-            num+=1
+    
+      /*if(list.length!==0){
+        let num=0;
+        for(let k=0;k<list.length;k++){
+          if(list[k].book_requisition_id === id){
+            num=1;
+          }
         }
-        if(num===1){
-          verifyList(rows[0],id)
+        if(num===0){
+          //verifyList(rows[0],id)
+          setList([...list,{book_requisition_id: id,physical_book_id: rows[0].id,book_state_id: rows[0].state_id}])
         }
       }
       else{
-        verifyList(rows[0],id)
-      }
-    }
-    else if(rows.length!==1){
-      var tmp = []
-      for(let i=0;i<selectedPhysicalBooks.length;i++){
-        if(selectedPhysicalBooks[i].book_requisition_id!==id){
-          tmp.push(selectedPhysicalBooks[i])
-        }
-      }
-      selectedPhysicalBooks=tmp
-      console.log(tmp,'Done',selectedPhysicalBooks)      
-    }
+        console.log({book_requisition_id: id,physical_book_id: rows[0].id,book_state_id: rows[0].state_id})
+        setList([{book_requisition_id: id,physical_book_id: rows.id,book_state_id: rows.state_id}])
+      }*/
     
   }
 
-  function verifyList(row,id){
-    console.log('Row:',row)
-    var bool=true
-    for(var i=0;i<selectedPhysicalBooks.length;i++){
-      if(row.isbn === selectedPhysicalBooks[i].isbn){
-        bool=false
-        selectedPhysicalBooks[i]={book_requisition_id:id,physical_book_id:row.id,book_state_id:row.state_id}
-        break;
-      }
-    }
-    if(bool){
-      row.book_requisition_id=id
-      //row
-      selectedPhysicalBooks.push({book_requisition_id:id,physical_book_id:row.id,book_state_id:row.state_id})
-      console.log(selectedPhysicalBooks)
-    }
-  }
 
 
   return (
@@ -240,7 +214,9 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   const [bookRequisitionsLength, setBookRequisitionsLength] = React.useState(0);
   const [text, setText] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
+  const [list, setList] = React.useState([]);
+  const [url, setUrl] = React.useState('');
+ 
   var bool = true
   if(rows.length===0 && bool)
     getBookRequisitions()
@@ -259,15 +235,17 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   };
 
   async function Submit(){
-    console.log('Submit',bookRequisitionsLength,':',selectedPhysicalBooks)
-    if(selectedPhysicalBooks.length!==1){
+    console.log(list)
+    if(list.length===0){
       alert('Para submeter a entrega dos livros é necessário efetuar a entrega de livros fisicos')
     }
     else{
       try{
-        const {data} = await api.post('/physical-books/deliveries',{requisitions_physical_book:selectedPhysicalBooks})
+        console.log({requisitions_physical_book:list});
+        const {data} = await api.post('/physical-books/deliveries',{requisitions_physical_book:list})
         console.log(data);
-        setText('Efetuado com Sucesso!')
+        generateReport(data[0].report_id)
+        setText('Efetuado com Sucesso! Aguarde pelo relatório...')
         setOpen(true)
       }
       catch(error){
@@ -275,6 +253,16 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
         setOpen(true)
       }
     }
+  }
+
+  async function generateReport(id){
+    const {data} = await api.get('/generate/report/'+id)
+    console.log(data)
+    setUrl(data.file)
+    console.log('url',data.file)
+    const formData = new FormData();
+    formData.append('valid',true)
+    api.put('/report/'+id,formData)
   }
 
     const handleClose = (event, reason) => {
@@ -321,7 +309,7 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
                   ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   : rows
                 ).map((row) => (
-                  <Row key={row.disciplina} row={row} />
+                  <Row key={row.disciplina} row={row} setList={setList} list={list}/>
                 ))}
               </TableBody>
               <TableFooter>
@@ -350,6 +338,9 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
             <textarea value={obs} onChange={handleChangeObs} rows="15" cols="40"/>
             <Button className="btnMargin" variant="outlined" color="primary" onClick={Submit}>
                 Submeter
+            </Button>
+            <Button className="btnMargin" variant="outlined" color="primary" onClick={() => window.open(url)} disabled={url===''}>
+                Abrir relatório
             </Button>
         </Grid>
     </Grid>

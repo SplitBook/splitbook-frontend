@@ -121,7 +121,7 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   async function getBookRequisitions(){
     bool=false
     const {data} = await api.get('/requisitions/'+requisitionId)
-    setRows(data.reports[0].deliveries)
+    setRows(data.book_requisitions)
     console.log("data: ",data);
   }
 
@@ -132,8 +132,8 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   };
 
   function Submit(){
-    console.log(booksListWithState);
-    api.post('/physical-books/returns',booksListWithState);
+    console.log(rows);
+    //api.post('/physical-books/returns',booksListWithState);
   }
 
   
@@ -143,15 +143,17 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
     setBooksStates(data);     
 }
 
-function SelectBooksStates({rowId}) {
+function SelectBooksStates({rowId,rowbookstate}) {
+  console.log('Dureex:',rowbookstate)
+  const [statebook,setStatebook] = React.useState('');
   const listItems = bookStates.map((state) =>
   <option value={state.id}>{state.state}</option>
   );
   return (
       <Select
       native
-      value={state}
-      onChange={(e) => handleChange(e.target.value,rowId)}
+      value={rowbookstate}
+      onChange={(e) => handleChange(e.target.value,rowId) && setStatebook(Number(e.target.value))}
       label="Estado"
       inputProps={{
           name: 'Estado do livro',
@@ -167,9 +169,14 @@ function SelectBooksStates({rowId}) {
 
 
 const handleChange = (event,rowId) => {
-  console.log('event:',Number(event))
+  console.log('event:',Number(event),rowId)
+  for(let k=0;k<rows.length;k++){
+    if(rows[k].id === rowId){
+      rows[k].bookstate = Number(event)
+    }
+  }
   setState(event);
-  if(Number(event)===0){
+  /*if(Number(event)===0){
     var tmp = [];
     for(var i=0;i<booksListWithState.length;i++){
       if(booksListWithState[i].id !== rowId){
@@ -189,7 +196,7 @@ const handleChange = (event,rowId) => {
       booksListWithState.push({id:rowId,book_state_id:Number(event)})
     }
   }
-  console.log(booksListWithState);
+  console.log(booksListWithState);*/
 };
 
 const [page, setPage] = React.useState(0);
@@ -235,9 +242,9 @@ const handleChangeRowsPerPage = (event) => {
                     {row.id}
                   </TableCell>
                   <TableCell align="right">{row.physical_book_id}</TableCell>
-                  <TableCell align="right">{row.book_isbn}</TableCell>
+                  <TableCell align="right">{row.isbn}</TableCell>
                   <TableCell align="right">
-                    <SelectBooksStates rowId={row.id}/>
+                    <SelectBooksStates rowId={row.id} rowbookstate={row.bookstate}/>
                   </TableCell>
                 </TableRow>
               ))}

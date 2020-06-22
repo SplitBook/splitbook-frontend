@@ -138,6 +138,7 @@ export default function StudentsTable() {
                 data[data.indexOf(oldData)] = newData;
                 return { ...prevState, data };
               });
+              
             }
           }, 600);
           
