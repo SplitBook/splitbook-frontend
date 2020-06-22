@@ -132,7 +132,18 @@ export default function TableManuais() {
       book_isbn: infoLivro.isbn,
     });
     console.log("data (GeneratePhysicalBooks):", data);
-    setPhysicalBooks(data);
+    try{
+      if(data.length>=2){
+        setPhysicalBooks(data);
+      }
+      else{
+        setPhysicalBooks([data]);
+      }
+    }
+    catch(error){
+      setPhysicalBooks([data]);
+    }
+    
     setOpen1(false);
     setOpen2(true);
   }
