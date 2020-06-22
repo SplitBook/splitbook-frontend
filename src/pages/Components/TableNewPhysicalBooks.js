@@ -55,15 +55,13 @@ export default function TableNewPhysicalBooks({physicalBooks,num}) {
       </Grid>
       
     </Grid>
-    <Grid container spacing={2}>
-      <Grid item>
-        <MaterialTable
-            title=" "
-            columns={state.columns}
-            data={state.data}
-          />
-      </Grid>
-    </Grid>
+    
+    <MaterialTable
+      title=" "
+      columns={state.columns}
+      data={state.data}
+    />
+   
     
     
 

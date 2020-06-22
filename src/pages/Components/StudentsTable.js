@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 
 
 export default function StudentsTable() {
-  const [open, setOpen] = React.useState(false);
+  //const [open, setOpen] = React.useState(false);
   //const [photo_photo, setPhoto_photo] = React.useState({photo:null,number:null});
   //const [fileimg, setFileimg] = React.useState({file:null});
   function BornDate(data){
@@ -59,9 +59,9 @@ export default function StudentsTable() {
     console.log("file::: ",fileimg);
   }*/
 
-  const handleClose = () => {
+  /*const handleClose = () => {
     setOpen(false);
-  };
+  };*/
 
   async function deleteStudent(id){
     const {data} = await api.delete('/students/'+id);

@@ -33,12 +33,27 @@ export default function TableManuais() {
   const [num,setNum] = React.useState(1);
   const [resume, setResume] = React.useState(null);
   const [resumeList, setResumeList] = React.useState([]);
+  const fullWidth = true;
+  const maxWidth = 'sm';
+  /*const [bool,setBool] = React.useState(true);
+  const [subjects,setSubjects] = React.useState(true);
+
+  if(bool)
+    getSubjects();
+
+  async function getSubjects(){
+    setBool(false)
+    const {data} = await api.get('/school-subjects');
+    console.log(data);
+    setSubjects(data)
+    
+  }*/
   
   const [state, setState] = React.useState({
     columns: [
-      { title: 'ISBN', field: 'isbn',editable: 'never'},
-      { title: 'Código', field: 'code',editable: 'never'},
-      { title: 'Disciplina', field: 'name' },
+      { title: 'ISBN', field: 'isbn',editable: 'onAdd'},
+      { title: 'Código', field: 'code',editable: 'onAdd'},
+      { title: 'Disciplina', field: 'name'},
       { title: 'Editora', field: 'publishing_company'},
       { title: 'Capa', field: 'cover',render: rowData => (     
         <>
@@ -301,6 +316,8 @@ export default function TableManuais() {
         physicalBooks.length>0 &&
         <Dialog
           open={open2}
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
           TransitionComponent={Transition}
           keepMounted
           aria-labelledby="alert-dialog-slide-title"

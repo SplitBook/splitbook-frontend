@@ -101,7 +101,7 @@ export default function AddUsers(){
               <TextField variant="outlined" value={username} onChange={e => setUsername(e.target.value)} helperText="* Nome de Utilizador"/>
             </Grid>
             <Grid item >
-              <TextField type="date" variant="outlined" value={born_date} onChange={e => setBorn_date(e.target.value)} helperText="Data de nascimento"/>
+              <TextField type="date" variant="outlined" value={born_date} onChange={e => setBorn_date(e.target.value)} helperText="* Data de nascimento"/>
             </Grid>
         </Grid>
         <Grid container spacing={2}>
@@ -109,7 +109,7 @@ export default function AddUsers(){
             <TextField variant="outlined" value={phone} onChange={e => setPhone(e.target.value)} helperText="Nº de telemóvel"/>
           </Grid>
           <Grid item >
-            <TextField variant="outlined" className="maxwidth" value={email} onChange={e => setEmail(e.target.value)} helperText=" * Endereço email"/>
+            <TextField variant="outlined" className="maxwidth" value={email} onChange={e => setEmail(e.target.value)} helperText="* Endereço email"/>
           </Grid>
         </Grid>
         <div className="margTop">

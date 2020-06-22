@@ -3,15 +3,16 @@
 }
 
 .status1{
-    color: red;
-}
-
-.status2{
     color: orange;
 }
 
-.status3{
+.status2{
     color: green;
+    
+}
+
+.status3{
+    color: red;
 }
 
 .SnackBarBtn{
