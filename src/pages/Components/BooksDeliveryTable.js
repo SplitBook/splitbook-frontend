@@ -62,33 +62,52 @@ function Row(props) {
 
   function SelectionChange(rows, id, event) {
     console.log(rows, "::", event);
-    setList([
-      ...list,
-      {
-        book_requisition_id: id,
-        physical_book_id: rows[0].id,
-        book_state_id: rows[0].state_id,
-      },
-    ]);
-    setNumberOfRows(rows.length);
-    console.info(id);
-
-    /*if(list.length!==0){
-        let num=0;
-        for(let k=0;k<list.length;k++){
-          if(list[k].book_requisition_id === id){
-            num=1;
-          }
+    if(rows.length===1){
+      let bool = false;
+      let tmp = [];
+      var code = event.id.split('-');
+      console.log('COODEE:',code);
+      for(let k=0;k<list.length;k++){
+        if(list[k].book_requisition_id !== id ){
+          console.log(list[k].book_requisition_id,id,k)
+            tmp.push({
+              book_requisition_id: list[k].book_requisition_id,
+              physical_book_id: list[k].physical_book_id,
+              book_state_id: list[k].book_state_id,
+            });
         }
-        if(num===0){
-          //verifyList(rows[0],id)
-          setList([...list,{book_requisition_id: id,physical_book_id: rows[0].id,book_state_id: rows[0].state_id}])
+        else if(list[k].physical_book_id!==event.id){
+          console.log(list[k].physical_book_id,event.id,k)
+          tmp.push({
+            book_requisition_id: id,
+            physical_book_id: rows[0].id,
+            book_state_id: rows[0].state_id,
+          });
+          bool=true
         }
+ 
+      }
+      if(bool){
+        console.log('1::: ',list,tmp)
+        setList(tmp);
       }
       else{
-        console.log({book_requisition_id: id,physical_book_id: rows[0].id,book_state_id: rows[0].state_id})
-        setList([{book_requisition_id: id,physical_book_id: rows.id,book_state_id: rows.state_id}])
-      }*/
+        setList([
+          ...list,
+          {
+            book_requisition_id: id,
+            physical_book_id: rows[0].id,
+            book_state_id: rows[0].state_id,
+          },
+        ]);
+      }
+      setNumberOfRows(rows.length);
+      console.info(id);
+    }
+    else if(event===undefined){
+      setNumberOfRows(0);
+    }
+    
   }
 
   return (
