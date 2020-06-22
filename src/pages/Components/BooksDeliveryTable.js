@@ -243,7 +243,7 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
     else{
       try{
         console.log({requisitions_physical_book:list});
-        const {data} = await api.post('/physical-books/deliveries',{requisitions_physical_book:list})
+        const {data} = await api.post('/physical-books/deliveries',{requisitions_physical_book:list,description:obs})
         console.log(data);
         generateReport(data[0].report_id)
         setText('Efetuado com Sucesso! Aguarde pelo relatório...')

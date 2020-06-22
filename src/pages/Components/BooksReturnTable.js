@@ -106,8 +106,6 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   const [obs, setObs] = React.useState('');
   const classes = useStyles();
   const [rows, setRows] = React.useState([]);
-  var [booksListWithState, setBooksListWithState] = React.useState([]);
-  const [state, setState] = React.useState('');
   const [bookStates,setBooksStates] = React.useState([]);
   const [text, setText] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -157,7 +155,7 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
     }
     else{
       console.log(tmp);
-      api.post('/physical-books/returns',{requisitions_physical_book:tmp});
+      api.post('/physical-books/returns',{requisitions_physical_book:tmp,description:obs});
     }
     
     //
@@ -206,7 +204,6 @@ const handleChange = (event,rowId) => {
       rows[k].bookstate = Number(event)
     }
   }
-  setState(event);
   /*if(Number(event)===0){
     var tmp = [];
     for(var i=0;i<booksListWithState.length;i++){

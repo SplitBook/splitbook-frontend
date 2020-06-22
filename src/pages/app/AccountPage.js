@@ -57,7 +57,8 @@ export default function AccountPage(){
     console.log("1: ",token)
     var decoded = jwt_decode(token)
     console.log("2: ",decoded)
-    getStudents(decoded.profile_id);
+    if(decoded.charge==='Encarregado de Educação')
+      getStudents(decoded.profile_id);
     var {data} = await api.get('/users/'+decoded.user_id);
     setTmp(data)
   }
@@ -278,7 +279,7 @@ export default function AccountPage(){
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button  color="primary" onClick={SubmitConfirmation} href='/app/account'>
+          <Button  color="primary" onClick={SubmitConfirmation} /*href='/app/account'*/>
             Continuar
           </Button>
         </DialogActions>
