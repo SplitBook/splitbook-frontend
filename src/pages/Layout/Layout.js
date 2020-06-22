@@ -112,9 +112,13 @@ export default function MiniDrawer({history}) {
   const [setDoned, setSetDoned] = React.useState(false);
   const [photo, setPhoto] = React.useState(null);
   const [email, setEmail] = React.useState(null);
+  const [bool, setBool] = React.useState(true);
 
-  setInfoAndCharge();
+  if(bool)
+    setInfoAndCharge();
+
   async function setInfoAndCharge(){
+    setBool(false)
     if(userInfo===null || userInfo===undefined){
         var token = Cookies.get('token')
         var decoded = jwt_decode(token)

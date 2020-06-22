@@ -53,7 +53,8 @@ export default function TableManuais() {
     columns: [
       { title: 'ISBN', field: 'isbn',editable: 'onAdd'},
       { title: 'Código', field: 'code',editable: 'onAdd'},
-      { title: 'Disciplina', field: 'name'},
+      { title: 'Nome', field: 'name'},
+      { title: 'Disciplina ID', field: 'subject_id'},
       { title: 'Editora', field: 'publishing_company'},
       { title: 'Capa', field: 'cover',render: rowData => (     
         <>
@@ -128,17 +129,18 @@ export default function TableManuais() {
     console.log(data);
   }
 
-  async function addBooks(isbn,code,name,publishing_company){
-    const {data} = await api.post('/books',{isbn:isbn,name:name,code:code,publishing_company:publishing_company});
+  async function addBooks(isbn,code,name,publishing_company,subject_id){
+    const {data} = await api.post('/books',{isbn:isbn,name:name,code:code,publishing_company:publishing_company,subject_id:subject_id});
     console.log(data);
   }
 
-  function EditBooks(isbn,name,publishing_company){
+  function EditBooks(isbn,name,publishing_company,subject_id){
     console.log("cover:: ",fileimg.file);
     const formData = new FormData();
     formData.append('cover',fileimg.file)
     formData.append('name',name)
     formData.append('publishing_company',publishing_company)
+    formData.append('subject_id',subject_id)
     console.log(formData)
     const {data} = api_formdata.put('/books/'+isbn,formData);
     console.log(data);
@@ -204,7 +206,7 @@ export default function TableManuais() {
             setTimeout(() => {
               resolve();
               setState((prevState) => {
-                addBooks(newData.isbn,newData.code,newData.name,newData.publishing_company);
+                addBooks(newData.isbn,newData.code,newData.name,newData.publishing_company,newData.subject_id);
                 const data = [...prevState.data];
                 data.push(newData);
                 return { ...prevState, data };
@@ -219,7 +221,7 @@ export default function TableManuais() {
                 setState((prevState) => {
                   newData.code=oldData.code
                   newData.isbn=oldData.isbn
-                  EditBooks(oldData.isbn,newData.name,newData.publishing_company)
+                  EditBooks(oldData.isbn,newData.name,newData.publishing_company,newData.subject_id)
                   const data = [...prevState.data];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };

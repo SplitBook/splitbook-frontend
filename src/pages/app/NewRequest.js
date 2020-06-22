@@ -88,7 +88,6 @@ export default function NovoRequisito(){
     async function getStudentBooks(class_id){
         const {data} = await api.get('/resumes/adopted-books?class_id='+class_id)
         setBooks(data)        
-        //console.log('Lista de Livros::: ',books)
     }
 
     const [studentOfList,setStudentOfList] = React.useState(null);
@@ -122,6 +121,8 @@ export default function NovoRequisito(){
         //console.log(studentsList)
         alert('Á espera de saber como ir buscar a lista de alunos da turma do prof logado!');
       }
+
+      console.log('NunexBooks',books)
 
     return (
         <>
@@ -177,7 +178,7 @@ export default function NovoRequisito(){
             </Grid>
         }
         {
-            books.length>0 &&
+            books.length!==0 &&
             <>
                 <TabelasLivros books={books} schoolEnrollmentsID={schoolEnrollmentsID}/>
             </>

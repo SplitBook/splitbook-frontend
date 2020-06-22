@@ -38,9 +38,14 @@ function intersection(a, b) {
 export default function TransferList({books,schoolEnrollmentsID}) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
+  console.log('Books: ',books)
   var lista_livros = [];  
-  for(var i=0;i<books.length;i++){
-    lista_livros.push(books[i].school_subject);
+  for(let i=0;i<books.length;i++){
+    console.log('###',books[i].adopted_books)
+    for(let k=0;k<books[i].adopted_books.length;k++){
+      console.log('!!!',books[i].adopted_books[k].school_subject)
+      lista_livros.push(books[i].adopted_books[k].school_subject);
+    }
   }
   const [left, setLeft] = React.useState(lista_livros);
   const [right, setRight] = React.useState([]);
@@ -84,14 +89,25 @@ export default function TransferList({books,schoolEnrollmentsID}) {
   };
 
   async function efetuarRequisicao(){
-    console.log(right);
+    console.log('Right',right);
     var booksid = [];
 
-    for(var i=0;i<books.length;i++){
+    for(let i=0;i<books.length;i++){
+      console.log('###',books[i].adopted_books)
+      for(let k=0;k<books[i].adopted_books.length;k++){
+        console.log('!!!',books[i].adopted_books[k].school_subject)
+        for(let j=0;j<right.length;j++){
+          if(books[i].adopted_books[k].school_subject === right[j])
+          booksid.push(books[i].adopted_books[k].id);
+        }
+        
+      }
+    }
+    /*for(var i=0;i<books.length;i++){
       if(books[0].school_subject === right[0]){
         booksid.push(books[0].id)
       }
-    }
+    }*/
     console.log("Requisição: ",booksid,schoolEnrollmentsID);
     const {data} = await api.post('/requisition/adopted-books',{school_enrollment_id:schoolEnrollmentsID,adopted_books_ids:booksid});
     console.log(data);

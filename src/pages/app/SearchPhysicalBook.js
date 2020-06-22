@@ -43,7 +43,7 @@ export default function SearchPhysicalBook(){
       const {data} = await api.get('/generate/qr-codes?codes='+id);
       console.log(data);
       var fileDownload = require('js-file-download');
-      fileDownload(data,'file.csv');
+      fileDownload(data,'qrcode.csv');
     }
     const handleChangeState = (event) => {
       setState(event)

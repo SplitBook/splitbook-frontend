@@ -8,6 +8,7 @@ export default function SubjectsTable() {
   const [bool, setBool] = React.useState(true); 
   const [state, setState] = React.useState({
     columns: [
+      { title: 'ID', field: 'id',editable: 'never'},
       { title: 'Nome', field: 'school_subject' },
     ],
     data: [],

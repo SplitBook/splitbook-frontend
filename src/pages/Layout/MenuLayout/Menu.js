@@ -410,7 +410,7 @@ const handleClick4 = () => {
     </>
   }
   {
-    group==='Administrador' &&
+    group==='xxx' &&
     <>
       <Link to="/app/permissions">
         <ListItem button>
