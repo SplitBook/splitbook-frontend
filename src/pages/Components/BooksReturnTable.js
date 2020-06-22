@@ -20,7 +20,8 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import IconButton from '@material-ui/core/IconButton';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -108,20 +109,32 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   var [booksListWithState, setBooksListWithState] = React.useState([]);
   const [state, setState] = React.useState('');
   const [bookStates,setBooksStates] = React.useState([]);
+  const [text, setText] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+  const [bool, setBool] = React.useState(true);
   
   if(bookStates.length===0){
     getBooksStates();
   }
   
- 
-  var bool = true
-  if(rows.length===0 && bool)
+
+  if(bool)
     getBookRequisitions()
 
   async function getBookRequisitions(){
-    bool=false
     const {data} = await api.get('/requisitions/'+requisitionId)
-    setRows(data.book_requisitions)
+    setBool(false)
+    let tmp = [];
+    for(let i=0;i<data.book_requisitions.length;i++){
+      if(data.book_requisitions[i].delivery_date!==null){
+        tmp.push(data.book_requisitions[i])
+      }
+    }
+    if(tmp.length===0){
+        setText('Não existem livros para devolver!')
+        setOpen(true)
+    }
+    setRows(tmp)
     console.log("data: ",data);
   }
 
@@ -133,10 +146,23 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
 
   function Submit(){
     console.log(rows);
-    //api.post('/physical-books/returns',booksListWithState);
+    let tmp = []
+    for(let i=0;i<rows.length;i++){
+      if(rows[i].bookstate!== undefined && rows[i].bookstate!==0)
+        tmp.push({id:rows[i].id,book_state_id:rows[i].bookstate})
+    }
+    if(tmp.length===0){
+      setText('Para submeter necessário preencher o estado de pelo menos um livro!')
+      setOpen(true)
+    }
+    else{
+      console.log(tmp);
+      api.post('/physical-books/returns',{requisitions_physical_book:tmp});
+    }
+    
+    //
   }
 
-  
   async function getBooksStates(){
     const {data} = await api.get('/book-states')
     console.log("bookStates List: ",data)
@@ -144,8 +170,6 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
 }
 
 function SelectBooksStates({rowId,rowbookstate}) {
-  console.log('Dureex:',rowbookstate)
-  const [statebook,setStatebook] = React.useState('');
   const listItems = bookStates.map((state) =>
   <option value={state.id}>{state.state}</option>
   );
@@ -153,7 +177,7 @@ function SelectBooksStates({rowId,rowbookstate}) {
       <Select
       native
       value={rowbookstate}
-      onChange={(e) => handleChange(e.target.value,rowId) && setStatebook(Number(e.target.value))}
+      onChange={(e) => handleChange(e.target.value,rowId) }
       label="Estado"
       inputProps={{
           name: 'Estado do livro',
@@ -166,6 +190,13 @@ function SelectBooksStates({rowId,rowbookstate}) {
   );
 }
 
+const handleClose = (event, reason) => {
+  if (reason === 'clickaway') {
+    return;
+  }
+
+  setOpen(false);
+};
 
 
 const handleChange = (event,rowId) => {
@@ -278,6 +309,26 @@ const handleChangeRowsPerPage = (event) => {
             </Button>
         </Grid>
     </Grid>
+
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={open}
+            autoHideDuration={5000}
+            onClose={handleClose}
+            message={text}
+            action={
+              <React.Fragment>
+                <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
+        </div>
     
     </>
   );

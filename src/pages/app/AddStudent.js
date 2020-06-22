@@ -5,12 +5,17 @@ import Button from '@material-ui/core/Button';
 import Header from '../Components/Header';
 import api from '../../services/api';
 import './AppStyles.css';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 
 export default function AddStudent(){
   const [name, setName] = React.useState(null);
   const [num, setNum] = React.useState(null);
   const [born_date, setBorn_date] = React.useState(null);
+  const [text, setText] = React.useState('');
+  const [open, setOpen] = React.useState(false);
 
     async function submit(){
       console.log(name,num,born_date);
@@ -19,7 +24,8 @@ export default function AddStudent(){
         console.log(data);
       }
       catch(error){
-        alert('Erro! Preencha corretamente os campos!')
+        setText('Preencha todos os campos!')
+        setOpen(true)
         setBorn_date(null)
         setNum(null)
         setName(null)
@@ -28,6 +34,14 @@ export default function AddStudent(){
       setNum('')
       setName('')
     }
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen(false);
+    };
     
     return (
       <>
@@ -50,6 +64,26 @@ export default function AddStudent(){
           </Button>
         </div>
         
+      </div>
+
+      <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          message={text}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </div>
       </>
       );

@@ -237,7 +237,8 @@ export default function BooksDeliveryANDReturnTable({requisitionId,stdnumber,gua
   async function Submit(){
     console.log(list)
     if(list.length===0){
-      alert('Para submeter a entrega dos livros é necessário efetuar a entrega de livros fisicos')
+      setText('Para submeter a entrega é necessário selecionar os livros (físicos) a entregar!')
+      setOpen(true)
     }
     else{
       try{

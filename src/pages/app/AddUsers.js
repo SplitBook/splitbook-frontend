@@ -8,6 +8,9 @@ import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import api from '../../services/api';
 import './AppStyles.css';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 
 export default function AddUsers(){
@@ -22,6 +25,8 @@ export default function AddUsers(){
     const [email, setEmail] = React.useState('');
     const [born_date, setBorn_date] = React.useState('');
     const [phone, setPhone] = React.useState('');
+    const [text, setText] = React.useState('');
+    const [open, setOpen] = React.useState(false);
 
     function fileUpload(e){
       //setFileimg(e.target.files[0])
@@ -43,6 +48,14 @@ export default function AddUsers(){
 
     const handleChangeAdmin = (event) => {
       setAdmin(event.target.checked);
+    };
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen(false);
     };
 
     async function submit(){
@@ -72,7 +85,8 @@ export default function AddUsers(){
         }
       }
       catch(error){
-        alert('Erro! Preencha corretamente os campos!')
+        setText('Preencha corretamente os campos!')
+        setOpen(true)
         setBorn_date('')
         setEmail('')
         setPhone('')
@@ -184,6 +198,26 @@ export default function AddUsers(){
           </Button>
         </div>
         
+      </div>
+
+      <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={open}
+          autoHideDuration={5000}
+          onClose={handleClose}
+          message={text}
+          action={
+            <React.Fragment>
+              <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </React.Fragment>
+          }
+        />
       </div>
       </>
       );
