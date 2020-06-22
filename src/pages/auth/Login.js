@@ -56,8 +56,6 @@ function SimpleDialog(props) {
     }
     
     function setInfoAndCharge(){
-        //setGroups(JSON.parse(Cookies.get('profiles')))
-        //console.log("Gui::: ",groups);
         if(groups.length!==0)
             setBool(false);
     }
@@ -90,14 +88,10 @@ function SimpleDialog(props) {
   
 
 export default function Login({ history,props}){
-    const classes = useStyles();
     const [username,setUsername]= useState('');
     const [password,setPassword]= useState('');
     const [open, setOpen] = React.useState(false);
-    
     const [opengroups, setOpengroups] = React.useState(false);
-
-    const [activebackdrop, setActivebackdrop] = React.useState(false);
     const [groups, setGroups] = React.useState([]);
 
 
@@ -137,6 +131,7 @@ export default function Login({ history,props}){
             Cookies.remove('tokenLogin')
             console.log('Authentication Error:',Error)
             setOpen(true);
+            setPassword('')
         }
     
     }

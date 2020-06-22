@@ -102,6 +102,8 @@ export default function AllRequests() {
       setOpenPhoto(true);
       }
 
+      const fullWidth = true;
+      const maxWidth = 'sm';
       const tableRef = React.createRef();
 
   return (
@@ -193,6 +195,8 @@ export default function AllRequests() {
 
             <Dialog
             open={openBookList}
+            fullWidth={fullWidth}
+            maxWidth={maxWidth}
             //onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
@@ -225,6 +229,8 @@ export default function AllRequests() {
                   .then(result => {
                         resolve({
                         data: result.book_requisitions,
+                        page: query.page,
+                        totalCount: result.book_requisitions.length,
                         })
                   })
                   })

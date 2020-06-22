@@ -78,6 +78,9 @@ export default function MaterialTableDemo() {
     api.delete('/requisitions/'+id)
   }
 
+  const fullWidth = true;
+  const maxWidth = 'sm';
+
   const tableRef = React.createRef();
   return (
     <>
@@ -180,6 +183,8 @@ export default function MaterialTableDemo() {
 
     <Dialog
         open={open}
+        fullWidth={fullWidth}
+        maxWidth={maxWidth}
         //onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -199,6 +204,10 @@ export default function MaterialTableDemo() {
             )},
     
           ]}
+          options={{
+                search: false,
+                sorting: false
+          }}
             data={query =>
             new Promise((resolve, reject) => {
               console.log('ID req::',reqId)
@@ -209,8 +218,8 @@ export default function MaterialTableDemo() {
                 .then(result => {
                   resolve({
                     data: result.book_requisitions,
-                    //page: result.page - 1,
-                    //totalCount: result.book_requisitions.length,
+                    page: query.page,
+                    totalCount: result.book_requisitions.length,
                   })
                 })
             })
