@@ -234,7 +234,7 @@ export default function MiniDrawer({history}) {
         
         </center>
          <List>
-            <MenuLayout history={history} openMenu={open}/>
+            <MenuLayout setOpenDrawer={setOpen} history={history} openMenu={open}/>
         </List>
         
       </Drawer>
