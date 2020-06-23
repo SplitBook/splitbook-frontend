@@ -117,7 +117,7 @@ export default function NovoRequisito(){
         console.log(event.target.value)
         var tmp = "";
         tmp = event.target.value;
-        if(tmp.length>3)
+        if(tmp.length>2)
           getAllStudents(tmp);
       };
   
