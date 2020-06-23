@@ -231,27 +231,7 @@ export default function BooksDeliveryANDReturnTable({
         rows[k].bookstate = Number(event);
       }
     }
-    /*if(Number(event)===0){
-    var tmp = [];
-    for(var i=0;i<booksListWithState.length;i++){
-      if(booksListWithState[i].id !== rowId){
-        tmp.push({id:rowId,book_state_id:Number(event)});
-      }
-    }
-    booksListWithState = tmp;
-  }
-  else{
-    let ok = true
-    for(let i=0;i<booksListWithState.length;i++){
-      if(booksListWithState[i].id === rowId){
-        ok=false;
-      }
-    }
-    if(ok){
-      booksListWithState.push({id:rowId,book_state_id:Number(event)})
-    }
-  }
-  console.log(booksListWithState);*/
+    
   };
 
   const [page, setPage] = React.useState(0);
