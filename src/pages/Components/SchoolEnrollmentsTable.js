@@ -20,7 +20,6 @@ export default function SchoolEnrollmentsTable() {
   var decoded = jwt_decode(token);
   const [state, setState] = React.useState({
     columns: [
-      { title: "ID", field: "id" },
       { title: "Nome E.E", field: "guardian_name" },
       { title: "Ano escolar", field: "school_year" },
       { title: "Nome aluno", field: "student_name" },
@@ -141,7 +140,7 @@ export default function SchoolEnrollmentsTable() {
               Alteração de Turma
             </DialogTitle>
             <DialogContent>
-              <h3>ID: {schoolEnrollmentsID}</h3>
+              {/* <h3>ID: {schoolEnrollmentsID}</h3> */}
               <Autocomplete
                 options={classeslist}
                 getOptionLabel={(option) => option.class}
