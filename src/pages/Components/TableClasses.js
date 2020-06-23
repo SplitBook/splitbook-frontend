@@ -43,10 +43,10 @@ export default function TableClasses() {
   getGeneralClasses();
 
   async function getGeneralClasses(){
-    setBool(false)
     const {data} = await api.get('/general-classes');
     console.log(data);
     state.data=data;
+    setBool(false)
   }
 
   async function deleteGeneralClasses(id){

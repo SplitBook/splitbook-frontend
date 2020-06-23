@@ -170,7 +170,7 @@ export default function AccountPage(){
           </Grid>
           <Grid item >
             <Tooltip title="Editar os meus dados">
-              <Button variant="outlined" color="primary"onClick={() => 
+              <Button variant="outlined" color="primary" onClick={() => 
                 {
                 setOpenEditUser(true) 
                 setEditedInformation({email:null,born_date:null,username:null,phone:null})

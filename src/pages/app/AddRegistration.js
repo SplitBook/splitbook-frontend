@@ -23,7 +23,7 @@ export default function AddRegistration(){
 
     async function getClasses(){
       num=1
-      const {data} = await api.get('/classes');
+      const {data} = await api.get('/classes?current_school_year=true');
       setClasseslist(data.data);
     }
 
