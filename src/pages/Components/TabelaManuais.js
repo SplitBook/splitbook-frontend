@@ -57,25 +57,25 @@ export default function TableManuais() {
       { title: "ISBN", field: "isbn", editable: "onAdd" },
       { title: "Código", field: "code", editable: "onAdd" },
       { title: "Nome", field: "name" },
-      { title: "Disciplina ID", field: "subject_id" },
       { title: "Editora", field: "publishing_company" },
       {
         title: "Capa",
         field: "cover",
         render: (rowData) => (
           <>
-          <Button disabled={rowData.cover===null}>
-            <ImageOutlined
+            <Button
+              disabled={rowData ? !rowData.cover : true}
               onClick={() => openImg(rowData.cover)}
-              className="pointer"
-            />
-          </Button>
+            >
+              <ImageOutlined className="pointer" />
+            </Button>
           </>
         ),
         editable: "never",
       },
       {
-        title: "Descarregar capa",
+        title: "Carregar capa",
+
         render: (rowData) => (
           <>
             <input type="file" onChange={fileUpload} />
@@ -134,25 +134,23 @@ export default function TableManuais() {
       book_isbn: infoLivro.isbn,
     });
     console.log("data (GeneratePhysicalBooks):", data);
-    try{
-      if(data.length>=2){
+    try {
+      if (data.length >= 2) {
         setPhysicalBooks(data);
-      }
-      else{
+      } else {
         setPhysicalBooks([data]);
       }
-    }
-    catch(error){
+    } catch (error) {
       setPhysicalBooks([data]);
     }
-    
+
     setOpen1(false);
     setOpen2(true);
   }
 
   async function AdoptBook() {
     //console.log('resume: ',resume.id,infoLivro.isbn);
-    /*const {data} = await */ api.post("/adopted-books", {
+    /*const {data} = await */ await api.post("/adopted-books", {
       resume_id: resume.id,
       book_isbn: infoLivro.isbn,
     });
@@ -176,8 +174,9 @@ export default function TableManuais() {
     formData1.append("isbn", newData.isbn);
     formData1.append("name", newData.name);
     formData1.append("code", newData.code);
-    formData1.append("publishing_company", newData.publishing_company);
-    formData1.append("subject_id", newData.subject_id);
+    if (newData.publishing_company)
+      formData1.append("publishing_company", newData.publishing_company);
+    // formData1.append("subject_id", newData.subject_id);
     formData1.append("cover", fileimg.file);
     const { data } = api_formdata.post("/books", formData1);
     console.log(data);
@@ -212,7 +211,9 @@ export default function TableManuais() {
   };
 
   async function getResumes(tmp) {
-    const { data } = await api.get("/resumes?search=" + tmp);
+    const { data } = await api.get(
+      "/resumes?current_school_year=true&search=" + tmp
+    );
     setResumeList(data.data);
     console.log(resumeList);
   }

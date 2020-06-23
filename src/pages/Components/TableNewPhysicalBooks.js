@@ -11,7 +11,7 @@ import "./ComponentsStyles.css";
 export default function TableNewPhysicalBooks({ physicalBooks, num }) {
   const [state, setState] = useState({
     columns: [
-      { title: "ID", field: "id" },
+      { title: "Código do livro", field: "id" },
       {
         title: "Gerar QR-Code",
         render: (rowData) => (

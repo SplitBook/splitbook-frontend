@@ -78,8 +78,12 @@ export default function TableClasses() {
 
   async function submitClass() {
     //console.log(classId,teacher.id)
-    api.post("/classes", { class_id: classId, head_class_id: teacher.id });
+    api.post("/classes", {
+      class_id: classId,
+      head_class_id: teacher ? teacher.id : null,
+    });
     setOpen(false);
+    setTeacher(null);
   }
 
   const handlerAutoCompleteTeachers = (event) => {
@@ -177,7 +181,7 @@ export default function TableClasses() {
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button color="primary" onClick={submitClass} disabled={!teacher}>
+          <Button color="primary" onClick={submitClass}>
             Continuar
           </Button>
         </DialogActions>

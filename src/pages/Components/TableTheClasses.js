@@ -16,7 +16,7 @@ export default function TableTheClasses() {
 
   async function deleteClasses(class_id, school_year_id) {
     const { data } = await api.delete(
-      "/classe/" + class_id + "/" + school_year_id
+      "/classes/" + class_id + "/" + school_year_id
     );
     console.log(data);
   }

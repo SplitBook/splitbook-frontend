@@ -1,26 +1,26 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Tooltip from '@material-ui/core/Tooltip';
-import api from '../../services/api';
-
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+import Tooltip from "@material-ui/core/Tooltip";
+import api from "../../services/api";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 40,
-    marginBottom: 5
+    marginBottom: 5,
   },
   paper: {
     width: 320,
     height: 360,
-    overflow: 'auto',
+    overflow: "auto",
   },
   button: {
     margin: theme.spacing(0.5, 0),
@@ -35,19 +35,23 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function TransferList({books,schoolEnrollmentsID}) {
+export default function TransferList({ books, schoolEnrollmentsID }) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([]);
-  console.log('Books: ',books)
-  var lista_livros = [];  
-  for(let i=0;i<books.length;i++){
-    console.log('###',books[i].adopted_books)
-    for(let k=0;k<books[i].adopted_books.length;k++){
-      console.log('!!!',books[i].adopted_books[k].name)
-      lista_livros.push(books[i].adopted_books[k].name);
-    }
-  }
-  const [left, setLeft] = React.useState(lista_livros);
+
+  useEffect(() => {
+    let adoptedBooks = [];
+    books.forEach((resume) => {
+      resume.adopted_books.forEach((adoptedBook) => {
+        adoptedBooks.push(adoptedBook);
+      });
+    });
+
+    setLeft(adoptedBooks);
+    setRight([]);
+  }, [books]);
+
+  const [left, setLeft] = React.useState([]);
   const [right, setRight] = React.useState([]);
 
   const leftChecked = intersection(checked, left);
@@ -88,49 +92,43 @@ export default function TransferList({books,schoolEnrollmentsID}) {
     setRight([]);
   };
 
-  async function efetuarRequisicao(){
-    console.log('Right',right);
-    var booksid = [];
+  async function efetuarRequisicao() {
+    const adopted_books_ids = right.map((adoptedBook) => adoptedBook.id);
 
-    for(let i=0;i<books.length;i++){
-      console.log('###',books[i].adopted_books)
-      for(let k=0;k<books[i].adopted_books.length;k++){
-        console.log('!!!',books[i].adopted_books[k].school_subject)
-        for(let j=0;j<right.length;j++){
-          if(books[i].adopted_books[k].school_subject === right[j])
-          booksid.push(books[i].adopted_books[k].id);
-        }
-        
-      }
+    try {
+      const { data } = await api.post("/requisition/adopted-books", {
+        school_enrollment_id: schoolEnrollmentsID,
+        adopted_books_ids,
+      });
+
+      toast.success("Requisição efetuada com sucesso.");
+    } catch (err) {
+      toast.error("Impossível efetuar requisição.");
     }
-    /*for(var i=0;i<books.length;i++){
-      if(books[0].school_subject === right[0]){
-        booksid.push(books[0].id)
-      }
-    }*/
-    console.log("Requisição: ",booksid,schoolEnrollmentsID);
-    const {data} = await api.post('/requisition/adopted-books',{school_enrollment_id:schoolEnrollmentsID,adopted_books_ids:booksid});
-    console.log(data);
-    console.log('post: ',{school_enrollment_id:schoolEnrollmentsID,adopted_books_ids:booksid})
-}
+  }
 
   const customList = (items) => (
     <Paper className={classes.paper}>
       <List dense component="div" role="list">
         {items.map((value) => {
-          const labelId = `transfer-list-item-${value}-label`;
+          const labelId = `transfer-list-item-${value.book_isbn}-label`;
 
           return (
-            <ListItem key={value} role="listitem" button onClick={handleToggle(value)}>
+            <ListItem
+              key={value.id}
+              role="listitem"
+              button
+              onClick={handleToggle(value)}
+            >
               <ListItemIcon>
                 <Checkbox
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
+                  inputProps={{ "aria-labelledby": labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={value} />
+              <ListItemText id={labelId} primary={value.name} />
             </ListItem>
           );
         })}
@@ -141,79 +139,82 @@ export default function TransferList({books,schoolEnrollmentsID}) {
 
   return (
     <>
-    <Grid container spacing={2} alignItems="center" className={classes.root}>
-      <Grid item>
-      <center>
-        <h3>Manuais disponiveis para requisitar</h3>
-      </center>
-      {customList(left)}
-      </Grid>
-      <Grid item>
-        <Grid container direction="column" alignItems="center">
-          <Tooltip title="mover todos os manuais para a direita">
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.button}
-            onClick={handleAllRight}
-            disabled={left.length === 0}
-          >
-            ≫
-          </Button>
-          </Tooltip>
-          <Tooltip title="mover o(s) manuais para a direita">
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.button}
-            onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
-          >
-            &gt;
-          </Button>
-          </Tooltip>
-          <Tooltip title="mover o(s) manuais para a esquerda">
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.button}
-            onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
-          >
-            &lt;
-          </Button>
-          </Tooltip>
-          <Tooltip title="mover todos os manuais para a esquerda">
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.button}
-            onClick={handleAllLeft}
-            disabled={right.length === 0}
-          >
-            ≪
-          </Button>
-          </Tooltip>
+      <Grid container spacing={2} alignItems="center" className={classes.root}>
+        <Grid item>
+          <center>
+            <h3>Manuais disponiveis para requisitar</h3>
+          </center>
+          {customList(left)}
         </Grid>
+        <Grid item>
+          <Grid container direction="column" alignItems="center">
+            <Tooltip title="Mover todos os manuais para a direita">
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.button}
+                onClick={handleAllRight}
+                disabled={left.length === 0}
+              >
+                ≫
+              </Button>
+            </Tooltip>
+            <Tooltip title="Mover o(s) manuais para a direita">
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.button}
+                onClick={handleCheckedRight}
+                disabled={leftChecked.length === 0}
+              >
+                &gt;
+              </Button>
+            </Tooltip>
+            <Tooltip title="Mover o(s) manuais para a esquerda">
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.button}
+                onClick={handleCheckedLeft}
+                disabled={rightChecked.length === 0}
+              >
+                &lt;
+              </Button>
+            </Tooltip>
+            <Tooltip title="Mover todos os manuais para a esquerda">
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.button}
+                onClick={handleAllLeft}
+                disabled={right.length === 0}
+              >
+                ≪
+              </Button>
+            </Tooltip>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <center>
+            <h3>Manuais Selecionados</h3>
+          </center>
+          {customList(right)}
+        </Grid>
+        <Grid item></Grid>
       </Grid>
-      <Grid item>
-        <center>
-          <h3>Manuais Selecionados</h3>
-        </center>
-        {customList(right)}
-      </Grid>
-      <Grid item>
-
-      </Grid>
-    </Grid>
-    <p className="legenda"> 
-      * Selecione os manuais que prentende requisitar e transponha-os para 
-      a tabela da direita através dos botões centrais.
-    </p>
-    <Button variant="contained" onClick={efetuarRequisicao} color="primary" href='/app/new/request'>
+      <p className="legenda">
+        * Selecione os manuais que prentende requisitar e transponha-os para a
+        tabela da direita através dos botões centrais.
+      </p>
+      <Button
+        variant="contained"
+        onClick={efetuarRequisicao}
+        color="primary"
+        href="/app/requests"
+        disabled={right.length < 1}
+      >
         Efetuar requisição
-    </Button>
-    
+      </Button>
     </>
   );
 }

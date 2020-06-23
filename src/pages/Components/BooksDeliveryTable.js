@@ -62,36 +62,33 @@ function Row(props) {
 
   function SelectionChange(rows, id, event) {
     console.log(rows, "::", event);
-    if(rows.length===1){
+    if (rows.length === 1) {
       let bool = false;
       let tmp = [];
-      var code = event.id.split('-');
-      console.log('COODEE:',code);
-      for(let k=0;k<list.length;k++){
-        if(list[k].book_requisition_id !== id ){
-          console.log(list[k].book_requisition_id,id,k)
-            tmp.push({
-              book_requisition_id: list[k].book_requisition_id,
-              physical_book_id: list[k].physical_book_id,
-              book_state_id: list[k].book_state_id,
-            });
-        }
-        else if(list[k].physical_book_id!==event.id){
-          console.log(list[k].physical_book_id,event.id,k)
+      var code = event.id.split("-");
+      console.log("COODEE:", code);
+      for (let k = 0; k < list.length; k++) {
+        if (list[k].book_requisition_id !== id) {
+          console.log(list[k].book_requisition_id, id, k);
+          tmp.push({
+            book_requisition_id: list[k].book_requisition_id,
+            physical_book_id: list[k].physical_book_id,
+            book_state_id: list[k].book_state_id,
+          });
+        } else if (list[k].physical_book_id !== event.id) {
+          console.log(list[k].physical_book_id, event.id, k);
           tmp.push({
             book_requisition_id: id,
             physical_book_id: rows[0].id,
             book_state_id: rows[0].state_id,
           });
-          bool=true
+          bool = true;
         }
- 
       }
-      if(bool){
-        console.log('1::: ',list,tmp)
+      if (bool) {
+        console.log("1::: ", list, tmp);
         setList(tmp);
-      }
-      else{
+      } else {
         setList([
           ...list,
           {
@@ -103,11 +100,9 @@ function Row(props) {
       }
       setNumberOfRows(rows.length);
       console.info(id);
-    }
-    else if(event===undefined){
+    } else if (event === undefined) {
       setNumberOfRows(0);
     }
-    
   }
 
   return (
@@ -137,7 +132,7 @@ function Row(props) {
               <MaterialTable
                 title=" "
                 columns={[
-                  { title: "ID", field: "id" },
+                  { title: "Código do livro", field: "id" },
                   { title: "Estado", field: "state" },
                 ]}
                 options={{
@@ -315,7 +310,7 @@ export default function BooksDeliveryANDReturnTable({
     console.log("url", data.file);
     const formData = new FormData();
     formData.append("valid", true);
-    api.put("/report/" + id, formData);
+    api.put("/reports/" + id, formData);
   }
 
   const handleClose = (event, reason) => {
