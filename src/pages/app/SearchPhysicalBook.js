@@ -16,8 +16,23 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Tooltip from "@material-ui/core/Tooltip";
 import Select from "@material-ui/core/Select";
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 export default function SearchPhysicalBook() {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [physicalBook, setPhysicalBook] = React.useState(null);
   const [physicalBookList, setPhysicalBookList] = React.useState([]);
@@ -73,20 +88,23 @@ export default function SearchPhysicalBook() {
       <option value={state.id}>{state.state}</option>
     ));
     return (
-      <Select
-        native
-        value={state}
-        onChange={(e) => handleChangeState(e.target.value)}
-        label="Estado do livro"
-        variant="outlined"
-        inputProps={{
-          name: "estado",
-        }}
-        className="btn"
-      >
-        <option aria-label="None" value="" />
-        {listItems}
-      </Select>
+      <FormControl className={classes.formControl}>
+        <Select
+          native
+          value={state}
+          onChange={(e) => handleChangeState(e.target.value)}
+          label="Estado do livro"
+          variant="outlined"
+          inputProps={{
+            name: "estado",
+          }}
+          className="btn"
+        >
+          <option aria-label="None" value="" />
+          {listItems}
+        </Select>
+        <FormHelperText>Estado</FormHelperText>
+      </FormControl>
     );
   }
 
@@ -111,6 +129,7 @@ export default function SearchPhysicalBook() {
       <option value={location.id}>{location.location}</option>
     ));
     return (
+      <FormControl className={classes.formControl}>
       <Select
         native
         value={location}
@@ -125,6 +144,8 @@ export default function SearchPhysicalBook() {
         <option aria-label="None" value="" />
         {listItems}
       </Select>
+      <FormHelperText>Localização</FormHelperText>
+      </FormControl>
     );
   }
 
