@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function MenuLayout({history,openMenu}) {
+export default function MenuLayout({history,openMenu,setOpenDrawer}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openChangeGroupDialog, setOpenChangeGroupDialog] = React.useState(false);
@@ -108,18 +108,22 @@ export default function MenuLayout({history,openMenu}) {
 
 const handleClick = () => {
   setLista1(!lista1);
+  setOpenDrawer(true)
 };
 
 const handleClick2 = () => {
   setLista2(!lista2);
+  setOpenDrawer(true)
 };
 
 const handleClick3 = () => {
   setLista3(!lista3);
+  setOpenDrawer(true)
 };
 
 const handleClick4 = () => {
   setLista4(!lista4);
+  setOpenDrawer(true)
 };
 
 
