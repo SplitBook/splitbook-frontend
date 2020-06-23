@@ -71,8 +71,6 @@ export default function SchoolEnrollmentsTable() {
     setClasseslist(data.data);
   }
 
-  const fullWidth = true;
-  const maxWidth = "sm";
   const tableRef = React.createRef();
 
   if (decoded.charge === "Administrador")
