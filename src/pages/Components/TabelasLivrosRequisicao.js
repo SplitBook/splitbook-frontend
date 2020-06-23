@@ -43,8 +43,8 @@ export default function TransferList({books,schoolEnrollmentsID}) {
   for(let i=0;i<books.length;i++){
     console.log('###',books[i].adopted_books)
     for(let k=0;k<books[i].adopted_books.length;k++){
-      console.log('!!!',books[i].adopted_books[k].school_subject)
-      lista_livros.push(books[i].adopted_books[k].school_subject);
+      console.log('!!!',books[i].adopted_books[k].name)
+      lista_livros.push(books[i].adopted_books[k].name);
     }
   }
   const [left, setLeft] = React.useState(lista_livros);

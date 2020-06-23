@@ -25,7 +25,7 @@ export default function StudentsTable() {
 
   const [state, setState] = React.useState({
     columns: [
-      { title: 'ID', field: 'id',editable: 'never' },
+      //{ title: 'ID', field: 'id',editable: 'never' },
       { title: 'Nome', field: 'name'},
       { title: 'Nº Aluno', field: 'number',editable: 'never'},
       { title: 'Data de nascimento', field: 'date',editable: 'never',render: rowData => (     

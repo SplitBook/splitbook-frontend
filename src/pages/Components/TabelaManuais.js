@@ -64,10 +64,12 @@ export default function TableManuais() {
         field: "cover",
         render: (rowData) => (
           <>
+          <Button disabled={rowData.cover===null}>
             <ImageOutlined
               onClick={() => openImg(rowData.cover)}
               className="pointer"
             />
+          </Button>
           </>
         ),
         editable: "never",
