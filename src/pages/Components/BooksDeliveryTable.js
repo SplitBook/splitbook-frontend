@@ -259,12 +259,12 @@ export default function BooksDeliveryANDReturnTable({
   const [open, setOpen] = React.useState(false);
   const [list, setList] = React.useState([]);
   const [url, setUrl] = React.useState("");
+  const [bool, setBool] = React.useState(true);
 
-  var bool = true;
   if (rows.length === 0 && bool) getBookRequisitions();
 
   async function getBookRequisitions() {
-    bool = false;
+    setBool(false);
     const { data } = await api.get("/requisitions/" + requisitionId);
     setRows(data.book_requisitions);
     console.log("data: ", data);
