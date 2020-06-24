@@ -191,7 +191,7 @@ export default function TableManuais() {
     formData.append("cover", fileimg.file);
     formData.append("name", name);
     formData.append("publishing_company", publishing_company);
-    formData.append("subject_id", subject_id);
+    //formData.append("subject_id", subject_id);
     console.log(formData);
     const { data } = api_formdata.put("/books/" + isbn, formData);
     console.log(data);
@@ -280,8 +280,7 @@ export default function TableManuais() {
                     EditBooks(
                       oldData.isbn,
                       newData.name,
-                      newData.publishing_company,
-                      newData.subject_id
+                      newData.publishing_company
                     );
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
