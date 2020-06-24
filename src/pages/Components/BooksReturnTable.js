@@ -186,9 +186,9 @@ export default function BooksDeliveryANDReturnTable({
     console.log(data);
     setUrl(data.file);
     console.log("url", data.file);
-    const formData = new FormData();
+    /*const formData = new FormData();
     formData.append("valid", true);
-    api.put("/reports/" + id, formData);
+    api.put("/reports/" + id, formData);*/
   }
 
   async function getBooksStates() {

@@ -308,9 +308,9 @@ export default function BooksDeliveryANDReturnTable({
     console.log(data);
     setUrl(data.file);
     console.log("url", data.file);
-    const formData = new FormData();
-    formData.append("valid", true);
-    api.put("/reports/" + id, formData);
+    /*const formData = new FormData();
+    formData.append('valid', true);
+    api.put("/reports/" + id, formData);*/
   }
 
   const handleClose = (event, reason) => {

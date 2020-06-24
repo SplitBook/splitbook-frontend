@@ -22,6 +22,7 @@ export default function DetailsTable() {
   const [reportID, setReportID] = React.useState(null); 
   const [type, setType] = React.useState(null); 
   const [file, setFile] = React.useState(null); 
+  const [valid, setValid] = React.useState(null); 
 
   const [fileimg, setFileimg] = React.useState({file:null});
 
@@ -92,6 +93,7 @@ export default function DetailsTable() {
   });
 
   function getInfo(id,type){
+    setValid(null)
     setFileimg({file:null});
     setFile(null)
     setReportID(id)
@@ -113,13 +115,21 @@ export default function DetailsTable() {
 
   async function generateReport(id){
     const {data} = api.get('/generate/report/'+id)
+    console.log('generateReport',data)
     setFile(data.file);
+  }
+
+  async function ValidateReport(){
+    const formData = new FormData();
+    formData.append("valid", true);
+    const {data} = await api.put("/reports/" + reportID, formData);
+    setValid(data.valid)
+    console.log(data);
   }
 
 
   const fullWidth = true;
   const maxWidth = "md";
-  const tableRef = React.createRef();
 
   return (
     <>
@@ -165,11 +175,26 @@ export default function DetailsTable() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Relatórios</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+
+        <Grid container spacing={2} 
+        direction="row"
+        justify="space-between"
+        alignItems="flex-start">
+
+          <Grid item >Relatórios</Grid>
+          <Grid item >
+            <Button onClick={() => ValidateReport()} disabled={valid} variant="outlined">
+              Validar relatório
+            </Button>
+          </Grid>
+
+        </Grid>
+        </DialogTitle>
         <DialogContent>
         <Grid container spacing={2}>
           <Grid item >
-            <Button onClick={() => window.open(file)} disabled={file===null}>
+            <Button onClick={() => window.open(file)} disabled={file===null} variant="outlined">
               Abrir Relatório
             </Button>
           </Grid>
@@ -181,7 +206,7 @@ export default function DetailsTable() {
         </Grid>
         <Grid container spacing={2}>
           <Grid item >
-            <Button onClick={SubmitNewReport}>
+            <Button onClick={SubmitNewReport} variant="outlined" style={{marginBottom:10}}>
               Submeter relatório assinado
             </Button>
           </Grid>
@@ -189,8 +214,7 @@ export default function DetailsTable() {
       
 
         <MaterialTable
-        title="Lista de Requisições"
-        tableRef={tableRef}
+        title="Lista de Livros"
         columns={state3.columns}
         data={(query) =>
           new Promise((resolve, reject) => {
@@ -204,6 +228,7 @@ export default function DetailsTable() {
             })
               .then((response) => response.json())
               .then((result) => {
+                setValid(result.valid)
                 if(result.file){
                   setFile(result.file)
                 }
