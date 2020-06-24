@@ -7,15 +7,18 @@ import MuiAlert from "@material-ui/lab/Alert";
 //import api from '../../services/api';
 import queryString from "query-string";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function NewPassword({ history, location }) {
+export default function NewPassword({ location }) {
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
   const [open, setOpen] = React.useState(false);
+
+  const history = useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -30,6 +33,10 @@ export default function NewPassword({ history, location }) {
           const { data } = await api.post("/change-password?token=" + token, {
             password: password,
           });
+
+          history.replace("/login");
+
+          toast.success("Palavra passe alterada com sucesso.");
         } else {
           toast.error("Token não encontrado.");
         }
