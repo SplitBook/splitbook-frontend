@@ -30,7 +30,7 @@ export default function BooksReturn(){
 
     async function getStudents(tmp){
       console.log('/school-enrollments?search='+tmp)
-      const {data} = await api.get('/school-enrollments?search='+tmp);
+      const {data} = await api.get('/school-enrollments?current_school_year=true&search='+tmp);
       setStudentsList(data.data);
       console.log(studentsList)
     }
