@@ -20,6 +20,8 @@ import { toast } from "react-toastify";
 
 export default function TableTheClasses() {
   const [classID, setClassID] = React.useState(0);
+  const [school_year_id, setSchool_year_id] = React.useState(0);
+  
   const [openResumes, setOpenResumes] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [
@@ -35,7 +37,7 @@ export default function TableTheClasses() {
       {
         title: "Alterar Diretor de Turma",
         render: (rowData) => (
-          <Button onClick={() => changeClass(rowData.class_id)}>
+          <Button onClick={() => changeClass(rowData.class_id,rowData.school_year_id)}>
             <Edit />
           </Button>
         ),
@@ -71,13 +73,15 @@ export default function TableTheClasses() {
     data: [],
   });
 
-  async function getResumes(class_id){
+  async function getResumes(class_id,school_year_id){
+    setSchool_year_id(school_year_id)
     setOpenResumes(true);
     setClassID(class_id)
   }
 
   
-  const changeClass = (value) => {
+  const changeClass = (value,school_year_id) => {
+    setSchool_year_id(school_year_id)
     setOpen(true);
     setClassID(value);
   };
@@ -131,7 +135,7 @@ export default function TableTheClasses() {
 
   function SubmitNewTeacherClass() {
     //console.log(classes,schoolEnrollmentsID)
-    api.put("/classes/" + classID + "/1", { head_class_id: teacher.id });
+    api.put("/classes/" + classID + "/"+school_year_id, { head_class_id: teacher.id });
     setOpen(false);
     setTeacher(null);
   }
@@ -297,7 +301,7 @@ export default function TableTheClasses() {
         }}
         data={(query) =>
           new Promise((resolve, reject) => {
-            let url = "http://localhost:8085/classes/"+classID+"/1";
+            let url = "http://localhost:8085/classes/"+classID+"/"+school_year_id;
             fetch(url, {
               headers: {
                 method: "GET",
