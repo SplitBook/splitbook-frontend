@@ -16,9 +16,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Tooltip from "@material-ui/core/Tooltip";
 import Select from "@material-ui/core/Select";
+<<<<<<< HEAD
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
+=======
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import { makeStyles } from "@material-ui/core/styles";
+import NativeSelect from "@material-ui/core/NativeSelect";
+>>>>>>> 7dea3ceddcad3f1e281ba36f398765bad95957d6
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -129,21 +136,21 @@ export default function SearchPhysicalBook() {
     ));
     return (
       <FormControl className={classes.formControl}>
-      <Select
-        native
-        value={location}
-        onChange={(e) => handleChangeLocation(e.target.value)}
-        label="Localização"
-        variant="outlined"
-        inputProps={{
-          name: "localização",
-        }}
-        className="btn"
-      >
-        <option aria-label="None" value="" />
-        {listItems}
-      </Select>
-      <FormHelperText>Localização</FormHelperText>
+        <Select
+          native
+          value={location}
+          onChange={(e) => handleChangeLocation(e.target.value)}
+          label="Localização"
+          variant="outlined"
+          inputProps={{
+            name: "localização",
+          }}
+          className="btn"
+        >
+          <option aria-label="None" value="" />
+          {listItems}
+        </Select>
+        <FormHelperText>Localização</FormHelperText>
       </FormControl>
     );
   }
@@ -152,7 +159,7 @@ export default function SearchPhysicalBook() {
     console.log(description, location, state);
     api.put("/physical-books/" + physicalBook.id, {
       state_id: state,
-      description: description,
+      description: description || null,
       location_id: location,
     });
     setOpen(false);
