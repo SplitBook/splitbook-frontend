@@ -1,6 +1,7 @@
 import React from "react";
 import MaterialTable from "material-table";
 import api from "../../services/api";
+import api_multipart from "../../services/api_multipart_form_data";
 import "./ComponentsStyles.css";
 import Cookies from "js-cookie";
 import Button from "@material-ui/core/Button";
@@ -13,9 +14,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import InsertDriveFile from "@material-ui/icons/InsertDriveFile";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function TableTheClasses() {
   const [open, setOpen] = React.useState(false);
+  const [
+    openImportSchoolEnrollmentsDialog,
+    setOpenImportSchoolEnrollmentsDialog,
+  ] = React.useState(false);
+  const [csvFile, setCsvFile] = useState({ file: null });
   const [state, setState] = React.useState({
     columns: [
       { title: "Nome", field: "class", editable: "never" },
@@ -34,7 +42,7 @@ export default function TableTheClasses() {
         render: (rowData) => (
           <Button
             onClick={() =>
-              alert("Create dialog to import csv file and send to backend")
+              openDialogToImportSchoolEnrollments(rowData.class_id)
             }
           >
             <InsertDriveFile className="pointer" />
@@ -56,6 +64,35 @@ export default function TableTheClasses() {
   var num = 0;
 
   if (teacherlist.length === 0 && num === 0) getTeacher();
+
+  function openDialogToImportSchoolEnrollments(classId) {
+    setOpenImportSchoolEnrollmentsDialog(true);
+    setClassID(classId);
+  }
+
+  function handleCsvFile(evt) {
+    setCsvFile({ file: evt.target.files[0] });
+  }
+
+  async function submitCsvFile() {
+    if (csvFile.file !== null) {
+      const formData = new FormData();
+      formData.append("file", csvFile.file);
+
+      try {
+        await api_multipart.post(
+          `/import/school-enrollments?class_id=${classID}`,
+          formData
+        );
+        toast.success("Csv importado com sucesso.");
+        toast.info("Matrículas a serem importadas...");
+      } catch (err) {
+        toast.error("Erro ao carregar csv.");
+      }
+      setOpenImportSchoolEnrollmentsDialog(false);
+      setClassID(null);
+    }
+  }
 
   async function getTeacher() {
     num = 1;
@@ -172,6 +209,41 @@ export default function TableTheClasses() {
               onClick={SubmitNewTeacherClass}
               color="primary"
               disabled={!teacher}
+            >
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={openImportSchoolEnrollmentsDialog}
+          //onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Importar matrícula por csv
+          </DialogTitle>
+          <DialogContent>
+            {/* <h3>ID: {schoolEnrollmentsID}</h3> */}
+            <input type="file" onChange={handleCsvFile} />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                setClassID(null);
+                setOpenImportSchoolEnrollmentsDialog(false);
+              }}
+              color="primary"
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={submitCsvFile}
+              color="primary"
+              disabled={!csvFile.file}
             >
               Confirmar
             </Button>
