@@ -21,6 +21,7 @@ export default function DetailsTable() {
   const [reportID, setReportID] = React.useState(null);
   const [type, setType] = React.useState(null);
   const [file, setFile] = React.useState(null);
+  const [file_signed, setFile_signed] = React.useState(null);
   const [valid, setValid] = React.useState(null);
 
   const [fileimg, setFileimg] = React.useState({ file: null });
@@ -34,10 +35,11 @@ export default function DetailsTable() {
   async function SubmitNewReport() {
     const formData = new FormData();
     if (fileimg.file !== null) {
-      formData.append("file", fileimg.file);
+      formData.append("file_signed", fileimg.file);
       formData.append("valid", true);
       const { data } = await api_formdata.put("/reports/" + reportID, formData);
       console.log("Data: ", data);
+      setFile_signed(data.file_signed);
       setFile(data.file);
       setFileimg({ file: null });
     }
@@ -54,6 +56,8 @@ export default function DetailsTable() {
 
   const handleClose = () => {
     setOpen(false);
+    setFile(null);
+    setFile_signed(null);
   };
 
   const [state2, setState2] = React.useState({
@@ -220,6 +224,16 @@ export default function DetailsTable() {
                 Abrir Relatório
               </Button>
             </Grid>
+
+            <Grid item>
+              <Button
+                onClick={() => window.open(file_signed)}
+                disabled={!file_signed}
+                variant="outlined"
+              >
+                Abrir Relatório Assinado
+              </Button>
+            </Grid>
           </Grid>
           <Grid container spacing={2}>
             <Grid item>
@@ -257,6 +271,9 @@ export default function DetailsTable() {
                       setFile(result.file);
                     } else {
                       generateReport(result.id);
+                    }
+                    if (result.file_signed) {
+                      setFile_signed(result.file_signed);
                     }
                     if (type === "Entrega")
                       resolve({

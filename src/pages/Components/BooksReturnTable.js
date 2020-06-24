@@ -136,12 +136,10 @@ export default function BooksDeliveryANDReturnTable({
   async function getBookRequisitions() {
     const { data } = await api.get("/requisitions/" + requisitionId);
     setBool(false);
-    let tmp = [];
-    for (let i = 0; i < data.book_requisitions.length; i++) {
-      if (data.book_requisitions[i].delivery_date !== null) {
-        tmp.push(data.book_requisitions[i]);
-      }
-    }
+    let tmp = data.book_requisitions.filter(
+      (book) => book.delivery_date && !book.return_date
+    );
+
     if (tmp.length === 0) {
       setText("Não existem livros para devolver!");
       setOpen(true);
