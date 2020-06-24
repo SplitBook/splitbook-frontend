@@ -34,7 +34,7 @@ export default function SearchUsers() {
   const handlerAutoCompleteUsers = (event) => {
     var tmp = "";
     tmp = event.target.value;
-    if (tmp.length > 3) getUsers(tmp);
+    if (tmp.length > 2) getUsers(tmp);
   };
 
   async function getUsers(tmp) {

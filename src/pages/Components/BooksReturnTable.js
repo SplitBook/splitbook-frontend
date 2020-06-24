@@ -118,6 +118,7 @@ export default function BooksDeliveryANDReturnTable({
   stdnumber,
   guardianName,
 }) {
+  const [url, setUrl] = React.useState("");
   const [obs, setObs] = React.useState("");
   const classes = useStyles();
   const [rows, setRows] = React.useState([]);
@@ -154,7 +155,7 @@ export default function BooksDeliveryANDReturnTable({
     console.log(event.target.value);
   };
 
-  function Submit() {
+  async function Submit() {
     console.log(rows);
     let tmp = [];
     for (let i = 0; i < rows.length; i++) {
@@ -167,14 +168,25 @@ export default function BooksDeliveryANDReturnTable({
       );
       setOpen(true);
     } else {
-      console.log(tmp);
-      api.post("/physical-books/returns", {
+      console.log('tmp',tmp);
+      const {data} = await api.post("/physical-books/returns", {
         requisitions_physical_book: tmp,
         description: obs || null,
       });
+      console.log(data)
+      //generateReport(data[0].report_id); -> Gerar relatório!! O Endpoint a cima ('/physical-books/returns') apresenta um erro e o backend lança uma excepção.... 
     }
 
-    //
+  }
+
+  async function generateReport(id) {
+    const { data } = await api.get("/generate/report/" + id);
+    console.log(data);
+    setUrl(data.file);
+    console.log("url", data.file);
+    const formData = new FormData();
+    formData.append("valid", true);
+    api.put("/reports/" + id, formData);
   }
 
   async function getBooksStates() {
@@ -219,27 +231,7 @@ export default function BooksDeliveryANDReturnTable({
         rows[k].bookstate = Number(event);
       }
     }
-    /*if(Number(event)===0){
-    var tmp = [];
-    for(var i=0;i<booksListWithState.length;i++){
-      if(booksListWithState[i].id !== rowId){
-        tmp.push({id:rowId,book_state_id:Number(event)});
-      }
-    }
-    booksListWithState = tmp;
-  }
-  else{
-    let ok = true
-    for(let i=0;i<booksListWithState.length;i++){
-      if(booksListWithState[i].id === rowId){
-        ok=false;
-      }
-    }
-    if(ok){
-      booksListWithState.push({id:rowId,book_state_id:Number(event)})
-    }
-  }
-  console.log(booksListWithState);*/
+    
   };
 
   const [page, setPage] = React.useState(0);
@@ -340,6 +332,15 @@ export default function BooksDeliveryANDReturnTable({
             onClick={Submit}
           >
             Submeter
+          </Button>
+          <Button
+            className="btnMargin"
+            variant="outlined"
+            color="primary"
+            onClick={() => window.open(url)}
+            disabled={url === ""}
+          >
+            Abrir relatório
           </Button>
         </Grid>
       </Grid>

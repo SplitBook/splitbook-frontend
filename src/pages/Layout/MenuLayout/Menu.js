@@ -108,21 +108,33 @@ export default function MenuLayout({history,openMenu,setOpenDrawer}) {
 
 const handleClick = () => {
   setLista1(!lista1);
+  setLista2(false);
+  setLista3(false);
+  setLista4(false);
   setOpenDrawer(true)
 };
 
 const handleClick2 = () => {
   setLista2(!lista2);
+  setLista1(false);
+  setLista3(false);
+  setLista4(false);
   setOpenDrawer(true)
 };
 
 const handleClick3 = () => {
   setLista3(!lista3);
+  setLista1(false);
+  setLista2(false);
+  setLista4(false);
   setOpenDrawer(true)
 };
 
 const handleClick4 = () => {
   setLista4(!lista4);
+  setLista1(false);
+  setLista3(false);
+  setLista2(false);
   setOpenDrawer(true)
 };
 
