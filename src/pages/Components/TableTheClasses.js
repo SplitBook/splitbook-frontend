@@ -38,7 +38,7 @@ export default function TableTheClasses() {
         ),
       },
       {
-        title: "Adicionar matrículas por csv",
+        title: "Importar matrículas por csv",
         render: (rowData) => (
           <Button
             onClick={() =>
@@ -224,7 +224,7 @@ export default function TableTheClasses() {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            Importar matrícula por csv
+            Importar matrículas por csv
           </DialogTitle>
           <DialogContent>
             {/* <h3>ID: {schoolEnrollmentsID}</h3> */}
