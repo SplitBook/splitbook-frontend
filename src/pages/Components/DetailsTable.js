@@ -34,7 +34,7 @@ export default function DetailsTable() {
   async function SubmitNewReport() {
     const formData = new FormData();
     if (fileimg.file !== null) {
-      formData.append("photo", fileimg.file);
+      formData.append("file", fileimg.file);
       formData.append("valid", true);
       const { data } = await api_formdata.put("/reports/" + reportID, formData);
       console.log("Data: ", data);

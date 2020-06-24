@@ -43,7 +43,9 @@ export default function MaterialTableDemo() {
         title: "Mais informações",
         field: "listalivros",
         render: (rowData) => (
-          <Button onClick={() => handleChange(rowData.id)}>Consultar</Button>
+          <Button onClick={() => handleChange(rowData.id, rowData.reason)}>
+            Consultar
+          </Button>
         ),
       },
     ],
@@ -57,6 +59,7 @@ export default function MaterialTableDemo() {
   const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
+    setReason(null);
     setOpen(false);
   };
 
@@ -64,23 +67,21 @@ export default function MaterialTableDemo() {
     setOpenPhoto(false);
   };
 
-  const handleChange = (value) => {
+  const handleChange = (value, reasonValue) => {
     console.log("req id", value);
     setReqId(value);
+    setReason(reasonValue);
     setOpen(true);
   };
 
   const [photo_photo, setPhoto_photo] = React.useState("");
   const [openPhoto, setOpenPhoto] = React.useState(false);
+  const [reason, setReason] = React.useState(null);
 
   function openImg(path) {
     console.log(path);
     setPhoto_photo(path);
     setOpenPhoto(true);
-  }
-
-  function DeleteRequsition(id) {
-    api.delete("/requisitions/" + id);
   }
 
   const fullWidth = true;
@@ -136,20 +137,6 @@ export default function MaterialTableDemo() {
                 tableRef.current && tableRef.current.onQueryChange(),
             },
           ]}
-          editable={{
-            onRowDelete: (oldData) =>
-              new Promise((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                  setState((prevState) => {
-                    DeleteRequsition(oldData.id);
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              }),
-          }}
         />
       ) : (
         <MaterialTable
@@ -213,6 +200,19 @@ export default function MaterialTableDemo() {
           Lista de Livros requisitados
         </DialogTitle>
         <DialogContent>
+          {reason && (
+            <div
+              style={{
+                marginBottom: "25px",
+                border: "1px solid red",
+                padding: "5px",
+                borderRadius: "3px",
+              }}
+            >
+              <h4>Observações</h4>
+              <p>{reason}</p>
+            </div>
+          )}
           <MaterialTable
             title=" "
             columns={[
