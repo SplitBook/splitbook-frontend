@@ -21,7 +21,8 @@ import { toast } from "react-toastify";
 export default function TableTheClasses() {
   const [classID, setClassID] = React.useState(0);
   const [school_year_id, setSchool_year_id] = React.useState(0);
-  
+  const [bool, setBool] = React.useState(true);
+
   const [openResumes, setOpenResumes] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [
@@ -88,9 +89,9 @@ export default function TableTheClasses() {
 
   const [teacher, setTeacher] = React.useState(null);
   const [teacherlist, setTeacherlist] = React.useState([]);
-  var num = 0;
 
-  if (teacherlist.length === 0 && num === 0) getTeacher();
+
+  if (bool) getTeacher();
 
   function openDialogToImportSchoolEnrollments(classId) {
     setOpenImportSchoolEnrollmentsDialog(true);
@@ -122,7 +123,7 @@ export default function TableTheClasses() {
   }
 
   async function getTeacher() {
-    num = 1;
+    setBool(false)
     const { data } = await api.get("/teachers");
     setTeacherlist(data.data);
     console.log(data.data);

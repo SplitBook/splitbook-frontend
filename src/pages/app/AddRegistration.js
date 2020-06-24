@@ -15,12 +15,12 @@ export default function AddRegistration() {
   const [guardianList, setGuardianList] = React.useState([]);
   const [classeslist, setClasseslist] = React.useState([]);
   const [studentlist, setStudentList] = React.useState([]);
-  var num = 0;
+  const [bool, setBool] = React.useState(true);
 
-  if (classeslist.length === 0 && num === 0) getClasses();
+  if (bool) getClasses();
 
   async function getClasses() {
-    num = 1;
+    setBool(false)
     const { data } = await api.get("/classes?current_school_year=true");
     setClasseslist(data.data);
   }

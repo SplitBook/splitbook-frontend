@@ -6,27 +6,25 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import "./AppStyles.css";
 import api from "../../services/api";
 import { toast } from "react-toastify";
+import TouchRipple from "@material-ui/core/ButtonBase/TouchRipple";
 
 export default function AddResumes() {
   const [subject, setSubject] = React.useState(null);
   const [classes, setClasses] = React.useState(null);
   const [subjectslist, setSubjectslist] = React.useState([]);
   const [classeslist, setClasseslist] = React.useState([]);
-  var num1 = 0;
-  var num2 = 0;
+  const [bool, setBool] = React.useState(true);
 
-  if (classeslist.length === 0 && num1 === 0) getClasses();
+  if (bool) getClasses() && getSubjects() && setBool(false)
 
-  if (subjectslist.length === 0 && num2 === 0) getSubjects();
+
 
   async function getClasses() {
-    num1 = 1;
     const { data } = await api.get("/classes?current_school_year=true");
     setClasseslist(data.data);
   }
 
   async function getSubjects() {
-    num2 = 1;
     const { data } = await api.get("/school-subjects");
     setSubjectslist(data);
   }
