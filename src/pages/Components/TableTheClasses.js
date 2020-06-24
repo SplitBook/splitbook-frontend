@@ -6,6 +6,7 @@ import "./ComponentsStyles.css";
 import Cookies from "js-cookie";
 import Button from "@material-ui/core/Button";
 import Edit from "@material-ui/icons/Edit";
+import Info from "@material-ui/icons/Info";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,6 +19,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 export default function TableTheClasses() {
+  const [classID, setClassID] = React.useState(0);
+  const [openResumes, setOpenResumes] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [
     openImportSchoolEnrollmentsDialog,
@@ -49,11 +52,31 @@ export default function TableTheClasses() {
           </Button>
         ),
       },
+      {
+        title: "Curriculos",
+        render: (rowData) => (
+          <Button onClick={() => getResumes(rowData.class_id)}>
+            <Info />
+          </Button>
+        ),
+      },
     ],
     data: [],
   });
 
-  const [classID, setClassID] = React.useState(0);
+  const [state2, setState2] = React.useState({
+    columns: [
+      { title: "Disciplina", field: "school_subject" },
+    ],
+    data: [],
+  });
+
+  async function getResumes(class_id){
+    setOpenResumes(true);
+    setClassID(class_id)
+  }
+
+  
   const changeClass = (value) => {
     setOpen(true);
     setClassID(value);
@@ -103,6 +126,7 @@ export default function TableTheClasses() {
 
   const handleClose = () => {
     setOpen(false);
+    setOpenResumes(false);
   };
 
   function SubmitNewTeacherClass() {
@@ -118,7 +142,9 @@ export default function TableTheClasses() {
     );
     console.log(data);
   }
-
+  
+  const fullWidth = true;
+  const maxWidth = "xs";
   const tableRef = React.createRef();
 
   return (
@@ -246,6 +272,54 @@ export default function TableTheClasses() {
               disabled={!csvFile.file}
             >
               Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog
+          open={openResumes}
+          fullWidth={fullWidth}
+          maxWidth={maxWidth}
+          //onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+          <MaterialTable
+        title="Curriculos"
+        tableRef={tableRef}
+        columns={state2.columns}
+        options={{
+          search: false,
+          sorting: false,
+        }}
+        data={(query) =>
+          new Promise((resolve, reject) => {
+            let url = "http://localhost:8085/classes/"+classID+"/1";
+            fetch(url, {
+              headers: {
+                method: "GET",
+                Authorization: "Bearer " + Cookies.get("token"),
+              },
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                resolve({
+                  data: result.resumes,
+                  page: query.page,
+                  totalCount: result.resumes.length,
+                });
+              });
+          })
+        }
+      />
+
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancelar
             </Button>
           </DialogActions>
         </Dialog>
