@@ -31,6 +31,7 @@ export default function NovoRequisito() {
   const [schoolEnrollmentsID, setSchoolEnrollmentsID] = React.useState(null);
   const [bool, setBool] = React.useState(false);
   const [teacherclasses, setTeacherClasses] = React.useState('');
+  const [block, setBlock] = React.useState(true);
 
   async function getTeacherClassId(id) {
     const { data } = await api.get("/teachers/" + id);
@@ -38,6 +39,9 @@ export default function NovoRequisito() {
     var tmp = [];
     tmp = data.classes;
     console.log('teacher',tmp);
+    if(tmp.length===0){
+      setBlock(false)
+    }
     let txt=''
     for (let i = 0; i < tmp.length; i++) {
       txt+=tmp[i].class_id+','
@@ -134,8 +138,7 @@ export default function NovoRequisito() {
   };
 
   async function getTeachersStudents(tmp) {
-    console.log("IPE", teacherclasses);
-
+    //console.log("IPE", teacherclasses);
     console.log("/school-enrollments?current_school_year=true&class_id=" + teacherclasses + "&search=" + tmp);
     const { data } = await api.get(
       "/school-enrollments?current_school_year=true&class_id=" + teacherclasses + "&search=" + tmp
@@ -174,6 +177,7 @@ export default function NovoRequisito() {
                   setBool(false);
                 } else handleChange(newValue.id);
               }}
+              disabled={block}
               renderInput={(params) => (
                 <TextField
                   {...params}
