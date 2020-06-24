@@ -66,7 +66,6 @@ function Row(props) {
       let bool = false;
       let tmp = [];
       var code = event.id.split("-");
-      console.log("COODEE:", code);
       for (let k = 0; k < list.length; k++) {
         if (list[k].book_requisition_id !== id) {
           console.log(list[k].book_requisition_id, id, k);

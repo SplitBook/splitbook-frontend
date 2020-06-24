@@ -127,15 +127,10 @@ export default function BooksDeliveryANDReturnTable({
   const [open, setOpen] = React.useState(false);
   const [bool, setBool] = React.useState(true);
 
-  if (bookStates.length === 0) {
-    getBooksStates();
-  }
-
-  if (bool) getBookRequisitions();
+  if (bool) getBookRequisitions() && getBooksStates() && setBool(false)
 
   async function getBookRequisitions() {
     const { data } = await api.get("/requisitions/" + requisitionId);
-    setBool(false);
     let tmp = data.book_requisitions.filter(
       (book) => book.delivery_date && !book.return_date
     );

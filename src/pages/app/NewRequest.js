@@ -30,16 +30,20 @@ export default function NovoRequisito() {
   const [books, setBooks] = React.useState([]);
   const [schoolEnrollmentsID, setSchoolEnrollmentsID] = React.useState(null);
   const [bool, setBool] = React.useState(false);
-  const [teacherclasses, setTeacherClasses] = React.useState([]);
+  const [teacherclasses, setTeacherClasses] = React.useState('');
 
   async function getTeacherClassId(id) {
     const { data } = await api.get("/teachers/" + id);
     console.log("getTeacherClassId", data);
     var tmp = [];
     tmp = data.classes;
+    console.log('teacher',tmp);
+    let txt=''
     for (let i = 0; i < tmp.length; i++) {
-      setTeacherClasses([...teacherclasses, tmp[i].class_id]);
+      txt+=tmp[i].class_id+','
+      //setTeacherClasses([...teacherclasses, tmp[i].class_id]);
     }
+    setTeacherClasses(txt)
   }
 
   if (group === "") {
@@ -131,14 +135,12 @@ export default function NovoRequisito() {
 
   async function getTeachersStudents(tmp) {
     console.log("IPE", teacherclasses);
-    let txt = "";
-    for (let i = 0; i < teacherclasses.length; i++) {
-      txt += teacherclasses[i] + ",";
-    }
-    console.log("/school-enrollments?current_school_year=true&class_id=" + txt + "&search=" + tmp);
+
+    console.log("/school-enrollments?current_school_year=true&class_id=" + teacherclasses + "&search=" + tmp);
     const { data } = await api.get(
-      "/school-enrollments?class_id=" + txt + "&search=" + tmp
+      "/school-enrollments?current_school_year=true&class_id=" + teacherclasses + "&search=" + tmp
     );
+    console.log('Arigato',data)
     setStudentsList(data.data);
   }
 
