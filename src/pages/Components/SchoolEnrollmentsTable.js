@@ -17,6 +17,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import {useHistory} from 'react-router-dom'
 
 export default function SchoolEnrollmentsTable() {
+  const [bool, setBool] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const token = Cookies.get("token");
   var decoded = jwt_decode(token);
@@ -73,12 +74,13 @@ export default function SchoolEnrollmentsTable() {
 
   const [classes, setClasses] = React.useState(null);
   const [classeslist, setClasseslist] = React.useState([]);
-  var num = 0;
 
-  if (classeslist.length === 0 && num === 0) getClasses();
+
+
+  if (bool) getClasses();
 
   async function getClasses() {
-    num = 1;
+    setBool(false)
     const { data } = await api.get("/classes?current_school_year=true");
     setClasseslist(data.data);
   }
