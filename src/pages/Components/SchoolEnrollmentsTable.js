@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import Button from "@material-ui/core/Button";
 import Edit from "@material-ui/icons/Edit";
+import Info from "@material-ui/icons/Info";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -13,11 +14,13 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import {useHistory} from 'react-router-dom'
 
 export default function SchoolEnrollmentsTable() {
   const [open, setOpen] = React.useState(false);
   const token = Cookies.get("token");
   var decoded = jwt_decode(token);
+  const history = useHistory();
   const [state, setState] = React.useState({
     columns: [
       { title: "Nome E.E", field: "guardian_name" },
@@ -30,6 +33,15 @@ export default function SchoolEnrollmentsTable() {
         render: (rowData) => (
           <Button onClick={() => changeClass(rowData.id)}>
             <Edit />
+          </Button>
+        ),
+      },
+      {
+        //<Route path="/app/schoolenrollments/:id" component={Details}/>
+        title: "Detalhes",
+        render: (rowData) => (
+          <Button onClick={() => history.push('/app/schoolenrollments/'+rowData.id)}>
+            <Info />
           </Button>
         ),
       },

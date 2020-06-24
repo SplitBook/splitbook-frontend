@@ -27,6 +27,7 @@ import RequisitionsStates from '../pages/app/RequisitionsStates';
 import AdoptedBooks from '../pages/app/AdoptedBooks';
 import SearchUsers from '../pages/app/SearchUsers';
 import Students from '../pages/app/Students';
+import Details from '../pages/app/Details';
 
 export default function RoutesLayout({history}){
     
@@ -58,6 +59,7 @@ export default function RoutesLayout({history}){
                     <Route path="/app/students" component={Students}/>
                     <Route path="/app/books/location" component={BooksLocations}/>
                     <Route path="/app/aproved/requests" component={AprovedRequests}/>
+                    <Route path="/app/schoolenrollments/:id" component={Details}/>
                 </BrowserRouter>
                 
             </>

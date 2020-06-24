@@ -45,6 +45,7 @@ export default function Routes(){
                         <Route path="/app/users" component={App}/>
                         <Route path="/app/students" component={App}/>
                         <Route path="/app/adopted/books" component={App}/>
+                        <Route path="/app/schoolenrollments/:id" component={App}/>
                     </Route>
                 <Route path="" redirectTo="/login"/>
                 <Route exact path="/" render={() => (
