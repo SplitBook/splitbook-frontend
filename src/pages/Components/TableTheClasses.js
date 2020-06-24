@@ -57,7 +57,7 @@ export default function TableTheClasses() {
       {
         title: "Curriculos",
         render: (rowData) => (
-          <Button onClick={() => getResumes(rowData.class_id)}>
+          <Button onClick={() => getResumes(rowData.class_id,rowData.school_year_id)}>
             <Info />
           </Button>
         ),
@@ -73,14 +73,14 @@ export default function TableTheClasses() {
     data: [],
   });
 
-  async function getResumes(class_id,school_year_id){
+  function getResumes(class_id,school_year_id){
     setSchool_year_id(school_year_id)
     setOpenResumes(true);
     setClassID(class_id)
   }
 
   
-  const changeClass = (value,school_year_id) => {
+  function changeClass(value,school_year_id){
     setSchool_year_id(school_year_id)
     setOpen(true);
     setClassID(value);
@@ -213,12 +213,10 @@ export default function TableTheClasses() {
             Alteração de Diretor de Turma
           </DialogTitle>
           <DialogContent>
-            {/* <h3>ID: {schoolEnrollmentsID}</h3> */}
             <Autocomplete
               options={teacherlist}
               getOptionLabel={(option) => option.name + " - " + option.email}
               onChange={(event, newValue) => {
-                //console.log(newValue)
                 setTeacher(newValue);
               }}
               style={{ width: 300, marginTop: 15 }}
