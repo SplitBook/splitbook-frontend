@@ -16,16 +16,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Tooltip from "@material-ui/core/Tooltip";
 import Select from "@material-ui/core/Select";
-<<<<<<< HEAD
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-=======
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
 import NativeSelect from "@material-ui/core/NativeSelect";
->>>>>>> 7dea3ceddcad3f1e281ba36f398765bad95957d6
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
