@@ -11,7 +11,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete"
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import InsertDriveFile from "@material-ui/icons/InsertDriveFile";
 
 export default function TableTheClasses() {
   const [open, setOpen] = React.useState(false);
@@ -23,15 +24,26 @@ export default function TableTheClasses() {
       {
         title: "Alterar Diretor de Turma",
         render: (rowData) => (
-          <Button onClick={() => changeClass(rowData.head_class_id)}>
+          <Button onClick={() => changeClass(rowData.class_id)}>
             <Edit />
+          </Button>
+        ),
+      },
+      {
+        title: "Adicionar matrículas por csv",
+        render: (rowData) => (
+          <Button
+            onClick={() =>
+              alert("Create dialog to import csv file and send to backend")
+            }
+          >
+            <InsertDriveFile className="pointer" />
           </Button>
         ),
       },
     ],
     data: [],
   });
-
 
   const [classID, setClassID] = React.useState(0);
   const changeClass = (value) => {
@@ -47,9 +59,9 @@ export default function TableTheClasses() {
 
   async function getTeacher() {
     num = 1;
-    const {data} = await api.get("/teachers");
+    const { data } = await api.get("/teachers");
     setTeacherlist(data.data);
-    console.log(data.data)
+    console.log(data.data);
   }
 
   const handleClose = () => {
@@ -58,9 +70,9 @@ export default function TableTheClasses() {
 
   function SubmitNewTeacherClass() {
     //console.log(classes,schoolEnrollmentsID)
-    api.put("/classes/"+ classID +'/1', {head_class_id:teacher.id});
+    api.put("/classes/" + classID + "/1", { head_class_id: teacher.id });
     setOpen(false);
-    setTeacher(null)
+    setTeacher(null);
   }
 
   async function deleteClasses(class_id, school_year_id) {
@@ -123,45 +135,49 @@ export default function TableTheClasses() {
         }}
       />
 
-<div>
-          <Dialog
-            open={open}
-            //onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              Alteração de Diretor de Turma
-            </DialogTitle>
-            <DialogContent>
-              {/* <h3>ID: {schoolEnrollmentsID}</h3> */}
-              <Autocomplete
-                options={teacherlist}
-                getOptionLabel={(option) => option.name+' - '+option.email}
-                onChange={(event, newValue) => {
-                  //console.log(newValue)
-                  setTeacher(newValue);
-                }}
-                style={{ width: 300, marginTop: 15 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Diretor de Turma" variant="outlined" />
-                )}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancelar
-              </Button>
-              <Button
-                onClick={SubmitNewTeacherClass}
-                color="primary"
-                disabled={!teacher}
-              >
-                Confirmar
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
+      <div>
+        <Dialog
+          open={open}
+          //onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            Alteração de Diretor de Turma
+          </DialogTitle>
+          <DialogContent>
+            {/* <h3>ID: {schoolEnrollmentsID}</h3> */}
+            <Autocomplete
+              options={teacherlist}
+              getOptionLabel={(option) => option.name + " - " + option.email}
+              onChange={(event, newValue) => {
+                //console.log(newValue)
+                setTeacher(newValue);
+              }}
+              style={{ width: 300, marginTop: 15 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Diretor de Turma"
+                  variant="outlined"
+                />
+              )}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancelar
+            </Button>
+            <Button
+              onClick={SubmitNewTeacherClass}
+              color="primary"
+              disabled={!teacher}
+            >
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </>
   );
 }
