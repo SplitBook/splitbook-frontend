@@ -17,24 +17,24 @@ export default function RequisitionsStateTable() {
     getStates();
 
   async function getStates(){
-    setBool(false)
-    const {data} = await api.get('/book-states');
+    const {data} = await api.get('/requisition-states');
     console.log(data);
     state.data=data;
+    setBool(false)
   }
 
   async function deleteStates(id){
-    const {data} = await api.delete('/book-states/'+id);
+    const {data} = await api.delete('/requisition-states/'+id);
     console.log(data);
   }
 
   async function addStates(state){
-    const {data} = await api.post('/book-states',{state:state});
+    const {data} = await api.post('/requisition-states',{state:state});
     console.log(data);
   }
 
   async function EditStates(state,id){
-    const {data} = await api.post('/book-states/'+id,{state:state});
+    const {data} = await api.put('/requisition-states/'+id,{state:state});
     console.log(data);
   }
 
