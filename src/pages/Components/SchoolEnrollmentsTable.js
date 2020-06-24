@@ -98,6 +98,7 @@ export default function SchoolEnrollmentsTable() {
             new Promise((resolve, reject) => {
               let url = "http://localhost:8085/school-enrollments";
               url += "?limit=" + query.pageSize;
+              url += "&current_school_year=true";
               url += "&page=" + (query.page + 1);
               url += "&search=" + query.search;
               fetch(url, {

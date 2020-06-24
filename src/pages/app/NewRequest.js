@@ -56,7 +56,7 @@ export default function NovoRequisito() {
   }
 
   async function getStudents(profile_id) {
-    const { data } = await api.get("/guardians/" + profile_id);
+    const { data } = await api.get("/guardians/" + profile_id +'?current_school_year=true');
     console.log("Students List: ", data);
     setStudents(data.students);
   }
@@ -117,7 +117,7 @@ export default function NovoRequisito() {
   };
 
   async function getAllStudents(tmp) {
-    const { data } = await api.get("/school-enrollments?search=" + tmp);
+    const { data } = await api.get("/school-enrollments?current_school_year=true&search=" + tmp);
     setStudentsList(data.data);
     console.log(studentsList);
   }
@@ -135,7 +135,7 @@ export default function NovoRequisito() {
     for (let i = 0; i < teacherclasses.length; i++) {
       txt += teacherclasses[i] + ",";
     }
-    console.log("/school-enrollments?class_id=" + txt + "&search=" + tmp);
+    console.log("/school-enrollments?current_school_year=true&class_id=" + txt + "&search=" + tmp);
     const { data } = await api.get(
       "/school-enrollments?class_id=" + txt + "&search=" + tmp
     );
