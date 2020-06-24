@@ -37,10 +37,12 @@ export default function DetailsTable() {
     if(fileimg.file!==null){
       formData.append('photo',fileimg.file)
       formData.append('valid',true)
+      const {data} = await api_formdata.put('/reports/'+reportID,formData);
+      console.log("Data: ",data);
+      setFile(data.file)
+      setFileimg({file:null});
     }
-    const {data} = await api_formdata.put('/reports/'+reportID,formData);
-    console.log("Data: ",data);
-    setFile(data.file)
+    
   }
   
 
@@ -90,6 +92,7 @@ export default function DetailsTable() {
   });
 
   function getInfo(id,type){
+    setFileimg({file:null});
     setFile(null)
     setReportID(id)
     setType(type)
@@ -173,12 +176,14 @@ export default function DetailsTable() {
         </Grid>
         <Grid container spacing={2}>
           <Grid item >
-            <Button disabled={fileimg.file} onClick={SubmitNewReport}>
+            <input type="file" onChange={fileUpload} />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item >
+            <Button onClick={SubmitNewReport}>
               Submeter relatório assinado
             </Button>
-          </Grid>
-          <Grid item >
-            <input type="file" onChange={fileUpload} />
           </Grid>
         </Grid>
       
