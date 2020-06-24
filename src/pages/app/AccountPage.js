@@ -148,18 +148,18 @@ export default function AccountPage(){
         </Grid>
         <Grid container spacing={2}>
           <Grid item >
-            <TextField variant="outlined" defaultValue={user.username} helperText="Nome de Utilizador" disabled/>
+            <TextField variant="outlined" value={user.username} helperText="Nome de Utilizador" disabled/>
           </Grid>
           <Grid item >
-            <TextField type="date" variant="outlined" defaultValue={user.born_date} helperText="Data de nascimento" disabled/>
+            <TextField type="date" variant="outlined" value={user.born_date} helperText="Data de nascimento" disabled/>
           </Grid>
         </Grid>
         <Grid container spacing={2}>
           <Grid item >
-            <TextField variant="outlined" defaultValue={user.phone} helperText="Nº de telemóvel" disabled/>
+            <TextField variant="outlined" value={user.phone} helperText="Nº de telemóvel" disabled/>
           </Grid>
           <Grid item >
-            <TextField variant="outlined" className="maxwidth" defaultValue={user.email} helperText="Endereço email" disabled/>
+            <TextField variant="outlined" className="maxwidth" value={user.email} helperText="Endereço email" disabled/>
           </Grid>
         </Grid>
         <Grid container spacing={2}>
