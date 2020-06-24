@@ -160,7 +160,10 @@ export default function BooksDeliveryANDReturnTable({
     let tmp = [];
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].bookstate !== undefined && rows[i].bookstate !== 0)
-        tmp.push({ id: rows[i].id, book_state_id: rows[i].bookstate });
+        tmp.push({
+          id: rows[i].requisition_physical_book_id,
+          book_state_id: rows[i].bookstate,
+        });
     }
     if (tmp.length === 0) {
       setText(
@@ -168,15 +171,14 @@ export default function BooksDeliveryANDReturnTable({
       );
       setOpen(true);
     } else {
-      console.log('tmp',tmp);
-      const {data} = await api.post("/physical-books/returns", {
+      console.log("tmp", tmp);
+      const { data } = await api.post("/physical-books/returns", {
         requisitions_physical_book: tmp,
         description: obs || null,
       });
-      console.log(data)
-      //generateReport(data[0].report_id); -> Gerar relatório!! O Endpoint a cima ('/physical-books/returns') apresenta um erro e o backend lança uma excepção.... 
+      console.log(data);
+      generateReport(data[0].report_id);
     }
-
   }
 
   async function generateReport(id) {
@@ -231,7 +233,6 @@ export default function BooksDeliveryANDReturnTable({
         rows[k].bookstate = Number(event);
       }
     }
-    
   };
 
   const [page, setPage] = React.useState(0);

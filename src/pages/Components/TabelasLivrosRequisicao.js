@@ -210,7 +210,7 @@ export default function TransferList({ books, schoolEnrollmentsID }) {
         variant="contained"
         onClick={efetuarRequisicao}
         color="primary"
-        href="/app/requests"
+        href="/"
         disabled={right.length < 1}
       >
         Efetuar requisição

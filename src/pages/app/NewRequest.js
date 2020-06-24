@@ -1,222 +1,226 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import './AppStyles.css'
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import TabelasLivros from '../Components/TabelasLivrosRequisicao';
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import "./AppStyles.css";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TabelasLivros from "../Components/TabelasLivrosRequisicao";
 
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import fetch from 'cross-fetch';
-import Cookies from 'js-cookie';
-import jwt_decode from 'jwt-decode';
-import Header from '../Components/Header';
-import api from '../../services/api';
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import fetch from "cross-fetch";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+import Header from "../Components/Header";
+import api from "../../services/api";
 
 function sleep(delay = 0) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, delay);
-    });
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+
+export default function NovoRequisito() {
+  const [aluno, setAluno] = React.useState("");
+  const [group, setGroup] = React.useState("");
+  const [profileId, setProfileId] = React.useState(0);
+  const [students, setStudents] = React.useState([]);
+  const [books, setBooks] = React.useState([]);
+  const [schoolEnrollmentsID, setSchoolEnrollmentsID] = React.useState(null);
+  const [bool, setBool] = React.useState(false);
+  const [teacherclasses, setTeacherClasses] = React.useState([]);
+
+  async function getTeacherClassId(id) {
+    const { data } = await api.get("/teachers/" + id);
+    console.log("getTeacherClassId", data);
+    var tmp = [];
+    tmp = data.classes;
+    for (let i = 0; i < tmp.length; i++) {
+      setTeacherClasses([...teacherclasses, tmp[i].class_id]);
+    }
   }
 
-export default function NovoRequisito(){
-    const [aluno, setAluno] = React.useState('');
-    const [group,setGroup] = React.useState('');
-    const [profileId,setProfileId] = React.useState(0);
-    const [students,setStudents] = React.useState([]);
-    const [books,setBooks] = React.useState([]);
-    const [schoolEnrollmentsID,setSchoolEnrollmentsID] = React.useState(null);
-    const [bool,setBool] = React.useState(false);
-    const [teacherclasses,setTeacherClasses] = React.useState([]);
-
-
-
-
-    async function getTeacherClassId(id){
-        const {data} = await api.get('/teachers/'+id)
-        console.log('getTeacherClassId',data)
-        var tmp = [];
-        tmp = data.classes;
-        for(let i=0;i<tmp.length;i++){
-            setTeacherClasses([...teacherclasses,tmp[i].class_id])
-        }
+  if (group === "") {
+    var token = Cookies.get("token");
+    var decoded = jwt_decode(token);
+    setGroup(decoded.charge);
+    setProfileId(decoded.profile_id);
+    if (decoded.charge === "Professor") {
+      getTeacherClassId(decoded.profile_id);
     }
-
-    if(group===''){
-        var token = Cookies.get('token');
-        var decoded = jwt_decode(token);
-        setGroup(decoded.charge)
-        setProfileId(decoded.profile_id);
-        if(decoded.charge==='Professor'){
-            getTeacherClassId(decoded.profile_id)
-        }
-        //console.log("decoded",decoded)
-        if(decoded.charge==='Encarregado de Educação')
-            getStudents(decoded.profile_id);
-    }
-
-    async function getStudents(profile_id){
-        const {data} = await api.get('/guardians/'+profile_id)
-        console.log("Students List: ",data)
-        setStudents(data.students);     
-    }
-
-    function SelectStudents() {
-        const listItems = students.map((student) =>
-        <option value={student.id}>{student.name}</option>
-        );
-        return (
-            <Select
-            native
-            value={aluno}
-            onChange={(e) => {
-                if(e.target.value==='')
-                    setBool(false)
-                else
-                    handleChange(e.target.value)
-            }}
-            label="Educando"
-            inputProps={{
-                name: 'NomeEducando',
-            }}
-            className="btn"
-            >
-            <option aria-label="None" value="" />
-            {listItems}
-            </Select>
-        );
+    //console.log("decoded",decoded)
+    if (decoded.charge === "Encarregado de Educação")
+      getStudents(decoded.profile_id);
   }
 
-    const handleChange = (event) => {
-        setAluno(event);
-        if(event != null && event !== ''){
-            getClassId(event);
-        }
-    };
+  async function getStudents(profile_id) {
+    const { data } = await api.get("/guardians/" + profile_id);
+    console.log("Students List: ", data);
+    setStudents(data.students);
+  }
 
-    async function getClassId(student_id){
-        console.log('student_id: ',student_id)
-        const {data} = await api.get('/school-enrollments/'+student_id)
-        setSchoolEnrollmentsID(data.id)
-        getStudentBooks(data.class_id)
-    }
-
-    async function getStudentBooks(class_id){
-        const {data} = await api.get('/resumes/adopted-books?class_id='+class_id)
-        setBooks(data)
-        setBool(true)        
-    }
-
-    const [studentsList,setStudentsList] = React.useState([]);
-
-    const handlerAutoCompleteAllStudents = (event) => {
-        console.log(event.target.value)
-        var tmp = "";
-        tmp = event.target.value;
-        if(tmp.length>2)
-          getAllStudents(tmp);
-      };
-  
-      async function getAllStudents(tmp){
-        const {data} = await api.get('/school-enrollments?search='+tmp);
-        setStudentsList(data.data);
-        console.log(studentsList)
-      }
-
-      const handlerAutoCompleteTeachersStudents = (event) => {
-        console.log(event.target.value)
-        var tmp = "";
-        tmp = event.target.value;
-        if(tmp.length>2)
-            getTeachersStudents(tmp);
-      };
-
-      async function getTeachersStudents(tmp){
-        console.log('IPE',teacherclasses)
-        let txt = '';
-        for(let i=0;i<teacherclasses.length;i++){
-            txt+=teacherclasses[i]+','
-        }
-        console.log('/school-enrollments?class_id='+txt+'&search='+tmp)
-        const {data} = await api.get('/school-enrollments?class_id='+txt+'&search='+tmp);
-        setStudentsList(data.data);
-      }
-
-
+  function SelectStudents() {
+    const listItems = students.map((student) => (
+      <option value={student.school_enrollment_id}>{student.name}</option>
+    ));
     return (
-        <>
-        <Header title='Nova requisição'/>
-
-        {
-            group==='Encarregado de Educação' && 
-
-            <Grid container spacing={2}>
-                <Grid item>
-                <FormControl variant="outlined" className="maxwidth">
-                    <InputLabel htmlFor="outlined-age-native-simple" >Educando</InputLabel>
-                        <SelectStudents/>
-                </FormControl>
-                </Grid>
-            </Grid>
-        }
-        {
-            group==='Professor' && 
-
-            <Grid container spacing={2}>
-                <Grid item>
-                <Autocomplete
-                    options={studentsList}
-                    getOptionLabel={(option) => option.student_name+' - '+option.student_number}
-                    style={{ width: 300}}
-                    onChange={(event,newValue) => {
-                    if(newValue===null){
-                        setBool(false)
-                    }
-                    else
-                        handleChange(newValue.id)
-                    }}
-                    renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteTeachersStudents} variant="outlined" />}
-                />
-                </Grid>
-            </Grid>
-        }
-        {
-            (group==='Docente' || group==='Administrador') && 
-
-            <Grid container spacing={2}>
-                <Grid item>
-                <Autocomplete
-                    options={studentsList}
-                    getOptionLabel={(option) => option.student_name+' - '+option.student_number}
-                    style={{ width: 300}}
-                    onChange={(event,newValue) => {
-                    //console.log(event,'ola',newValue)
-                    if(newValue===null){
-                        setBool(false)
-                    }
-                    else
-                        handleChange(newValue.id)
-                    }}
-                    renderInput={(params) => <TextField {...params} label="Alunos" onChange={handlerAutoCompleteAllStudents} variant="outlined" />}
-                />
-                </Grid>
-            </Grid>
-        }
-        {
-            bool && books.length!==0 &&
-            <>
-                <TabelasLivros books={books} schoolEnrollmentsID={schoolEnrollmentsID}/>
-            </>
-        }
-        
-        </>
+      <Select
+        native
+        value={aluno}
+        onChange={(e) => {
+          if (e.target.value === "") setBool(false);
+          else handleChange(e.target.value);
+        }}
+        label="Educando"
+        inputProps={{
+          name: "NomeEducando",
+        }}
+        className="btn"
+      >
+        <option aria-label="None" value="" />
+        {listItems}
+      </Select>
     );
-    
+  }
 
+  const handleChange = (event) => {
+    setAluno(event);
+    if (event != null && event !== "") {
+      getClassId(event);
+    }
+  };
+
+  async function getClassId(student_id) {
+    console.log("student_id: ", student_id);
+    const { data } = await api.get("/school-enrollments/" + student_id);
+    setSchoolEnrollmentsID(data.id);
+    getStudentBooks(data.class_id);
+  }
+
+  async function getStudentBooks(class_id) {
+    const { data } = await api.get(
+      "/resumes/adopted-books?class_id=" + class_id
+    );
+    setBooks(data);
+    setBool(true);
+  }
+
+  const [studentsList, setStudentsList] = React.useState([]);
+
+  const handlerAutoCompleteAllStudents = (event) => {
+    console.log(event.target.value);
+    var tmp = "";
+    tmp = event.target.value;
+    if (tmp.length > 2) getAllStudents(tmp);
+  };
+
+  async function getAllStudents(tmp) {
+    const { data } = await api.get("/school-enrollments?search=" + tmp);
+    setStudentsList(data.data);
+    console.log(studentsList);
+  }
+
+  const handlerAutoCompleteTeachersStudents = (event) => {
+    console.log(event.target.value);
+    var tmp = "";
+    tmp = event.target.value;
+    if (tmp.length > 2) getTeachersStudents(tmp);
+  };
+
+  async function getTeachersStudents(tmp) {
+    console.log("IPE", teacherclasses);
+    let txt = "";
+    for (let i = 0; i < teacherclasses.length; i++) {
+      txt += teacherclasses[i] + ",";
+    }
+    console.log("/school-enrollments?class_id=" + txt + "&search=" + tmp);
+    const { data } = await api.get(
+      "/school-enrollments?class_id=" + txt + "&search=" + tmp
+    );
+    setStudentsList(data.data);
+  }
+
+  return (
+    <>
+      <Header title="Nova requisição" />
+
+      {group === "Encarregado de Educação" && (
+        <Grid container spacing={2}>
+          <Grid item>
+            <FormControl variant="outlined" className="maxwidth">
+              <InputLabel htmlFor="outlined-age-native-simple">
+                Educando
+              </InputLabel>
+              <SelectStudents />
+            </FormControl>
+          </Grid>
+        </Grid>
+      )}
+      {group === "Professor" && (
+        <Grid container spacing={2}>
+          <Grid item>
+            <Autocomplete
+              options={studentsList}
+              getOptionLabel={(option) =>
+                option.student_name + " - " + option.student_number
+              }
+              style={{ width: 300 }}
+              onChange={(event, newValue) => {
+                if (newValue === null) {
+                  setBool(false);
+                } else handleChange(newValue.id);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Alunos"
+                  onChange={handlerAutoCompleteTeachersStudents}
+                  variant="outlined"
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+      )}
+      {(group === "Docente" || group === "Administrador") && (
+        <Grid container spacing={2}>
+          <Grid item>
+            <Autocomplete
+              options={studentsList}
+              getOptionLabel={(option) =>
+                option.student_name + " - " + option.student_number
+              }
+              style={{ width: 300 }}
+              onChange={(event, newValue) => {
+                //console.log(event,'ola',newValue)
+                if (newValue === null) {
+                  setBool(false);
+                } else handleChange(newValue.id);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Alunos"
+                  onChange={handlerAutoCompleteAllStudents}
+                  variant="outlined"
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+      )}
+      {bool && books.length !== 0 && (
+        <>
+          <TabelasLivros
+            books={books}
+            schoolEnrollmentsID={schoolEnrollmentsID}
+          />
+        </>
+      )}
+    </>
+  );
 }
 
 /*
