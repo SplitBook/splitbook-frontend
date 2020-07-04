@@ -216,7 +216,7 @@ const handleClick4 = () => {
             <ListItemIcon>
               <FindInPage />
             </ListItemIcon>
-            <ListItemText primary="Livros Físicos" />
+            <ListItemText primary="Manuais Físicos" />
           </ListItem>
         </Link>
         <Link to="/app/add/subjects">
@@ -256,7 +256,7 @@ const handleClick4 = () => {
             <ListItemIcon>
               <Star />
             </ListItemIcon>
-            <ListItemText primary="Estados dos Livros" />
+            <ListItemText primary="Estados dos manuais" />
           </ListItem>
         </Link>
         <Link to="/app/books/location">
@@ -264,7 +264,7 @@ const handleClick4 = () => {
             <ListItemIcon>
               <AddLocation />
             </ListItemIcon>
-            <ListItemText primary="Localização dos Livros" />
+            <ListItemText primary="Localização dos manuais" />
           </ListItem>
         </Link>
         {
@@ -343,7 +343,7 @@ const handleClick4 = () => {
               <ListItemIcon>
                 <Inbox/>
               </ListItemIcon>
-              <ListItemText primary="Entrega de Livros" />
+              <ListItemText primary="Entrega de manuais" />
             </ListItem>
           </Link>
           <Link to="/app/books/return">
@@ -351,7 +351,7 @@ const handleClick4 = () => {
               <ListItemIcon>
                 <AssignmentReturned />
               </ListItemIcon>
-              <ListItemText primary="Recolha de Livros" />
+              <ListItemText primary="Recolha de manuais" />
             </ListItem>
           </Link>
         </List>

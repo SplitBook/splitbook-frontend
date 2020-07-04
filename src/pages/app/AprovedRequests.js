@@ -108,7 +108,7 @@ export default function AprovedRequests() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Lista de Livros requisitados
+          Lista de manuais escolares requisitados
         </DialogTitle>
         <DialogContent>
           <MaterialTable

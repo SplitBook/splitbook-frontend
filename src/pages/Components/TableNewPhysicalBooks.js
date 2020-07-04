@@ -58,7 +58,7 @@ export default function TableNewPhysicalBooks({ physicalBooks, num }) {
           </p>
         </Grid>
         <Grid item>
-          <Tooltip title="Gerar QR-Codes para todos os livros">
+          <Tooltip title="Gerar QR-Codes para todos os manuais">
             <Button
               color="primary"
               style={{ padding: 14 }}

@@ -6,7 +6,7 @@ export default function BookStates(){
 
     return (
         <>
-            <Header title='Localização dos livros'/>
+            <Header title='Localização dos manuais'/>
             <BookLocationTable/>
         </>
     );

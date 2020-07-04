@@ -2,15 +2,12 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import "./AppStyles.css";
-import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TabelasLivros from "../Components/TabelasLivrosRequisicao";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import fetch from "cross-fetch";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import Header from "../Components/Header";

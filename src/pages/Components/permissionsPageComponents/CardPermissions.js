@@ -33,7 +33,7 @@ export default function CardPermissions() {
               <i>Legenda:</i>
           </Typography>
           <Typography variant="body2" component="p">
-              <b>Tipo I:</b> Criação e edição e visualização de requisiçoes e criação de livros e editoras
+              <b>Tipo I:</b> Criação e edição e visualização de requisiçoes e criação de manuais escolares e editoras
           </Typography>
           <Typography variant="body2" component="p">
               <b>Tipo II:</b> Criação e edição e visualização de requisiçoes

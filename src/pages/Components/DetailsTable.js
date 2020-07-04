@@ -170,7 +170,7 @@ export default function DetailsTable() {
       </Grid>
       {enrollmentsInfo.requisition_id && (
         <MaterialTable
-          title="Livros requisitados"
+          title="manuais escolares requisitados"
           columns={state.columns}
           data={state.data}
           style={{ marginBottom: 20 }}
@@ -253,7 +253,7 @@ export default function DetailsTable() {
           </Grid>
 
           <MaterialTable
-            title="Lista de Livros"
+            title="Lista de manuais escolares"
             columns={state3.columns}
             data={(query) =>
               new Promise((resolve, reject) => {

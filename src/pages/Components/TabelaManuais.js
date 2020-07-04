@@ -373,7 +373,7 @@ export default function TableManuais() {
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle id="alert-dialog-slide-title">
-          Gerar livros físicos
+          Gerar manuais físicos
         </DialogTitle>
         <DialogContent>
           <p>
@@ -384,7 +384,7 @@ export default function TableManuais() {
           </p>
           <TextField
             type="number"
-            label="Qtd. livros a gerar"
+            label="Qtd. manuais a gerar"
             defaultValue={num}
             onChange={(e) => setNum(e.target.value)}
             style={{ marginTop: 20 }}
@@ -395,7 +395,7 @@ export default function TableManuais() {
             Cancelar
           </Button>
           <Button onClick={() => GeneratePhysicalBooks()} color="primary">
-            Gerar Livros
+            Gerar Manuais
           </Button>
         </DialogActions>
       </Dialog>
@@ -410,7 +410,7 @@ export default function TableManuais() {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle id="alert-dialog-slide-title">
-            Lista de livros físicos gerados
+            Lista de manuais físicos gerados
           </DialogTitle>
           <DialogContent>
             <TableNewPhysicalBooks

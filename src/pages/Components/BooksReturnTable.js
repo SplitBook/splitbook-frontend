@@ -136,7 +136,7 @@ export default function BooksDeliveryANDReturnTable({
     );
 
     if (tmp.length === 0) {
-      setText("Não existem livros para devolver!");
+      setText("Não existem manuais escolares para devolver!");
       setOpen(true);
     }
     setRows(tmp);

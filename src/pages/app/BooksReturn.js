@@ -72,7 +72,7 @@ export default function BooksReturn(){
     async function submit(value){
       if(value){
         if(value.requisition_id===null){
-          setText('Não é possivel entregar livros, uma vez que não foi efetuada requisição')
+          setText('Não é possivel entregar os manuais escolares, uma vez que não foi efetuada requisição')
           setOpen(true)
         }
         else{
@@ -105,7 +105,7 @@ export default function BooksReturn(){
 
     return (
       <>
-        <Header title='Recolha de Livros'/>
+        <Header title='Recolha de manuais escolares'/>
         {group === "Professor"?(
           <Grid container spacing={2}>
             <Grid item>

@@ -6,7 +6,7 @@ export default function BookStates(){
 
     return (
         <>
-            <Header title='Estado dos livros'/>
+            <Header title='Estado dos manuais'/>
             <BookStateTable/>
         </>
     );

@@ -23,7 +23,7 @@ import Cookies from 'js-cookie';
 import api from '../../services/api';
 
 
-const drawerWidth = 265;
+const drawerWidth = 285;
 
 const useStyles = makeStyles((theme) => ({
   root: {

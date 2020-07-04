@@ -279,7 +279,7 @@ export default function BooksDeliveryANDReturnTable({
     console.log(list);
     if (list.length === 0) {
       setText(
-        "Para submeter a entrega é necessário selecionar os livros (físicos) a entregar!"
+        "Para submeter a entrega é necessário selecionar os manuais (físicos) a entregar!"
       );
       setOpen(true);
     } else {
