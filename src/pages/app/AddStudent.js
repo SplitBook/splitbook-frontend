@@ -1,27 +1,27 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Header from "../Components/Header";
-import api from "../../services/api";
-import "./AppStyles.css";
-import Snackbar from "@material-ui/core/Snackbar";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Header from '../../Components/Header';
+import api from '../../services/api';
+import './AppStyles.css';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 export default function AddStudent() {
   const [name, setName] = React.useState(null);
   const [num, setNum] = React.useState(null);
   const [born_date, setBorn_date] = React.useState(null);
-  const [text, setText] = React.useState("");
+  const [text, setText] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
   async function submit() {
     console.log(name, num, born_date);
     try {
-      const { data } = await api.post("/students", {
+      const { data } = await api.post('/students', {
         name,
         number: num,
         born_date: born_date || null,
@@ -29,19 +29,19 @@ export default function AddStudent() {
       console.log(data);
       toast.success(`Aluno ${data.name} criado com sucesso.`);
     } catch (error) {
-      setText("Preencha todos os campos!");
+      setText('Preencha todos os campos!');
       setOpen(true);
       setBorn_date(null);
       setNum(null);
       setName(null);
     }
-    setBorn_date("");
-    setNum("");
-    setName("");
+    setBorn_date('');
+    setNum('');
+    setName('');
   }
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -91,8 +91,8 @@ export default function AddStudent() {
       <div>
         <Snackbar
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           open={open}
           autoHideDuration={5000}

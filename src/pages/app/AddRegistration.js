@@ -1,12 +1,12 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Header from "../Components/Header";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import "./AppStyles.css";
-import api from "../../services/api";
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Header from '../../Components/Header';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import './AppStyles.css';
+import api from '../../services/api';
 
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 export default function AddRegistration() {
   const [guardian, setGuardian] = React.useState(null);
@@ -20,8 +20,8 @@ export default function AddRegistration() {
   if (bool) getClasses();
 
   async function getClasses() {
-    setBool(false)
-    const { data } = await api.get("/classes?current_school_year=true");
+    setBool(false);
+    const { data } = await api.get('/classes?current_school_year=true');
     setClasseslist(data.data);
   }
 
@@ -32,26 +32,26 @@ export default function AddRegistration() {
   const handlerAutoCompleteGuardians = (event) => {
     console.log(event.target.value);
     sleep(300);
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getGuardians(tmp);
   };
 
   async function getGuardians(tmp) {
-    const { data } = await api.get("/guardians?search=" + tmp);
+    const { data } = await api.get('/guardians?search=' + tmp);
     setGuardianList(data.data);
     console.log(guardianList);
   }
 
   const handlerAutoCompleteStudents = (event) => {
     sleep(300);
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getStudents(tmp);
   };
 
   async function getStudents(tmp) {
-    const { data } = await api.get("/students?search=" + tmp);
+    const { data } = await api.get('/students?search=' + tmp);
     setStudentList(data.data);
     console.log(studentlist);
   }
@@ -59,12 +59,12 @@ export default function AddRegistration() {
   async function submit() {
     //console.log(guardian,student,classes)
     console.log(guardian.id, student.id, classes.class_id);
-    const { data } = await api.post("/school-enrollments", {
+    const { data } = await api.post('/school-enrollments', {
       guardian_id: guardian.id,
       student_id: student.id,
       class_id: classes.class_id,
     });
-    toast.success("Matrícula criada com sucesso.");
+    toast.success('Matrícula criada com sucesso.');
     setClasses(null);
     setGuardian(null);
     setstudent(null);
@@ -76,7 +76,7 @@ export default function AddRegistration() {
       <div>
         <Autocomplete
           options={guardianList}
-          getOptionLabel={(option) => option.name + " - " + option.email}
+          getOptionLabel={(option) => option.name + ' - ' + option.email}
           style={{ width: 300, marginTop: 15 }}
           onChange={(event, newValue) => {
             console.log(newValue);
@@ -94,7 +94,7 @@ export default function AddRegistration() {
 
         <Autocomplete
           options={studentlist}
-          getOptionLabel={(option) => option.name + " - " + option.number}
+          getOptionLabel={(option) => option.name + ' - ' + option.number}
           onChange={(event, newValue) => {
             //console.log(newValue)
             setstudent(newValue);

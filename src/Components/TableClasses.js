@@ -1,25 +1,25 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
-import Button from "@material-ui/core/Button";
-import AddBox from "@material-ui/icons/AddBox";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import "./ComponentsStyles.css";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
+import Button from '@material-ui/core/Button';
+import AddBox from '@material-ui/icons/AddBox';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import './ComponentsStyles.css';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 export default function TableClasses() {
   const [bool, setBool] = React.useState(true);
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState({
     columns: [
-      { title: "Nome Turma", field: "class" },
+      { title: 'Nome Turma', field: 'class' },
       {
-        title: "Criar Turma",
+        title: 'Criar Turma',
         render: (rowData) => (
           <>
             <AddBox
@@ -34,7 +34,7 @@ export default function TableClasses() {
   });
 
   const [classId, setClassId] = React.useState(0);
-  const [class_name, setClassName] = React.useState("");
+  const [class_name, setClassName] = React.useState('');
 
   function createClass(id, className) {
     setClassId(id);
@@ -45,24 +45,24 @@ export default function TableClasses() {
   if (bool) getGeneralClasses();
 
   async function getGeneralClasses() {
-    const { data } = await api.get("/general-classes");
+    const { data } = await api.get('/general-classes');
     console.log(data);
     state.data = data;
     setBool(false);
   }
 
   async function deleteGeneralClasses(id) {
-    const { data } = await api.delete("/general-classe/" + id);
+    const { data } = await api.delete('/general-classe/' + id);
     console.log(data);
   }
 
   async function addGeneralClasses(classname) {
-    const { data } = await api.post("/general-classe", { class: classname });
+    const { data } = await api.post('/general-classe', { class: classname });
     console.log(data);
   }
 
   async function EditGeneralClasses(classname, id) {
-    const { data } = await api.post("/general-classe/" + id, {
+    const { data } = await api.post('/general-classe/' + id, {
       class: classname,
       active: false,
     });
@@ -78,7 +78,7 @@ export default function TableClasses() {
 
   async function submitClass() {
     //console.log(classId,teacher.id)
-    api.post("/classes", {
+    api.post('/classes', {
       class_id: classId,
       head_class_id: teacher ? teacher.id : null,
     });
@@ -88,13 +88,13 @@ export default function TableClasses() {
 
   const handlerAutoCompleteTeachers = (event) => {
     console.log(event.target.value);
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getTeachers(tmp);
   };
 
   async function getTeachers(tmp) {
-    const { data } = await api.get("/teachers?search=" + tmp);
+    const { data } = await api.get('/teachers?search=' + tmp);
     setTeacherlist(data.data);
     console.log(teacherlist);
   }
@@ -111,7 +111,7 @@ export default function TableClasses() {
               setTimeout(() => {
                 resolve();
                 setState((prevState) => {
-                  console.log("Data:", newData);
+                  console.log('Data:', newData);
                   addGeneralClasses(newData.class);
                   const data = [...prevState.data];
                   data.push(newData);
@@ -160,7 +160,7 @@ export default function TableClasses() {
           <div>
             <Autocomplete
               options={teacherlist}
-              getOptionLabel={(option) => option.name + " - " + option.email}
+              getOptionLabel={(option) => option.name + ' - ' + option.email}
               style={{ width: 300, marginTop: 15 }}
               onChange={(event, newValue) => {
                 console.log(newValue);

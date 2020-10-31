@@ -1,17 +1,17 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
-import Edit from "@material-ui/icons/Edit";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
+import Edit from '@material-ui/icons/Edit';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 export default function TableSchoolYears() {
   const [newYear, setNewYear] = React.useState(null);
@@ -20,7 +20,7 @@ export default function TableSchoolYears() {
   const [checked, setChecked] = React.useState(false);
 
   const [state, setState] = React.useState({
-    columns: [{ title: "Ano letivo", field: "school_year" }],
+    columns: [{ title: 'Ano letivo', field: 'school_year' }],
     data: [],
   });
 
@@ -31,25 +31,25 @@ export default function TableSchoolYears() {
 
   async function getSchoolYears() {
     setBool(false);
-    const { data } = await api.get("/school-years");
+    const { data } = await api.get('/school-years');
     state.data = data;
     setListYears(data);
   }
 
   async function deleteSchoolYears(id) {
-    /*const {data} = await*/ api.delete("/school-years/" + id);
+    /*const {data} = await*/ api.delete('/school-years/' + id);
     //console.log(data);
   }
 
   async function addSchoolYear(school_year) {
-    /*const {data} = await*/ api.post("/school-years", {
+    /*const {data} = await*/ api.post('/school-years', {
       school_year: school_year,
     });
     //console.log(data);
   }
 
   async function EditSchoolYears(school_year, id) {
-    /*const {data} = await*/ api.post("/school-years/" + id, {
+    /*const {data} = await*/ api.post('/school-years/' + id, {
       school_year: school_year,
       active: true,
     });
@@ -65,8 +65,8 @@ export default function TableSchoolYears() {
   };
 
   const handleChangeCurrentSchoolYear = async () => {
-    const { data } = await api.put("/configs", {
-      key: "current_school_year_id",
+    const { data } = await api.put('/configs', {
+      key: 'current_school_year_id',
       value: String(newYear.id),
     });
 
@@ -94,7 +94,7 @@ export default function TableSchoolYears() {
               setTimeout(() => {
                 resolve();
                 setState((prevState) => {
-                  console.log("Data:", newData);
+                  console.log('Data:', newData);
                   addSchoolYear(newData.school_year);
                   const data = [...prevState.data];
                   data.push(newData);

@@ -1,14 +1,14 @@
-import React from "react";
-import MaterialTable from "material-table";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Header from "../Components/Header";
-import Cookies from "js-cookie";
-import ImageOutlined from "@material-ui/icons/ImageOutlined";
-import Slide from "@material-ui/core/Slide";
-import DialogActions from "@material-ui/core/DialogActions";
+import React from 'react';
+import MaterialTable from 'material-table';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Header from '../../Components/Header';
+import Cookies from 'js-cookie';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import Slide from '@material-ui/core/Slide';
+import DialogActions from '@material-ui/core/DialogActions';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -18,7 +18,7 @@ export default function AprovedRequests() {
   const [reqId, setReqId] = React.useState(0);
   const [openBookList, setOpenBookList] = React.useState(false);
   const handleChange = (value) => {
-    console.log("req id", value);
+    console.log('req id', value);
     setReqId(value);
     setOpenBookList(true);
   };
@@ -27,7 +27,7 @@ export default function AprovedRequests() {
     setOpenBookList(false);
   };
 
-  const [photo_photo, setPhoto_photo] = React.useState("");
+  const [photo_photo, setPhoto_photo] = React.useState('');
   const [openPhoto, setOpenPhoto] = React.useState(false);
 
   function openImg(path) {
@@ -41,7 +41,7 @@ export default function AprovedRequests() {
   };
 
   const fullWidth = true;
-  const maxWidth = "sm";
+  const maxWidth = 'sm';
   const tableRef = React.createRef();
   return (
     <>
@@ -50,14 +50,14 @@ export default function AprovedRequests() {
       <MaterialTable
         title="Lista de Requisições"
         columns={[
-          { title: "EE", field: "guardian_name" },
-          { title: "Nº Aluno", field: "student_number" },
-          { title: "Nome Aluno", field: "student_name" },
-          { title: "Turma", field: "class" },
-          { title: "Ano letivo", field: "school_year" },
+          { title: 'EE', field: 'guardian_name' },
+          { title: 'Nº Aluno', field: 'student_number' },
+          { title: 'Nome Aluno', field: 'student_name' },
+          { title: 'Turma', field: 'class' },
+          { title: 'Ano letivo', field: 'school_year' },
           {
-            title: "Detalhes",
-            field: "listalivros",
+            title: 'Detalhes',
+            field: 'listalivros',
             render: (rowData) => (
               <Button onClick={() => handleChange(rowData.id)}>
                 Consultar
@@ -69,14 +69,14 @@ export default function AprovedRequests() {
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =
-              "http://localhost:8085/requisitions?current_school_year=true&state_id=2";
-            url += "&limit=" + query.pageSize;
-            url += "&page=" + (query.page + 1);
-            url += "&search=" + query.search;
+              'http://localhost:8085/requisitions?current_school_year=true&state_id=2';
+            url += '&limit=' + query.pageSize;
+            url += '&page=' + (query.page + 1);
+            url += '&search=' + query.search;
             fetch(url, {
               headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
+                method: 'GET',
+                Authorization: 'Bearer ' + Cookies.get('token'),
               },
             })
               .then((response) => response.json())
@@ -91,8 +91,8 @@ export default function AprovedRequests() {
         }
         actions={[
           {
-            icon: "refresh",
-            tooltip: "Atualizar informação",
+            icon: 'refresh',
+            tooltip: 'Atualizar informação',
             isFreeAction: true,
             onClick: () => tableRef.current && tableRef.current.onQueryChange(),
           },
@@ -114,11 +114,11 @@ export default function AprovedRequests() {
           <MaterialTable
             title=""
             columns={[
-              { title: "Nome", field: "name" },
-              { title: "ISBN", field: "isbn" },
+              { title: 'Nome', field: 'name' },
+              { title: 'ISBN', field: 'isbn' },
               {
-                title: "Capa",
-                field: "cover",
+                title: 'Capa',
+                field: 'cover',
                 render: (rowData) => (
                   <Button
                     disabled={rowData ? !rowData.cover : true}
@@ -135,12 +135,12 @@ export default function AprovedRequests() {
             }}
             data={(query) =>
               new Promise((resolve, reject) => {
-                console.log("ID req::", reqId);
-                let url = "http://localhost:8085/requisitions/" + reqId;
+                console.log('ID req::', reqId);
+                let url = 'http://localhost:8085/requisitions/' + reqId;
                 fetch(url, {
                   headers: {
-                    method: "GET",
-                    Authorization: "Bearer " + Cookies.get("token"),
+                    method: 'GET',
+                    Authorization: 'Bearer ' + Cookies.get('token'),
                   },
                 })
                   .then((response) => response.json())

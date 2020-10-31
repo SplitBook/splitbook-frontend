@@ -1,35 +1,35 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
 
 export default function BookStateTable() {
   const [bool, setBool] = React.useState(true);
   const [state, setState] = React.useState({
-    columns: [{ title: "Estado", field: "state" }],
+    columns: [{ title: 'Estado', field: 'state' }],
     data: [],
   });
 
   if (bool) getStates();
 
   async function getStates() {
-    const { data } = await api.get("/book-states");
+    const { data } = await api.get('/book-states');
     console.log(data);
     setState({ ...state, data });
     setBool(false);
   }
 
   async function deleteStates(id) {
-    const { data } = await api.delete("/book-states/" + id);
+    const { data } = await api.delete('/book-states/' + id);
     console.log(data);
   }
 
   async function addStates(state) {
-    const { data } = await api.post("/book-states", { state: state });
+    const { data } = await api.post('/book-states', { state: state });
     console.log(data);
   }
 
   async function EditStates(state, id) {
-    const { data } = await api.put("/book-states/" + id, { state: state });
+    const { data } = await api.put('/book-states/' + id, { state: state });
     console.log(data);
   }
 
@@ -45,7 +45,7 @@ export default function BookStateTable() {
               setTimeout(() => {
                 resolve();
                 setState((prevState) => {
-                  console.log("Data:", newData);
+                  console.log('Data:', newData);
                   addStates(newData.state);
                   const data = [...prevState.data];
                   data.push(newData);

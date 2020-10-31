@@ -1,12 +1,12 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Header from "../Components/Header";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import "./AppStyles.css";
-import api from "../../services/api";
-import { toast } from "react-toastify";
-import TouchRipple from "@material-ui/core/ButtonBase/TouchRipple";
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Header from '../../Components/Header';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import './AppStyles.css';
+import api from '../../services/api';
+import { toast } from 'react-toastify';
+import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 
 export default function AddResumes() {
   const [subject, setSubject] = React.useState(null);
@@ -15,17 +15,15 @@ export default function AddResumes() {
   const [classeslist, setClasseslist] = React.useState([]);
   const [bool, setBool] = React.useState(true);
 
-  if (bool) getClasses() && getSubjects() && setBool(false)
-
-
+  if (bool) getClasses() && getSubjects() && setBool(false);
 
   async function getClasses() {
-    const { data } = await api.get("/classes?current_school_year=true");
+    const { data } = await api.get('/classes?current_school_year=true');
     setClasseslist(data.data);
   }
 
   async function getSubjects() {
-    const { data } = await api.get("/school-subjects");
+    const { data } = await api.get('/school-subjects');
     setSubjectslist(data);
   }
 
@@ -33,15 +31,15 @@ export default function AddResumes() {
     //console.log(subject,classes)
     console.log(subject.id, classes.class_id);
     try {
-      await api.post("/resumes", {
+      await api.post('/resumes', {
         school_subject_id: subject.id,
         class_id: classes.class_id,
       });
       setSubject(null);
       setClasses(null);
-      toast.success("Currículo criado com sucesso.");
+      toast.success('Currículo criado com sucesso.');
     } catch (err) {
-      toast.error("Currículo já existente.");
+      toast.error('Currículo já existente.');
     }
   }
 

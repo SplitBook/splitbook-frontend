@@ -1,22 +1,22 @@
-import React from "react";
-import MaterialTable from "material-table";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
-import api from "../../services/api";
-import api_formdata from "../../services/api_multipart_form_data";
-import ImageOutlined from "@material-ui/icons/ImageOutlined";
-import NoteAddOutlined from "@material-ui/icons/NoteAddOutlined";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import DialogActions from "@material-ui/core/DialogActions";
-import TextField from "@material-ui/core/TextField";
-import Cookies from "js-cookie";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import React from 'react';
+import MaterialTable from 'material-table';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import api from '../services/api';
+import api_formdata from '../services/api_multipart_form_data';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import NoteAddOutlined from '@material-ui/icons/NoteAddOutlined';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
+import DialogActions from '@material-ui/core/DialogActions';
+import TextField from '@material-ui/core/TextField';
+import Cookies from 'js-cookie';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import "./ComponentsStyles.css";
-import TableNewPhysicalBooks from "./TableNewPhysicalBooks";
+import './ComponentsStyles.css';
+import TableNewPhysicalBooks from './TableNewPhysicalBooks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -37,7 +37,7 @@ export default function TableManuais() {
   const [resumeList, setResumeList] = React.useState([]);
 
   const fullWidth = true;
-  const maxWidth = "sm";
+  const maxWidth = 'sm';
   /*const [bool,setBool] = React.useState(true);
   const [subjects,setSubjects] = React.useState(true);
 
@@ -54,13 +54,13 @@ export default function TableManuais() {
 
   const [state, setState] = React.useState({
     columns: [
-      { title: "ISBN", field: "isbn", editable: "onAdd" },
-      { title: "Código", field: "code", editable: "onAdd" },
-      { title: "Nome", field: "name" },
-      { title: "Editora", field: "publishing_company" },
+      { title: 'ISBN', field: 'isbn', editable: 'onAdd' },
+      { title: 'Código', field: 'code', editable: 'onAdd' },
+      { title: 'Nome', field: 'name' },
+      { title: 'Editora', field: 'publishing_company' },
       {
-        title: "Capa",
-        field: "cover",
+        title: 'Capa',
+        field: 'cover',
         render: (rowData) => (
           <>
             <Button
@@ -71,10 +71,10 @@ export default function TableManuais() {
             </Button>
           </>
         ),
-        editable: "never",
+        editable: 'never',
       },
       {
-        title: "Carregar capa",
+        title: 'Carregar capa',
 
         render: (rowData) => (
           <>
@@ -83,7 +83,7 @@ export default function TableManuais() {
         ),
       },
       {
-        title: "Gerar",
+        title: 'Gerar',
         render: (rowData) => (
           <>
             <NoteAddOutlined
@@ -94,7 +94,7 @@ export default function TableManuais() {
         ),
       },
       {
-        title: "Adoptar livro",
+        title: 'Adoptar livro',
         render: (rowData) => (
           <>
             <LibraryBooks
@@ -108,7 +108,7 @@ export default function TableManuais() {
     data: [],
   });
 
-  const [photo_photo, setPhoto_photo] = React.useState("");
+  const [photo_photo, setPhoto_photo] = React.useState('');
 
   function openImg(path) {
     console.log(path);
@@ -130,10 +130,10 @@ export default function TableManuais() {
 
   async function GeneratePhysicalBooks() {
     console.log(num, infoLivro.isbn);
-    const { data } = await api.post("/physical-books?quantity=" + num, {
+    const { data } = await api.post('/physical-books?quantity=' + num, {
       book_isbn: infoLivro.isbn,
     });
-    console.log("data (GeneratePhysicalBooks):", data);
+    console.log('data (GeneratePhysicalBooks):', data);
     try {
       if (data.length >= 2) {
         setPhysicalBooks(data);
@@ -150,7 +150,7 @@ export default function TableManuais() {
 
   async function AdoptBook() {
     //console.log('resume: ',resume.id,infoLivro.isbn);
-    /*const {data} = await */ await api.post("/adopted-books", {
+    /*const {data} = await */ await api.post('/adopted-books', {
       resume_id: resume.id,
       book_isbn: infoLivro.isbn,
     });
@@ -160,25 +160,25 @@ export default function TableManuais() {
   function fileUpload(e) {
     //setFileimg(e.target.files[0])
     fileimg.file = e.target.files[0];
-    console.log("file::: ", fileimg);
+    console.log('file::: ', fileimg);
   }
 
   async function deleteBooks(isbn) {
-    const { data } = await api.delete("/books/" + isbn);
+    const { data } = await api.delete('/books/' + isbn);
     console.log(data);
   }
 
   async function addBooks(newData) {
-    console.log(newData, ":::", fileimg.file);
+    console.log(newData, ':::', fileimg.file);
     const formData1 = new FormData();
-    formData1.append("isbn", newData.isbn);
-    formData1.append("name", newData.name);
-    formData1.append("code", newData.code);
+    formData1.append('isbn', newData.isbn);
+    formData1.append('name', newData.name);
+    formData1.append('code', newData.code);
     if (newData.publishing_company)
-      formData1.append("publishing_company", newData.publishing_company);
+      formData1.append('publishing_company', newData.publishing_company);
     // formData1.append("subject_id", newData.subject_id);
-    formData1.append("cover", fileimg.file);
-    const { data } = api_formdata.post("/books", formData1);
+    formData1.append('cover', fileimg.file);
+    const { data } = api_formdata.post('/books', formData1);
     console.log(data);
 
     /*const {data} = await api.post('/books',{isbn:isbn,name:name,code:code,publishing_company:publishing_company,subject_id:subject_id});
@@ -186,14 +186,14 @@ export default function TableManuais() {
   }
 
   function EditBooks(isbn, name, publishing_company, subject_id) {
-    console.log("cover:: ", fileimg.file);
+    console.log('cover:: ', fileimg.file);
     const formData = new FormData();
-    formData.append("cover", fileimg.file);
-    formData.append("name", name);
-    formData.append("publishing_company", publishing_company);
+    formData.append('cover', fileimg.file);
+    formData.append('name', name);
+    formData.append('publishing_company', publishing_company);
     //formData.append("subject_id", subject_id);
     console.log(formData);
-    const { data } = api_formdata.put("/books/" + isbn, formData);
+    const { data } = api_formdata.put('/books/' + isbn, formData);
     console.log(data);
   }
 
@@ -205,14 +205,14 @@ export default function TableManuais() {
   };
 
   const handlerAutoCompleteResumes = (event) => {
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getResumes(tmp);
   };
 
   async function getResumes(tmp) {
     const { data } = await api.get(
-      "/resumes?current_school_year=true&search=" + tmp
+      '/resumes?current_school_year=true&search=' + tmp
     );
     setResumeList(data.data);
     console.log(resumeList);
@@ -228,14 +228,14 @@ export default function TableManuais() {
         columns={state.columns}
         data={(query) =>
           new Promise((resolve, reject) => {
-            let url = "http://localhost:8085/books";
-            url += "?limit=" + query.pageSize;
-            url += "&page=" + (query.page + 1);
-            url += "&search=" + query.search;
+            let url = 'http://localhost:8085/books';
+            url += '?limit=' + query.pageSize;
+            url += '&page=' + (query.page + 1);
+            url += '&search=' + query.search;
             fetch(url, {
               headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
+                method: 'GET',
+                Authorization: 'Bearer ' + Cookies.get('token'),
               },
             })
               .then((response) => response.json())
@@ -250,8 +250,8 @@ export default function TableManuais() {
         }
         actions={[
           {
-            icon: "refresh",
-            tooltip: "Atualizar informação",
+            icon: 'refresh',
+            tooltip: 'Atualizar informação',
             isFreeAction: true,
             onClick: () => tableRef.current && tableRef.current.onQueryChange(),
           },
@@ -336,9 +336,9 @@ export default function TableManuais() {
             options={resumeList}
             getOptionLabel={(option) =>
               option.school_subject +
-              " - " +
+              ' - ' +
               option.class +
-              " - " +
+              ' - ' +
               option.school_year
             }
             onChange={(event, newValue) => {

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Tooltip from "@material-ui/core/Tooltip";
-import api from "../../services/api";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
+import api from '../services/api';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: 320,
     height: 360,
-    overflow: "auto",
+    overflow: 'auto',
   },
   button: {
     margin: theme.spacing(0.5, 0),
@@ -96,14 +96,14 @@ export default function TransferList({ books, schoolEnrollmentsID }) {
     const adopted_books_ids = right.map((adoptedBook) => adoptedBook.id);
 
     try {
-      const { data } = await api.post("/requisition/adopted-books", {
+      const { data } = await api.post('/requisition/adopted-books', {
         school_enrollment_id: schoolEnrollmentsID,
         adopted_books_ids,
       });
 
-      toast.success("Requisição efetuada com sucesso.");
+      toast.success('Requisição efetuada com sucesso.');
     } catch (err) {
-      toast.error("Impossível efetuar requisição.");
+      toast.error('Impossível efetuar requisição.');
     }
   }
 
@@ -125,7 +125,7 @@ export default function TransferList({ books, schoolEnrollmentsID }) {
                   checked={checked.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
+                  inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={value.name} />

@@ -1,19 +1,19 @@
-import React from "react";
-import MaterialTable from "material-table";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
-import "./AppStyles.css";
-import Header from "../Components/Header";
-import Cookies from "js-cookie";
-import api from "../../services/api";
-import ImageOutlined from "@material-ui/icons/ImageOutlined";
-import Slide from "@material-ui/core/Slide";
+import React from 'react';
+import MaterialTable from 'material-table';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import './AppStyles.css';
+import Header from '../../Components/Header';
+import Cookies from 'js-cookie';
+import api from '../../services/api';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import Slide from '@material-ui/core/Slide';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -22,31 +22,31 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function AllRequests() {
   const [state, setState] = React.useState({
     columns: [
-      { title: "Nº Aluno", field: "student_number" },
-      { title: "Nome Aluno", field: "student_name" },
-      { title: "EE", field: "guardian_name" },
-      { title: "Turma", field: "class" },
-      { title: "Ano letivo", field: "school_year" },
+      { title: 'Nº Aluno', field: 'student_number' },
+      { title: 'Nome Aluno', field: 'student_name' },
+      { title: 'EE', field: 'guardian_name' },
+      { title: 'Turma', field: 'class' },
+      { title: 'Ano letivo', field: 'school_year' },
       {
-        title: "Detalhes",
-        field: "listalivros",
+        title: 'Detalhes',
+        field: 'listalivros',
         render: (rowData) => (
           <Button onClick={() => handleChange(rowData.id)}>Consultar</Button>
         ),
       },
     ],
   });
-  const [obs, setObs] = React.useState("");
+  const [obs, setObs] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [dataDeletedRow, setDataDeletedRow] = React.useState({});
   const [showWarning, setShowWarning] = React.useState(false);
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [reqId, setReqId] = React.useState(0);
   const [openBookList, setOpenBookList] = React.useState(false);
   const handleChange = (value) => {
-    console.log("req id", value);
+    console.log('req id', value);
     setReqId(value);
     setOpenBookList(true);
   };
@@ -60,7 +60,7 @@ export default function AllRequests() {
   };
 
   const handleClose2 = (oldData) => {
-    if (obs !== null && obs !== "") {
+    if (obs !== null && obs !== '') {
       setOpen(false);
       setState((prevState) => {
         DenyRequistion();
@@ -84,14 +84,14 @@ export default function AllRequests() {
 
   async function EditRequisition(data) {
     //console.log(data)
-    api.put("/requisitions/" + data.id, { state_id: 2 });
+    api.put('/requisitions/' + data.id, { state_id: 2 });
   }
 
   async function DenyRequistion() {
-    api.put("/requisitions/" + dataDeletedRow.id, { state_id: 3, reason: obs });
+    api.put('/requisitions/' + dataDeletedRow.id, { state_id: 3, reason: obs });
   }
 
-  const [photo_photo, setPhoto_photo] = React.useState("");
+  const [photo_photo, setPhoto_photo] = React.useState('');
   const [openPhoto, setOpenPhoto] = React.useState(false);
 
   function openImg(path) {
@@ -101,7 +101,7 @@ export default function AllRequests() {
   }
 
   const fullWidth = true;
-  const maxWidth = "sm";
+  const maxWidth = 'sm';
   const tableRef = React.createRef();
 
   return (
@@ -115,14 +115,14 @@ export default function AllRequests() {
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =
-              "http://localhost:8085/requisitions?current_school_year=true&state_id=1";
-            url += "&limit=" + query.pageSize;
-            url += "&page=" + (query.page + 1);
-            url += "&search=" + query.search;
+              'http://localhost:8085/requisitions?current_school_year=true&state_id=1';
+            url += '&limit=' + query.pageSize;
+            url += '&page=' + (query.page + 1);
+            url += '&search=' + query.search;
             fetch(url, {
               headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
+                method: 'GET',
+                Authorization: 'Bearer ' + Cookies.get('token'),
               },
             })
               .then((response) => response.json())
@@ -137,16 +137,16 @@ export default function AllRequests() {
         }
         actions={[
           {
-            icon: "done",
-            tooltip: "Aceitar pedido",
+            icon: 'done',
+            tooltip: 'Aceitar pedido',
             onClick: (event, rowData) =>
               EditRequisition(rowData) &&
               tableRef.current &&
               tableRef.current.onQueryChange(),
           },
           {
-            icon: "refresh",
-            tooltip: "Atualizar informação",
+            icon: 'refresh',
+            tooltip: 'Atualizar informação',
             isFreeAction: true,
             onClick: () => tableRef.current && tableRef.current.onQueryChange(),
           },
@@ -224,11 +224,11 @@ export default function AllRequests() {
           <MaterialTable
             title=" "
             columns={[
-              { title: "Nome", field: "name" },
-              { title: "ISBN", field: "isbn" },
+              { title: 'Nome', field: 'name' },
+              { title: 'ISBN', field: 'isbn' },
               {
-                title: "Capa",
-                field: "cover",
+                title: 'Capa',
+                field: 'cover',
                 render: (rowData) => (
                   <Button
                     disabled={rowData ? !rowData.cover : true}
@@ -245,12 +245,12 @@ export default function AllRequests() {
             }}
             data={(query) =>
               new Promise((resolve, reject) => {
-                console.log("ID req::", reqId);
-                let url = "http://localhost:8085/requisitions/" + reqId;
+                console.log('ID req::', reqId);
+                let url = 'http://localhost:8085/requisitions/' + reqId;
                 fetch(url, {
                   headers: {
-                    method: "GET",
-                    Authorization: "Bearer " + Cookies.get("token"),
+                    method: 'GET',
+                    Authorization: 'Bearer ' + Cookies.get('token'),
                   },
                 })
                   .then((response) => response.json())

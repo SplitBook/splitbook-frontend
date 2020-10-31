@@ -1,33 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import api from "../../services/api";
-import TextField from "@material-ui/core/TextField";
-import MaterialTable from "material-table";
-import Cookies from "js-cookie";
-import Snackbar from "@material-ui/core/Snackbar";
-import CloseIcon from "@material-ui/icons/Close";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
-import FirstPageIcon from "@material-ui/icons/FirstPage";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import LastPageIcon from "@material-ui/icons/LastPage";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import api from '../services/api';
+import TextField from '@material-ui/core/TextField';
+import MaterialTable from 'material-table';
+import Cookies from 'js-cookie';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   root: {
-    "& > *": {
-      borderBottom: "unset",
+    '& > *': {
+      borderBottom: 'unset',
     },
   },
 }));
@@ -61,11 +61,11 @@ function Row(props) {
   const [numberOfRows, setNumberOfRows] = React.useState(0);
 
   function SelectionChange(rows, id, event) {
-    console.log(rows, "::", event);
+    console.log(rows, '::', event);
     if (rows.length === 1) {
       let bool = false;
       let tmp = [];
-      var code = event.id.split("-");
+      var code = event.id.split('-');
       for (let k = 0; k < list.length; k++) {
         if (list[k].book_requisition_id !== id) {
           console.log(list[k].book_requisition_id, id, k);
@@ -85,7 +85,7 @@ function Row(props) {
         }
       }
       if (bool) {
-        console.log("1::: ", list, tmp);
+        console.log('1::: ', list, tmp);
         setList(tmp);
       } else {
         setList([
@@ -131,14 +131,14 @@ function Row(props) {
               <MaterialTable
                 title=" "
                 columns={[
-                  { title: "Código do livro", field: "id" },
-                  { title: "Estado", field: "state" },
+                  { title: 'Código do livro', field: 'id' },
+                  { title: 'Estado', field: 'state' },
                 ]}
                 options={{
                   selection: true,
                   selectionProps: (rowData) => ({
                     disabled: rowData.id !== null && numberOfRows > 0,
-                    color: "primary",
+                    color: 'primary',
                   }),
                 }}
                 onSelectionChange={(rows, event) =>
@@ -147,14 +147,14 @@ function Row(props) {
                 data={(query) =>
                   new Promise((resolve, reject) => {
                     let url =
-                      "http://localhost:8085/physical-books?available=true&book_isbn=" +
+                      'http://localhost:8085/physical-books?available=true&book_isbn=' +
                       row.isbn;
-                    url += "&limit=" + query.pageSize;
-                    url += "&page=" + (query.page + 1);
+                    url += '&limit=' + query.pageSize;
+                    url += '&page=' + (query.page + 1);
                     fetch(url, {
                       headers: {
-                        method: "GET",
-                        Authorization: "Bearer " + Cookies.get("token"),
+                        method: 'GET',
+                        Authorization: 'Bearer ' + Cookies.get('token'),
                       },
                     })
                       .then((response) => response.json())
@@ -204,14 +204,14 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === "rtl" ? (
+        {theme.direction === 'rtl' ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
@@ -222,7 +222,7 @@ function TablePaginationActions(props) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === "rtl" ? (
+        {theme.direction === 'rtl' ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
@@ -233,7 +233,7 @@ function TablePaginationActions(props) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -251,22 +251,22 @@ export default function BooksDeliveryANDReturnTable({
   stdnumber,
   guardianName,
 }) {
-  const [obs, setObs] = React.useState("");
+  const [obs, setObs] = React.useState('');
   const [rows, setRows] = React.useState([]);
   const [bookRequisitionsLength, setBookRequisitionsLength] = React.useState(0);
-  const [text, setText] = React.useState("");
+  const [text, setText] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [list, setList] = React.useState([]);
-  const [url, setUrl] = React.useState("");
+  const [url, setUrl] = React.useState('');
   const [bool, setBool] = React.useState(true);
 
   if (rows.length === 0 && bool) getBookRequisitions();
 
   async function getBookRequisitions() {
     setBool(false);
-    const { data } = await api.get("/requisitions/" + requisitionId);
+    const { data } = await api.get('/requisitions/' + requisitionId);
     setRows(data.book_requisitions);
-    console.log("data: ", data);
+    console.log('data: ', data);
     setBookRequisitionsLength(data.book_requisitions.length);
   }
 
@@ -279,23 +279,23 @@ export default function BooksDeliveryANDReturnTable({
     console.log(list);
     if (list.length === 0) {
       setText(
-        "Para submeter a entrega é necessário selecionar os manuais (físicos) a entregar!"
+        'Para submeter a entrega é necessário selecionar os manuais (físicos) a entregar!'
       );
       setOpen(true);
     } else {
       try {
         console.log({ requisitions_physical_book: list });
-        const { data } = await api.post("/physical-books/deliveries", {
+        const { data } = await api.post('/physical-books/deliveries', {
           requisitions_physical_book: list,
           description: obs || null,
         });
         console.log(data);
         generateReport(data[0].report_id);
-        setText("Efetuado com Sucesso! Aguarde pelo relatório...");
+        setText('Efetuado com Sucesso! Aguarde pelo relatório...');
         setOpen(true);
       } catch (error) {
         setText(
-          "Por favor verifique se a requisição já foi aceite ou entregue!"
+          'Por favor verifique se a requisição já foi aceite ou entregue!'
         );
         setOpen(true);
       }
@@ -303,17 +303,17 @@ export default function BooksDeliveryANDReturnTable({
   }
 
   async function generateReport(id) {
-    const { data } = await api.get("/generate/report/" + id);
+    const { data } = await api.get('/generate/report/' + id);
     console.log(data);
     setUrl(data.file);
-    console.log("url", data.file);
+    console.log('url', data.file);
     /*const formData = new FormData();
     formData.append('valid', true);
     api.put("/reports/" + id, formData);*/
   }
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
@@ -378,14 +378,14 @@ export default function BooksDeliveryANDReturnTable({
                       5,
                       10,
                       25,
-                      { label: "All", value: -1 },
+                      { label: 'All', value: -1 },
                     ]}
                     colSpan={3}
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     SelectProps={{
-                      inputProps: { "aria-label": "rows per page" },
+                      inputProps: { 'aria-label': 'rows per page' },
                       native: true,
                     }}
                     onChangePage={handleChangePage}
@@ -420,7 +420,7 @@ export default function BooksDeliveryANDReturnTable({
             variant="outlined"
             color="primary"
             onClick={() => window.open(url)}
-            disabled={url === ""}
+            disabled={url === ''}
           >
             Abrir relatório
           </Button>
@@ -430,8 +430,8 @@ export default function BooksDeliveryANDReturnTable({
       <div>
         <Snackbar
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           open={open}
           autoHideDuration={5000}

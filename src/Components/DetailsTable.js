@@ -1,17 +1,17 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
-import api_formdata from "../../services/api_multipart_form_data";
-import { useParams } from "react-router-dom";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Info from "@material-ui/icons/Info";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Cookies from "js-cookie";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
+import api_formdata from '../services/api_multipart_form_data';
+import { useParams } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Info from '@material-ui/icons/Info';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Cookies from 'js-cookie';
 
 export default function DetailsTable() {
   let { id } = useParams();
@@ -29,16 +29,16 @@ export default function DetailsTable() {
   function fileUpload(e) {
     //setFileimg(e.target.files[0])
     fileimg.file = e.target.files[0];
-    console.log("file::: ", fileimg);
+    console.log('file::: ', fileimg);
   }
 
   async function SubmitNewReport() {
     const formData = new FormData();
     if (fileimg.file !== null) {
-      formData.append("file_signed", fileimg.file);
-      formData.append("valid", true);
-      const { data } = await api_formdata.put("/reports/" + reportID, formData);
-      console.log("Data: ", data);
+      formData.append('file_signed', fileimg.file);
+      formData.append('valid', true);
+      const { data } = await api_formdata.put('/reports/' + reportID, formData);
+      console.log('Data: ', data);
       setFile_signed(data.file_signed);
       setFile(data.file);
       setFileimg({ file: null });
@@ -47,9 +47,9 @@ export default function DetailsTable() {
 
   const [state, setState] = React.useState({
     columns: [
-      { title: "ISBN", field: "isbn" },
-      { title: "Nome", field: "name" },
-      { title: "Disciplina", field: "school_subject" },
+      { title: 'ISBN', field: 'isbn' },
+      { title: 'Nome', field: 'name' },
+      { title: 'Disciplina', field: 'school_subject' },
     ],
     data: [],
   });
@@ -62,16 +62,16 @@ export default function DetailsTable() {
 
   const [state2, setState2] = React.useState({
     columns: [
-      { title: "Tipo", field: "type" },
+      { title: 'Tipo', field: 'type' },
       {
-        title: "Valido",
-        field: "valid",
+        title: 'Valido',
+        field: 'valid',
         render: (rowData) => (
           <>{rowData.valid ? <span>Sim</span> : <span>Não</span>}</>
         ),
       },
       {
-        title: "Detalhes",
+        title: 'Detalhes',
         render: (rowData) => (
           <>
             <Button onClick={() => getInfo(rowData.id, rowData.type)}>
@@ -86,10 +86,10 @@ export default function DetailsTable() {
 
   const [state3, setState3] = React.useState({
     columns: [
-      { title: "Código do Livro", field: "physical_book_id" },
-      { title: "ISBN", field: "book_isbn" },
-      { title: "Nome", field: "name" },
-      { title: "Disciplina", field: "school_subject" },
+      { title: 'Código do Livro', field: 'physical_book_id' },
+      { title: 'ISBN', field: 'book_isbn' },
+      { title: 'Nome', field: 'name' },
+      { title: 'Disciplina', field: 'school_subject' },
     ],
     data: [],
   });
@@ -106,7 +106,7 @@ export default function DetailsTable() {
   if (bool) getSchoolEnrollments();
 
   async function getSchoolEnrollments() {
-    const { data } = await api.get("/school-enrollments/" + id);
+    const { data } = await api.get('/school-enrollments/' + id);
     console.log(data);
     setEnrollmentsInfo(data);
     state.data = data.book_requisitions;
@@ -116,21 +116,21 @@ export default function DetailsTable() {
   }
 
   async function generateReport(id) {
-    const { data } = api.get("/generate/report/" + id);
-    console.log("generateReport", data);
+    const { data } = api.get('/generate/report/' + id);
+    console.log('generateReport', data);
     setFile(data.file);
   }
 
   async function ValidateReport() {
     const formData = new FormData();
-    formData.append("valid", true);
-    const { data } = await api.put("/reports/" + reportID, formData);
+    formData.append('valid', true);
+    const { data } = await api.put('/reports/' + reportID, formData);
     setValid(data.valid);
     console.log(data);
   }
 
   const fullWidth = true;
-  const maxWidth = "md";
+  const maxWidth = 'md';
 
   return (
     <>
@@ -257,11 +257,11 @@ export default function DetailsTable() {
             columns={state3.columns}
             data={(query) =>
               new Promise((resolve, reject) => {
-                let url = "http://localhost:8085/reports/" + reportID;
+                let url = 'http://localhost:8085/reports/' + reportID;
                 fetch(url, {
                   headers: {
-                    method: "GET",
-                    Authorization: "Bearer " + Cookies.get("token"),
+                    method: 'GET',
+                    Authorization: 'Bearer ' + Cookies.get('token'),
                   },
                 })
                   .then((response) => response.json())
@@ -275,7 +275,7 @@ export default function DetailsTable() {
                     if (result.file_signed) {
                       setFile_signed(result.file_signed);
                     }
-                    if (type === "Entrega")
+                    if (type === 'Entrega')
                       resolve({
                         data: result.deliveries,
                         page: query.page,

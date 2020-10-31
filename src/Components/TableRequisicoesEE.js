@@ -1,16 +1,16 @@
-import React from "react";
-import MaterialTable from "material-table";
-import jwt_decode from "jwt-decode";
-import Cookies from "js-cookie";
-import Button from "@material-ui/core/Button";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import Dialog from "@material-ui/core/Dialog";
-import ImageOutlined from "@material-ui/icons/ImageOutlined";
-import Slide from "@material-ui/core/Slide";
-import api from "../../services/api";
+import React from 'react';
+import MaterialTable from 'material-table';
+import jwt_decode from 'jwt-decode';
+import Cookies from 'js-cookie';
+import Button from '@material-ui/core/Button';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Dialog from '@material-ui/core/Dialog';
+import ImageOutlined from '@material-ui/icons/ImageOutlined';
+import Slide from '@material-ui/core/Slide';
+import api from '../services/api';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -19,14 +19,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
     columns: [
-      { title: "Nome EE", field: "guardian_name" },
-      { title: "Nº Aluno", field: "student_number" },
-      { title: "Nome Aluno", field: "student_name" },
-      { title: "Turma", field: "class" },
-      { title: "Estado", field: "state" },
+      { title: 'Nome EE', field: 'guardian_name' },
+      { title: 'Nº Aluno', field: 'student_number' },
+      { title: 'Nome Aluno', field: 'student_name' },
+      { title: 'Turma', field: 'class' },
+      { title: 'Estado', field: 'state' },
       {
-        title: " ",
-        field: "state_id",
+        title: ' ',
+        field: 'state_id',
         render: (rowData) => (
           <>
             {rowData.state_id === 1 ? (
@@ -40,8 +40,8 @@ export default function MaterialTableDemo() {
         ),
       },
       {
-        title: "Mais informações",
-        field: "listalivros",
+        title: 'Mais informações',
+        field: 'listalivros',
         render: (rowData) => (
           <Button onClick={() => handleChange(rowData.id, rowData.reason)}>
             Consultar
@@ -53,7 +53,7 @@ export default function MaterialTableDemo() {
   });
 
   const [idStatus, setIdStatus] = React.useState(1);
-  var token = Cookies.get("token");
+  var token = Cookies.get('token');
   var decoded = jwt_decode(token);
   const [reqId, setReqId] = React.useState(0);
   const [open, setOpen] = React.useState(false);
@@ -68,13 +68,13 @@ export default function MaterialTableDemo() {
   };
 
   const handleChange = (value, reasonValue) => {
-    console.log("req id", value);
+    console.log('req id', value);
     setReqId(value);
     setReason(reasonValue);
     setOpen(true);
   };
 
-  const [photo_photo, setPhoto_photo] = React.useState("");
+  const [photo_photo, setPhoto_photo] = React.useState('');
   const [openPhoto, setOpenPhoto] = React.useState(false);
   const [reason, setReason] = React.useState(null);
 
@@ -85,7 +85,7 @@ export default function MaterialTableDemo() {
   }
 
   const fullWidth = true;
-  const maxWidth = "sm";
+  const maxWidth = 'sm';
 
   const tableRef = React.createRef();
   return (
@@ -100,22 +100,22 @@ export default function MaterialTableDemo() {
           }}
           data={(query) =>
             new Promise((resolve, reject) => {
-              let url = "";
-              if (decoded.charge === "Encarregado de Educação")
+              let url = '';
+              if (decoded.charge === 'Encarregado de Educação')
                 url +=
-                  "http://localhost:8085/requisitions?current_school_year=true&guardian_id=" +
+                  'http://localhost:8085/requisitions?current_school_year=true&guardian_id=' +
                   decoded.profile_id;
               else
                 url +=
-                  "http://localhost:8085/requisitions?current_school_year=true&head_class_id=" +
+                  'http://localhost:8085/requisitions?current_school_year=true&head_class_id=' +
                   decoded.profile_id;
-              url += "&limit=" + query.pageSize;
-              url += "&page=" + (query.page + 1);
-              url += "&search=" + query.search;
+              url += '&limit=' + query.pageSize;
+              url += '&page=' + (query.page + 1);
+              url += '&search=' + query.search;
               fetch(url, {
                 headers: {
-                  method: "GET",
-                  Authorization: "Bearer " + Cookies.get("token"),
+                  method: 'GET',
+                  Authorization: 'Bearer ' + Cookies.get('token'),
                 },
               })
                 .then((response) => response.json())
@@ -130,8 +130,8 @@ export default function MaterialTableDemo() {
           }
           actions={[
             {
-              icon: "refresh",
-              tooltip: "Atualizar informação",
+              icon: 'refresh',
+              tooltip: 'Atualizar informação',
               isFreeAction: true,
               onClick: () =>
                 tableRef.current && tableRef.current.onQueryChange(),
@@ -145,8 +145,8 @@ export default function MaterialTableDemo() {
           columns={state.columns}
           actions={[
             {
-              icon: "refresh",
-              tooltip: "Atualizar informação",
+              icon: 'refresh',
+              tooltip: 'Atualizar informação',
               isFreeAction: true,
               onClick: () =>
                 tableRef.current && tableRef.current.onQueryChange(),
@@ -157,22 +157,22 @@ export default function MaterialTableDemo() {
           }}
           data={(query) =>
             new Promise((resolve, reject) => {
-              let url = "";
-              if (decoded.charge === "Encarregado de Educação")
+              let url = '';
+              if (decoded.charge === 'Encarregado de Educação')
                 url +=
-                  "http://localhost:8085/requisitions?guardian_id=" +
+                  'http://localhost:8085/requisitions?guardian_id=' +
                   decoded.profile_id;
               else
                 url +=
-                  "http://localhost:8085/requisitions?head_class_id=" +
+                  'http://localhost:8085/requisitions?head_class_id=' +
                   decoded.profile_id;
-              url += "&limit=" + query.pageSize;
-              url += "&page=" + (query.page + 1);
-              url += "&search=" + query.search;
+              url += '&limit=' + query.pageSize;
+              url += '&page=' + (query.page + 1);
+              url += '&search=' + query.search;
               fetch(url, {
                 headers: {
-                  method: "GET",
-                  Authorization: "Bearer " + Cookies.get("token"),
+                  method: 'GET',
+                  Authorization: 'Bearer ' + Cookies.get('token'),
                 },
               })
                 .then((response) => response.json())
@@ -203,10 +203,10 @@ export default function MaterialTableDemo() {
           {reason && (
             <div
               style={{
-                marginBottom: "25px",
-                border: "1px solid red",
-                padding: "5px",
-                borderRadius: "3px",
+                marginBottom: '25px',
+                border: '1px solid red',
+                padding: '5px',
+                borderRadius: '3px',
               }}
             >
               <h4>Observações</h4>
@@ -216,11 +216,11 @@ export default function MaterialTableDemo() {
           <MaterialTable
             title=" "
             columns={[
-              { title: "Nome", field: "name" },
-              { title: "ISBN", field: "isbn" },
+              { title: 'Nome', field: 'name' },
+              { title: 'ISBN', field: 'isbn' },
               {
-                title: "Capa",
-                field: "cover",
+                title: 'Capa',
+                field: 'cover',
                 render: (rowData) => (
                   <Button
                     disabled={rowData ? !rowData.cover : true}
@@ -237,13 +237,13 @@ export default function MaterialTableDemo() {
             }}
             data={(query) =>
               new Promise((resolve, reject) => {
-                console.log("ID req::", reqId);
-                let url = "http://localhost:8085/requisitions/" + reqId;
-                console.log("url::", url);
+                console.log('ID req::', reqId);
+                let url = 'http://localhost:8085/requisitions/' + reqId;
+                console.log('url::', url);
                 fetch(url, {
                   headers: {
-                    method: "GET",
-                    Authorization: "Bearer " + Cookies.get("token"),
+                    method: 'GET',
+                    Authorization: 'Bearer ' + Cookies.get('token'),
                   },
                 })
                   .then((response) => response.json())

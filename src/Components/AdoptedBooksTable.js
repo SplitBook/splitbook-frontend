@@ -1,21 +1,21 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
-import Cookies from "js-cookie";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
+import Cookies from 'js-cookie';
 
 export default function AdoptedBooksTable() {
   const [state, setState] = React.useState({
     columns: [
-      { title: "Livro", field: "name" },
-      { title: "Disciplina", field: "school_subject" },
-      { title: "Turma", field: "class" },
-      { title: "Ano letivo", field: "school_year" },
+      { title: 'Livro', field: 'name' },
+      { title: 'Disciplina', field: 'school_subject' },
+      { title: 'Turma', field: 'class' },
+      { title: 'Ano letivo', field: 'school_year' },
     ],
     data: [],
   });
 
   async function deleteSubject(id) {
-    const { data } = await api.delete("/adopted-books/" + id);
+    const { data } = await api.delete('/adopted-books/' + id);
     console.log(data);
   }
 
@@ -38,8 +38,8 @@ export default function AdoptedBooksTable() {
         columns={state.columns}
         actions={[
           {
-            icon: "refresh",
-            tooltip: "Refresh Data",
+            icon: 'refresh',
+            tooltip: 'Refresh Data',
             isFreeAction: true,
             onClick: () => tableRef.current && tableRef.current.onQueryChange(),
           },
@@ -47,14 +47,14 @@ export default function AdoptedBooksTable() {
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =
-              "http://localhost:8085/adopted-books?current_school_year=true";
-            url += "&limit=" + query.pageSize;
-            url += "&page=" + (query.page + 1);
-            url += "&search=" + query.search;
+              'http://localhost:8085/adopted-books?current_school_year=true';
+            url += '&limit=' + query.pageSize;
+            url += '&page=' + (query.page + 1);
+            url += '&search=' + query.search;
             fetch(url, {
               headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
+                method: 'GET',
+                Authorization: 'Bearer ' + Cookies.get('token'),
               },
             })
               .then((response) => response.json())

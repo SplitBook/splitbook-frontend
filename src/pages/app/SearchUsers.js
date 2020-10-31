@@ -1,21 +1,21 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Header from "../Components/Header";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import "./AppStyles.css";
-import api from "../../services/api";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import Avatar from "@material-ui/core/Avatar";
-import Gravatar from "react-gravatar";
-import { makeStyles } from "@material-ui/core/styles";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Header from '../../Components/Header';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import './AppStyles.css';
+import api from '../../services/api';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Avatar from '@material-ui/core/Avatar';
+import Gravatar from 'react-gravatar';
+import { makeStyles } from '@material-ui/core/styles';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
   large: {
@@ -32,13 +32,13 @@ export default function SearchUsers() {
   const [usersList, setUsersList] = React.useState([]);
 
   const handlerAutoCompleteUsers = (event) => {
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getUsers(tmp);
   };
 
   async function getUsers(tmp) {
-    const { data } = await api.get("/users?search=" + tmp);
+    const { data } = await api.get('/users?search=' + tmp);
     setUsersList(data.data);
   }
 
@@ -51,7 +51,7 @@ export default function SearchUsers() {
             <Autocomplete
               options={usersList}
               getOptionLabel={(option) =>
-                option.username + " - " + option.email
+                option.username + ' - ' + option.email
               }
               style={{ width: 300 }}
               onChange={(event, newValue) => {

@@ -1,25 +1,25 @@
-import React from "react";
-import TextField from "@material-ui/core/TextField";
-import Header from "../Components/Header";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import "./AppStyles.css";
-import api from "../../services/api";
-import Grid from "@material-ui/core/Grid";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import Edit from "@material-ui/icons/Edit";
-import CropFree from "@material-ui/icons/CropFree";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import Tooltip from "@material-ui/core/Tooltip";
-import Select from "@material-ui/core/Select";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import { makeStyles } from "@material-ui/core/styles";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Header from '../../Components/Header';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import './AppStyles.css';
+import api from '../../services/api';
+import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Edit from '@material-ui/icons/Edit';
+import CropFree from '@material-ui/icons/CropFree';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Tooltip from '@material-ui/core/Tooltip';
+import Select from '@material-ui/core/Select';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+import NativeSelect from '@material-ui/core/NativeSelect';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -39,24 +39,24 @@ export default function SearchPhysicalBook() {
 
   const handlerAutoCompletePhysicalBooks = (event) => {
     console.log(event.target.value);
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     console.log(tmp.length > 2);
     if (tmp.length > 2) getPhysicalBook(tmp);
   };
 
   async function getPhysicalBook(tmp) {
-    const { data } = await api.get("/physical-books?search=" + tmp);
+    const { data } = await api.get('/physical-books?search=' + tmp);
     setPhysicalBookList(data.data);
     console.log(physicalBookList);
   }
 
   async function generateOneQRCode(code) {
-    const { data } = await api.get("/generate/qr-codes?codes=" + code, {
-      responseType: "blob",
+    const { data } = await api.get('/generate/qr-codes?codes=' + code, {
+      responseType: 'blob',
     });
 
-    const file = new Blob([data], { type: "application/pdf" });
+    const file = new Blob([data], { type: 'application/pdf' });
     const fileURL = URL.createObjectURL(file);
     window.open(fileURL);
   }
@@ -74,7 +74,7 @@ export default function SearchPhysicalBook() {
 
   async function getList() {
     setBool(false);
-    const { data } = await api.get("/book-states");
+    const { data } = await api.get('/book-states');
     setBookstates(data);
   }
 
@@ -96,7 +96,7 @@ export default function SearchPhysicalBook() {
           label="Estado do livro"
           variant="outlined"
           inputProps={{
-            name: "estado",
+            name: 'estado',
           }}
           className="btn"
         >
@@ -110,12 +110,12 @@ export default function SearchPhysicalBook() {
 
   const [locationList, setLocationList] = React.useState([]);
   const [location, setLocation] = React.useState(0);
-  const [description, setDescription] = React.useState("");
+  const [description, setDescription] = React.useState('');
   const [bool2, setBool2] = React.useState(true);
 
   async function getLocations() {
     setBool2(false);
-    const { data } = await api.get("/book-locations");
+    const { data } = await api.get('/book-locations');
     setLocationList(data);
   }
 
@@ -137,7 +137,7 @@ export default function SearchPhysicalBook() {
           label="Localização"
           variant="outlined"
           inputProps={{
-            name: "localização",
+            name: 'localização',
           }}
           className="btn"
         >
@@ -151,7 +151,7 @@ export default function SearchPhysicalBook() {
 
   function submitChanges() {
     console.log(description, location, state);
-    api.put("/physical-books/" + physicalBook.id, {
+    api.put('/physical-books/' + physicalBook.id, {
       state_id: state,
       description: description || null,
       location_id: location,
@@ -167,7 +167,7 @@ export default function SearchPhysicalBook() {
           <Grid item>
             <Autocomplete
               options={physicalBookList}
-              getOptionLabel={(option) => option.id + " - " + option.name}
+              getOptionLabel={(option) => option.id + ' - ' + option.name}
               style={{ width: 300 }}
               onChange={(event, newValue) => {
                 console.log(newValue);
@@ -189,7 +189,7 @@ export default function SearchPhysicalBook() {
               color="primary"
               style={{ padding: 14 }}
               disabled={
-                physicalBook !== null && physicalBook !== "" ? false : true
+                physicalBook !== null && physicalBook !== '' ? false : true
               }
               onClick={() => setOpen(true)}
             >
@@ -202,7 +202,7 @@ export default function SearchPhysicalBook() {
               color="primary"
               style={{ padding: 14 }}
               disabled={
-                physicalBook !== null && physicalBook !== "" ? false : true
+                physicalBook !== null && physicalBook !== '' ? false : true
               }
               onClick={() => generateOneQRCode(physicalBook.id)}
             >
@@ -265,7 +265,7 @@ export default function SearchPhysicalBook() {
                   <Checkbox
                     defaultChecked={physicalBook.available}
                     disabled
-                    inputProps={{ "aria-label": "indeterminate checkbox" }}
+                    inputProps={{ 'aria-label': 'indeterminate checkbox' }}
                   />
                   Dísponivel
                 </Grid>

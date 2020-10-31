@@ -1,7 +1,7 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
-import Cookies from "js-cookie";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
+import Cookies from 'js-cookie';
 
 export default function StudentsTable() {
   //const [open, setOpen] = React.useState(false);
@@ -11,21 +11,21 @@ export default function StudentsTable() {
     var tmp = data.born_date;
     console.log(tmp);
     if (tmp !== null) {
-      var new_date = tmp.split("T");
+      var new_date = tmp.split('T');
       tmp = new_date[0];
-      console.log("info", new_date);
+      console.log('info', new_date);
     }
     return <>{tmp}</>;
   }
 
   const [state, setState] = React.useState({
     columns: [
-      { title: "Nome", field: "name" },
-      { title: "Nº Aluno", field: "number", editable: "never" },
+      { title: 'Nome', field: 'name' },
+      { title: 'Nº Aluno', field: 'number', editable: 'never' },
       {
-        title: "Data de nascimento",
-        field: "date",
-        editable: "never",
+        title: 'Data de nascimento',
+        field: 'date',
+        editable: 'never',
         render: (rowData) => (
           <>
             <BornDate born_date={rowData.born_date} />
@@ -63,12 +63,12 @@ export default function StudentsTable() {
   };*/
 
   async function deleteStudent(id) {
-    const { data } = await api.delete("/students/" + id);
+    const { data } = await api.delete('/students/' + id);
     console.log(data);
   }
 
   async function addStudent(newData) {
-    const { data } = await api.post("/students", {
+    const { data } = await api.post('/students', {
       name: newData.name,
       number: newData.number,
       born_date: newData.born_date,
@@ -77,8 +77,8 @@ export default function StudentsTable() {
   }
 
   async function EditStudent(newData, id) {
-    console.log("ola", newData);
-    const { data } = await api.put("/students/" + id, {
+    console.log('ola', newData);
+    const { data } = await api.put('/students/' + id, {
       name: newData.name,
       born_date: newData.born_date,
     });
@@ -95,14 +95,14 @@ export default function StudentsTable() {
         columns={state.columns}
         data={(query) =>
           new Promise((resolve, reject) => {
-            let url = "http://localhost:8085/students?orderBy=number";
-            url += "&limit=" + query.pageSize;
-            url += "&page=" + (query.page + 1);
-            url += "&search=" + query.search;
+            let url = 'http://localhost:8085/students?orderBy=number';
+            url += '&limit=' + query.pageSize;
+            url += '&page=' + (query.page + 1);
+            url += '&search=' + query.search;
             fetch(url, {
               headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
+                method: 'GET',
+                Authorization: 'Bearer ' + Cookies.get('token'),
               },
             })
               .then((response) => response.json())
@@ -117,8 +117,8 @@ export default function StudentsTable() {
         }
         actions={[
           {
-            icon: "refresh",
-            tooltip: "Atualizar informação",
+            icon: 'refresh',
+            tooltip: 'Atualizar informação',
             isFreeAction: true,
             onClick: () => tableRef.current && tableRef.current.onQueryChange(),
           },

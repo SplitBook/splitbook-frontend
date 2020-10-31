@@ -1,17 +1,17 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import "./AppStyles.css";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import TabelasLivros from "../Components/TabelasLivrosRequisicao";
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import './AppStyles.css';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TabelasLivros from '../../Components/TabelasLivrosRequisicao';
 
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
-import Header from "../Components/Header";
-import api from "../../services/api";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
+import Header from '../../Components/Header';
+import api from '../../services/api';
 
 function sleep(delay = 0) {
   return new Promise((resolve) => {
@@ -20,8 +20,8 @@ function sleep(delay = 0) {
 }
 
 export default function NovoRequisito() {
-  const [aluno, setAluno] = React.useState("");
-  const [group, setGroup] = React.useState("");
+  const [aluno, setAluno] = React.useState('');
+  const [group, setGroup] = React.useState('');
   const [profileId, setProfileId] = React.useState(0);
   const [students, setStudents] = React.useState([]);
   const [books, setBooks] = React.useState([]);
@@ -31,38 +31,40 @@ export default function NovoRequisito() {
   const [block, setBlock] = React.useState(true);
 
   async function getTeacherClassId(id) {
-    const { data } = await api.get("/teachers/" + id);
-    console.log("getTeacherClassId", data);
+    const { data } = await api.get('/teachers/' + id);
+    console.log('getTeacherClassId', data);
     var tmp = [];
     tmp = data.classes;
-    console.log('teacher',tmp);
-    if(tmp.length===0){
-      setBlock(false)
+    console.log('teacher', tmp);
+    if (tmp.length === 0) {
+      setBlock(false);
     }
-    let txt=''
+    let txt = '';
     for (let i = 0; i < tmp.length; i++) {
-      txt+=tmp[i].class_id+','
+      txt += tmp[i].class_id + ',';
       //setTeacherClasses([...teacherclasses, tmp[i].class_id]);
     }
-    setTeacherClasses(txt)
+    setTeacherClasses(txt);
   }
 
-  if (group === "") {
-    var token = Cookies.get("token");
+  if (group === '') {
+    var token = Cookies.get('token');
     var decoded = jwt_decode(token);
     setGroup(decoded.charge);
     setProfileId(decoded.profile_id);
-    if (decoded.charge === "Professor") {
+    if (decoded.charge === 'Professor') {
       getTeacherClassId(decoded.profile_id);
     }
     //console.log("decoded",decoded)
-    if (decoded.charge === "Encarregado de Educação")
+    if (decoded.charge === 'Encarregado de Educação')
       getStudents(decoded.profile_id);
   }
 
   async function getStudents(profile_id) {
-    const { data } = await api.get("/guardians/" + profile_id +'?current_school_year=true');
-    console.log("Students List: ", data);
+    const { data } = await api.get(
+      '/guardians/' + profile_id + '?current_school_year=true'
+    );
+    console.log('Students List: ', data);
     setStudents(data.students);
   }
 
@@ -75,12 +77,12 @@ export default function NovoRequisito() {
         native
         value={aluno}
         onChange={(e) => {
-          if (e.target.value === "") setBool(false);
+          if (e.target.value === '') setBool(false);
           else handleChange(e.target.value);
         }}
         label="Educando"
         inputProps={{
-          name: "NomeEducando",
+          name: 'NomeEducando',
         }}
         className="btn"
       >
@@ -92,21 +94,21 @@ export default function NovoRequisito() {
 
   const handleChange = (event) => {
     setAluno(event);
-    if (event != null && event !== "") {
+    if (event != null && event !== '') {
       getClassId(event);
     }
   };
 
   async function getClassId(student_id) {
-    console.log("student_id: ", student_id);
-    const { data } = await api.get("/school-enrollments/" + student_id);
+    console.log('student_id: ', student_id);
+    const { data } = await api.get('/school-enrollments/' + student_id);
     setSchoolEnrollmentsID(data.id);
     getStudentBooks(data.class_id);
   }
 
   async function getStudentBooks(class_id) {
     const { data } = await api.get(
-      "/resumes/adopted-books?class_id=" + class_id
+      '/resumes/adopted-books?class_id=' + class_id
     );
     setBooks(data);
     setBool(true);
@@ -116,31 +118,41 @@ export default function NovoRequisito() {
 
   const handlerAutoCompleteAllStudents = (event) => {
     console.log(event.target.value);
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getAllStudents(tmp);
   };
 
   async function getAllStudents(tmp) {
-    const { data } = await api.get("/school-enrollments?current_school_year=true&search=" + tmp);
+    const { data } = await api.get(
+      '/school-enrollments?current_school_year=true&search=' + tmp
+    );
     setStudentsList(data.data);
     console.log(studentsList);
   }
 
   const handlerAutoCompleteTeachersStudents = (event) => {
     console.log(event.target.value);
-    var tmp = "";
+    var tmp = '';
     tmp = event.target.value;
     if (tmp.length > 2) getTeachersStudents(tmp);
   };
 
   async function getTeachersStudents(tmp) {
     //console.log("IPE", teacherclasses);
-    console.log("/school-enrollments?current_school_year=true&class_id=" + teacherclasses + "&search=" + tmp);
-    const { data } = await api.get(
-      "/school-enrollments?current_school_year=true&class_id=" + teacherclasses + "&search=" + tmp
+    console.log(
+      '/school-enrollments?current_school_year=true&class_id=' +
+        teacherclasses +
+        '&search=' +
+        tmp
     );
-    console.log('Arigato',data)
+    const { data } = await api.get(
+      '/school-enrollments?current_school_year=true&class_id=' +
+        teacherclasses +
+        '&search=' +
+        tmp
+    );
+    console.log('Arigato', data);
     setStudentsList(data.data);
   }
 
@@ -148,7 +160,7 @@ export default function NovoRequisito() {
     <>
       <Header title="Nova requisição" />
 
-      {group === "Encarregado de Educação" && (
+      {group === 'Encarregado de Educação' && (
         <Grid container spacing={2}>
           <Grid item>
             <FormControl variant="outlined" className="maxwidth">
@@ -160,13 +172,13 @@ export default function NovoRequisito() {
           </Grid>
         </Grid>
       )}
-      {group === "Professor" && (
+      {group === 'Professor' && (
         <Grid container spacing={2}>
           <Grid item>
             <Autocomplete
               options={studentsList}
               getOptionLabel={(option) =>
-                option.student_name + " - " + option.student_number
+                option.student_name + ' - ' + option.student_number
               }
               style={{ width: 300 }}
               onChange={(event, newValue) => {
@@ -187,13 +199,13 @@ export default function NovoRequisito() {
           </Grid>
         </Grid>
       )}
-      {(group === "Docente" || group === "Administrador") && (
+      {(group === 'Docente' || group === 'Administrador') && (
         <Grid container spacing={2}>
           <Grid item>
             <Autocomplete
               options={studentsList}
               getOptionLabel={(option) =>
-                option.student_name + " - " + option.student_number
+                option.student_name + ' - ' + option.student_number
               }
               style={{ width: 300 }}
               onChange={(event, newValue) => {

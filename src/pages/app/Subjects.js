@@ -1,13 +1,12 @@
 import React from 'react';
-import Header from '../Components/Header';
-import SubjectsTable from '../Components/SubjectsTable';
+import Header from '../../Components/Header';
+import SubjectsTable from '../../Components/SubjectsTable';
 
-export default function Subjects(){
-
-    return (
-        <>
-            <Header title='Disciplinas'/>
-            <SubjectsTable/>
-        </>
-    );
+export default function Subjects() {
+  return (
+    <>
+      <Header title="Disciplinas" />
+      <SubjectsTable />
+    </>
+  );
 }

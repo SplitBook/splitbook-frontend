@@ -1,22 +1,22 @@
-import React from "react";
-import MaterialTable from "material-table";
-import api from "../../services/api";
-import api_multipart from "../../services/api_multipart_form_data";
-import "./ComponentsStyles.css";
-import Cookies from "js-cookie";
-import Button from "@material-ui/core/Button";
-import Edit from "@material-ui/icons/Edit";
-import Info from "@material-ui/icons/Info";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import InsertDriveFile from "@material-ui/icons/InsertDriveFile";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import React from 'react';
+import MaterialTable from 'material-table';
+import api from '../services/api';
+import api_multipart from '../services/api_multipart_form_data';
+import './ComponentsStyles.css';
+import Cookies from 'js-cookie';
+import Button from '@material-ui/core/Button';
+import Edit from '@material-ui/icons/Edit';
+import Info from '@material-ui/icons/Info';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function TableTheClasses() {
   const [classID, setClassID] = React.useState(0);
@@ -32,19 +32,23 @@ export default function TableTheClasses() {
   const [csvFile, setCsvFile] = useState({ file: null });
   const [state, setState] = React.useState({
     columns: [
-      { title: "Nome", field: "class", editable: "never" },
-      { title: "Diretor de turma", field: "name" },
-      { title: "Ano escolar", field: "school_year", editable: "never" },
+      { title: 'Nome', field: 'class', editable: 'never' },
+      { title: 'Diretor de turma', field: 'name' },
+      { title: 'Ano escolar', field: 'school_year', editable: 'never' },
       {
-        title: "Alterar Diretor de Turma",
+        title: 'Alterar Diretor de Turma',
         render: (rowData) => (
-          <Button onClick={() => changeClass(rowData.class_id,rowData.school_year_id)}>
+          <Button
+            onClick={() =>
+              changeClass(rowData.class_id, rowData.school_year_id)
+            }
+          >
             <Edit />
           </Button>
         ),
       },
       {
-        title: "Importar matrículas por csv",
+        title: 'Importar matrículas por csv',
         render: (rowData) => (
           <Button
             onClick={() =>
@@ -56,9 +60,11 @@ export default function TableTheClasses() {
         ),
       },
       {
-        title: "Curriculos",
+        title: 'Curriculos',
         render: (rowData) => (
-          <Button onClick={() => getResumes(rowData.class_id,rowData.school_year_id)}>
+          <Button
+            onClick={() => getResumes(rowData.class_id, rowData.school_year_id)}
+          >
             <Info />
           </Button>
         ),
@@ -68,28 +74,24 @@ export default function TableTheClasses() {
   });
 
   const [state2, setState2] = React.useState({
-    columns: [
-      { title: "Disciplina", field: "school_subject" },
-    ],
+    columns: [{ title: 'Disciplina', field: 'school_subject' }],
     data: [],
   });
 
-  function getResumes(class_id,school_year_id){
-    setSchool_year_id(school_year_id)
+  function getResumes(class_id, school_year_id) {
+    setSchool_year_id(school_year_id);
     setOpenResumes(true);
-    setClassID(class_id)
+    setClassID(class_id);
   }
 
-  
-  function changeClass(value,school_year_id){
-    setSchool_year_id(school_year_id)
+  function changeClass(value, school_year_id) {
+    setSchool_year_id(school_year_id);
     setOpen(true);
     setClassID(value);
-  };
+  }
 
   const [teacher, setTeacher] = React.useState(null);
   const [teacherlist, setTeacherlist] = React.useState([]);
-
 
   if (bool) getTeacher();
 
@@ -105,17 +107,17 @@ export default function TableTheClasses() {
   async function submitCsvFile() {
     if (csvFile.file !== null) {
       const formData = new FormData();
-      formData.append("file", csvFile.file);
+      formData.append('file', csvFile.file);
 
       try {
         await api_multipart.post(
           `/import/school-enrollments?class_id=${classID}`,
           formData
         );
-        toast.success("Csv importado com sucesso.");
-        toast.info("Matrículas a serem importadas...");
+        toast.success('Csv importado com sucesso.');
+        toast.info('Matrículas a serem importadas...');
       } catch (err) {
-        toast.error("Erro ao carregar csv.");
+        toast.error('Erro ao carregar csv.');
       }
       setOpenImportSchoolEnrollmentsDialog(false);
       setClassID(null);
@@ -123,8 +125,8 @@ export default function TableTheClasses() {
   }
 
   async function getTeacher() {
-    setBool(false)
-    const { data } = await api.get("/teachers");
+    setBool(false);
+    const { data } = await api.get('/teachers');
     setTeacherlist(data.data);
     console.log(data.data);
   }
@@ -136,20 +138,22 @@ export default function TableTheClasses() {
 
   function SubmitNewTeacherClass() {
     //console.log(classes,schoolEnrollmentsID)
-    api.put("/classes/" + classID + "/"+school_year_id, { head_class_id: teacher.id });
+    api.put('/classes/' + classID + '/' + school_year_id, {
+      head_class_id: teacher.id,
+    });
     setOpen(false);
     setTeacher(null);
   }
 
   async function deleteClasses(class_id, school_year_id) {
     const { data } = await api.delete(
-      "/classes/" + class_id + "/" + school_year_id
+      '/classes/' + class_id + '/' + school_year_id
     );
     console.log(data);
   }
-  
+
   const fullWidth = true;
-  const maxWidth = "xs";
+  const maxWidth = 'xs';
   const tableRef = React.createRef();
 
   return (
@@ -160,13 +164,13 @@ export default function TableTheClasses() {
         columns={state.columns}
         data={(query) =>
           new Promise((resolve, reject) => {
-            let url = "http://localhost:8085/classes";
-            url += "?limit=" + query.pageSize;
-            url += "&page=" + (query.page + 1);
+            let url = 'http://localhost:8085/classes';
+            url += '?limit=' + query.pageSize;
+            url += '&page=' + (query.page + 1);
             fetch(url, {
               headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
+                method: 'GET',
+                Authorization: 'Bearer ' + Cookies.get('token'),
               },
             })
               .then((response) => response.json())
@@ -181,8 +185,8 @@ export default function TableTheClasses() {
         }
         actions={[
           {
-            icon: "refresh",
-            tooltip: "Atualizar informação",
+            icon: 'refresh',
+            tooltip: 'Atualizar informação',
             isFreeAction: true,
             onClick: () => tableRef.current && tableRef.current.onQueryChange(),
           },
@@ -216,7 +220,7 @@ export default function TableTheClasses() {
           <DialogContent>
             <Autocomplete
               options={teacherlist}
-              getOptionLabel={(option) => option.name + " - " + option.email}
+              getOptionLabel={(option) => option.name + ' - ' + option.email}
               onChange={(event, newValue) => {
                 setTeacher(newValue);
               }}
@@ -290,35 +294,38 @@ export default function TableTheClasses() {
           aria-describedby="alert-dialog-description"
         >
           <DialogContent>
-          <MaterialTable
-        title="Curriculos"
-        tableRef={tableRef}
-        columns={state2.columns}
-        options={{
-          search: false,
-          sorting: false,
-        }}
-        data={(query) =>
-          new Promise((resolve, reject) => {
-            let url = "http://localhost:8085/classes/"+classID+"/"+school_year_id;
-            fetch(url, {
-              headers: {
-                method: "GET",
-                Authorization: "Bearer " + Cookies.get("token"),
-              },
-            })
-              .then((response) => response.json())
-              .then((result) => {
-                resolve({
-                  data: result.resumes,
-                  page: query.page,
-                  totalCount: result.resumes.length,
-                });
-              });
-          })
-        }
-      />
-
+            <MaterialTable
+              title="Curriculos"
+              tableRef={tableRef}
+              columns={state2.columns}
+              options={{
+                search: false,
+                sorting: false,
+              }}
+              data={(query) =>
+                new Promise((resolve, reject) => {
+                  let url =
+                    'http://localhost:8085/classes/' +
+                    classID +
+                    '/' +
+                    school_year_id;
+                  fetch(url, {
+                    headers: {
+                      method: 'GET',
+                      Authorization: 'Bearer ' + Cookies.get('token'),
+                    },
+                  })
+                    .then((response) => response.json())
+                    .then((result) => {
+                      resolve({
+                        data: result.resumes,
+                        page: query.page,
+                        totalCount: result.resumes.length,
+                      });
+                    });
+                })
+              }
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
