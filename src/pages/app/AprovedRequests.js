@@ -136,7 +136,10 @@ export default function AprovedRequests() {
             data={(query) =>
               new Promise((resolve, reject) => {
                 console.log('ID req::', reqId);
-                let url = 'http://localhost:8085/requisitions/' + reqId;
+                let url =
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/requisitions/' +
+                  reqId;
                 fetch(url, {
                   headers: {
                     method: 'GET',

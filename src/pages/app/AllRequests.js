@@ -115,7 +115,8 @@ export default function AllRequests() {
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =
-              'http://localhost:8085/requisitions?current_school_year=true&state_id=1';
+              (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+              '/requisitions?current_school_year=true&state_id=1';
             url += '&limit=' + query.pageSize;
             url += '&page=' + (query.page + 1);
             url += '&search=' + query.search;
@@ -246,7 +247,10 @@ export default function AllRequests() {
             data={(query) =>
               new Promise((resolve, reject) => {
                 console.log('ID req::', reqId);
-                let url = 'http://localhost:8085/requisitions/' + reqId;
+                let url =
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/requisitions/' +
+                  reqId;
                 fetch(url, {
                   headers: {
                     method: 'GET',

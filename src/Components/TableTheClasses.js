@@ -164,7 +164,9 @@ export default function TableTheClasses() {
         columns={state.columns}
         data={(query) =>
           new Promise((resolve, reject) => {
-            let url = 'http://localhost:8085/classes';
+            let url =
+              (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+              '/classes';
             url += '?limit=' + query.pageSize;
             url += '&page=' + (query.page + 1);
             fetch(url, {
@@ -305,7 +307,9 @@ export default function TableTheClasses() {
               data={(query) =>
                 new Promise((resolve, reject) => {
                   let url =
-                    'http://localhost:8085/classes/' +
+                    (process.env.REACT_APP_API_HOST ||
+                      'http://localhost:8085') +
+                    '/classes/' +
                     classID +
                     '/' +
                     school_year_id;

@@ -100,7 +100,7 @@ export default function MenuLayout({history,openMenu,setOpenDrawer}) {
   async function handleListItemClick(id,charge){
     const {data} = await api.post('/login/profile',{profile_id:id,charge:charge,token:Cookies.get('tokenLogin')});
     console.log(data)
-    Cookies.set('token',data.token,{ expires: 7 });
+    Cookies.set('token',data.token);
     setGroup('')
     setOpenChangeGroupDialog(false)
     //history.push('/app/home')

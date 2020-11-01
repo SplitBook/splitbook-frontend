@@ -257,7 +257,10 @@ export default function DetailsTable() {
             columns={state3.columns}
             data={(query) =>
               new Promise((resolve, reject) => {
-                let url = 'http://localhost:8085/reports/' + reportID;
+                let url =
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/reports/' +
+                  reportID;
                 fetch(url, {
                   headers: {
                     method: 'GET',

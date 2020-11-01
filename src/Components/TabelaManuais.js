@@ -228,7 +228,9 @@ export default function TableManuais() {
         columns={state.columns}
         data={(query) =>
           new Promise((resolve, reject) => {
-            let url = 'http://localhost:8085/books';
+            let url =
+              (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+              '/books';
             url += '?limit=' + query.pageSize;
             url += '&page=' + (query.page + 1);
             url += '&search=' + query.search;

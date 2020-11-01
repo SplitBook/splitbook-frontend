@@ -103,11 +103,13 @@ export default function MaterialTableDemo() {
               let url = '';
               if (decoded.charge === 'Encarregado de Educação')
                 url +=
-                  'http://localhost:8085/requisitions?current_school_year=true&guardian_id=' +
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/requisitions?current_school_year=true&guardian_id=' +
                   decoded.profile_id;
               else
                 url +=
-                  'http://localhost:8085/requisitions?current_school_year=true&head_class_id=' +
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/requisitions?current_school_year=true&head_class_id=' +
                   decoded.profile_id;
               url += '&limit=' + query.pageSize;
               url += '&page=' + (query.page + 1);
@@ -160,11 +162,13 @@ export default function MaterialTableDemo() {
               let url = '';
               if (decoded.charge === 'Encarregado de Educação')
                 url +=
-                  'http://localhost:8085/requisitions?guardian_id=' +
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/requisitions?guardian_id=' +
                   decoded.profile_id;
               else
                 url +=
-                  'http://localhost:8085/requisitions?head_class_id=' +
+                  (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                  '/requisitions?head_class_id=' +
                   decoded.profile_id;
               url += '&limit=' + query.pageSize;
               url += '&page=' + (query.page + 1);

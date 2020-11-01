@@ -47,7 +47,8 @@ export default function AdoptedBooksTable() {
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =
-              'http://localhost:8085/adopted-books?current_school_year=true';
+              (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+              '/adopted-books?current_school_year=true';
             url += '&limit=' + query.pageSize;
             url += '&page=' + (query.page + 1);
             url += '&search=' + query.search;

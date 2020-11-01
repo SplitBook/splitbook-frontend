@@ -1,5 +1,5 @@
 /node_modules
 /build
-
+debug.log
 # Environment Variables
 .env

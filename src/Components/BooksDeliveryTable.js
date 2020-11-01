@@ -147,7 +147,9 @@ function Row(props) {
                 data={(query) =>
                   new Promise((resolve, reject) => {
                     let url =
-                      'http://localhost:8085/physical-books?available=true&book_isbn=' +
+                      (process.env.REACT_APP_API_HOST ||
+                        'http://localhost:8085') +
+                      '/physical-books?available=true&book_isbn=' +
                       row.isbn;
                     url += '&limit=' + query.pageSize;
                     url += '&page=' + (query.page + 1);

@@ -96,7 +96,9 @@ export default function SchoolEnrollmentsTable() {
           columns={state.columns}
           data={(query) =>
             new Promise((resolve, reject) => {
-              let url = 'http://localhost:8085/school-enrollments';
+              let url =
+                (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                '/school-enrollments';
               url += '?limit=' + query.pageSize;
               url += '&current_school_year=true';
               url += '&page=' + (query.page + 1);
@@ -191,7 +193,9 @@ export default function SchoolEnrollmentsTable() {
           columns={state.columns}
           data={(query) =>
             new Promise((resolve, reject) => {
-              let url = 'http://localhost:8085/school-enrollments';
+              let url =
+                (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+                '/school-enrollments';
               url += '?limit=' + query.pageSize;
               url += '&page=' + (query.page + 1);
               fetch(url, {

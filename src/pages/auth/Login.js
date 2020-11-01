@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import api from "../../services/api";
-import { makeStyles } from "@material-ui/core/styles";
-import logo from "../../assets/Icons/SplitBookTransparent/XD/icon_192.png";
-import "./Auth.css";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-import Cookies from "js-cookie";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
-import PersonIcon from "@material-ui/icons/Person";
-import { blue } from "@material-ui/core/colors";
-import jwt_decode from "jwt-decode";
+import React, { useState } from 'react';
+import api from '../../services/api';
+import { makeStyles } from '@material-ui/core/styles';
+import logo from '../../assets/Icons/SplitBookTransparent/XD/icon_192.png';
+import './Auth.css';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Cookies from 'js-cookie';
+import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import PersonIcon from '@material-ui/icons/Person';
+import { blue } from '@material-ui/core/colors';
+import jwt_decode from 'jwt-decode';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
+    color: '#fff',
   },
 }));
 
@@ -41,21 +41,21 @@ function SimpleDialog(props) {
   if (bool) setInfoAndCharge();
 
   async function handleListItemClick(id, charge) {
-    const { data } = await api.post("/login/profile", {
+    const { data } = await api.post('/login/profile', {
       profile_id: id,
       charge: charge,
-      token: Cookies.get("tokenLogin"),
+      token: Cookies.get('tokenLogin'),
     });
     console.log(data);
-    Cookies.set("token", data.token, { expires: 7 });
     var decoded = jwt_decode(data.token);
+    Cookies.set('token', data.token);
     if (
-      decoded.charge === "Encarregado de Educação" ||
-      decoded.charge === "Professor"
+      decoded.charge === 'Encarregado de Educação' ||
+      decoded.charge === 'Professor'
     )
-      history.push("/app/home");
+      history.push('/app/home');
     else {
-      history.push("/app/requests");
+      history.push('/app/requests');
     }
   }
 
@@ -91,8 +91,8 @@ function SimpleDialog(props) {
 }
 
 export default function Login({ history, props }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [open, setOpen] = React.useState(false);
   const [opengroups, setOpengroups] = React.useState(false);
   const [groups, setGroups] = React.useState([]);
@@ -101,54 +101,54 @@ export default function Login({ history, props }) {
     e.preventDefault();
     try {
       localStorage.clear();
-      const { data } = await api.post("/login", {
+      const { data } = await api.post('/login', {
         email: username,
         password: password,
       });
-      console.log(data);
-      Cookies.set("tokenLogin", data.token, { expires: 7 });
-      Cookies.set("profiles", data.user.profiles, { expires: 7 });
+
+      Cookies.set('tokenLogin', data.token);
+      Cookies.set('profiles', data.user.profiles);
       setGroups(data.user.profiles);
-      console.log(data.user.profiles.length);
+
       if (data.user.profiles.length === 0) {
-        alert("Erro!! Utilizador sem perfis!");
-        history.push("/login");
+        alert('Erro!! Utilizador sem perfis!');
+        history.push('/login');
       } else if (data.user.profiles.length > 1) {
         setOpengroups(true);
       } else {
-        const data2 = await api.post("/login/profile", {
+        const data2 = await api.post('/login/profile', {
           profile_id: data.user.profiles[0].id,
           charge: data.user.profiles[0].charge,
-          token: Cookies.get("tokenLogin"),
+          token: Cookies.get('tokenLogin'),
         });
-        console.log("Login2:: ", data2.data);
-        Cookies.set("token", data2.data.token, { expires: 7 });
-        console.log("Ei there!", Cookies.get("token"), data2);
-        localStorage.setItem("name", data.user.username);
         var decoded = jwt_decode(data2.data.token);
+
+        Cookies.set('token', data2.data.token);
+
+        localStorage.setItem('name', data.user.username);
         if (
-          decoded.charge === "Encarregado de Educação" ||
-          decoded.charge === "Professor"
+          decoded.charge === 'Encarregado de Educação' ||
+          decoded.charge === 'Professor'
         )
-          history.push("/app/home");
+          history.push('/app/home');
         else {
-          history.push("/app/requests");
+          history.push('/app/requests');
         }
       }
     } catch (Error) {
-      Cookies.remove("tokenLogin");
-      console.log("Authentication Error:", Error);
+      Cookies.remove('tokenLogin');
+      console.log('Authentication Error:', Error);
       setOpen(true);
-      setPassword("");
+      setPassword('');
     }
   }
 
   async function redirectToRecoverPassword() {
-    history.push("/recover/password");
+    history.push('/recover/password');
   }
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
@@ -173,7 +173,7 @@ export default function Login({ history, props }) {
           />
           <p onClick={redirectToRecoverPassword}>Recuperar password</p>
           <button type="submit" className="btnLogin">
-            LOGIN{" "}
+            LOGIN{' '}
           </button>
           <div>
             <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
