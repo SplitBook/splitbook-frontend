@@ -1,5 +1,5 @@
 import React from 'react';
-import TableManual from '../../Components/TabelaManuais';
+import TableManual from '../../Components/Tables/TabelaManuais';
 import Header from '../../Components/Header';
 
 export default function Manual() {

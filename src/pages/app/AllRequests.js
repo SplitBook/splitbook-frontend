@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import api from '../../services/api';
 import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import Slide from '@material-ui/core/Slide';
+import Localization from '../../Components/MaterialTable-Props/material-table-txt-traduction';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -136,6 +137,7 @@ export default function AllRequests() {
               });
           })
         }
+        localization={Localization}
         actions={[
           {
             icon: 'done',
@@ -244,6 +246,7 @@ export default function AllRequests() {
               search: false,
               sorting: false,
             }}
+            localization={Localization}
             data={(query) =>
               new Promise((resolve, reject) => {
                 console.log('ID req::', reqId);

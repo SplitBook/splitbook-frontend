@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import BooksDeliveryTable from '../../Components/BooksDeliveryTable';
+import BooksDeliveryTable from '../../Components/Tables/BooksDeliveryTable';
 import './AppStyles.css';
 import TextField from '@material-ui/core/TextField';
 import Header from '../../Components/Header';

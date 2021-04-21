@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import Slide from '@material-ui/core/Slide';
 import DialogActions from '@material-ui/core/DialogActions';
+import Localization from '../../Components/MaterialTable-Props/material-table-txt-traduction';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -49,6 +50,7 @@ export default function AprovedRequests() {
 
       <MaterialTable
         title="Lista de Requisições"
+        localization={Localization}
         columns={[
           { title: 'EE', field: 'guardian_name' },
           { title: 'Nº Aluno', field: 'student_number' },
@@ -89,6 +91,23 @@ export default function AprovedRequests() {
               });
           })
         }
+        localization={{
+          body: {
+            emptyDataSourceMessage: 'Nenhum registo para exibir'
+          },
+          toolbar: {
+            searchTooltip: 'Pesquisar',
+            searchPlaceholder: 'Pesquisa'
+          },
+          pagination: {
+            labelRowsSelect: 'linhas',
+            labelDisplayedRows: '{count} de {from}-{to}',
+            firstTooltip: 'Primeira página',
+            previousTooltip: 'Página anterior',
+            nextTooltip: 'Próxima página',
+            lastTooltip: 'Última página'
+          }
+        }}
         actions={[
           {
             icon: 'refresh',
@@ -113,6 +132,7 @@ export default function AprovedRequests() {
         <DialogContent>
           <MaterialTable
             title=""
+            localization={Localization}
             columns={[
               { title: 'Nome', field: 'name' },
               { title: 'ISBN', field: 'isbn' },

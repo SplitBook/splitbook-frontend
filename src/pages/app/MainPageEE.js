@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from '../../Components/TableRequisicoesEE';
+import Table from '../../Components/Tables/TableRequisicoesEE';
 import './AppStyles.css';
 import Header from '../../Components/Header';
 

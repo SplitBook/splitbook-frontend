@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../Components/Header';
-import DetailsTable from '../../Components/DetailsTable';
+import DetailsTable from '../../Components/Tables/DetailsTable';
 
 export default function Details() {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import BooksReturnTable from '../../Components/BooksReturnTable';
+import BooksReturnTable from '../../Components/Tables/BooksReturnTable';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';

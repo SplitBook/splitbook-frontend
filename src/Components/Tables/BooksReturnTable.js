@@ -8,26 +8,20 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import api from '../services/api';
+import api from '../../services/api';
 import TextField from '@material-ui/core/TextField';
-import MaterialTable from 'material-table';
-import Cookies from 'js-cookie';
-import Snackbar from '@material-ui/core/Snackbar';
-import CloseIcon from '@material-ui/icons/Close';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -40,11 +34,6 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
-  },
 }));
 
 const useStyles1 = makeStyles((theme) => ({
@@ -53,130 +42,6 @@ const useStyles1 = makeStyles((theme) => ({
     marginLeft: theme.spacing(2.5),
   },
 }));
-
-function Row(props) {
-  const { row, setList, list } = props;
-  const [open, setOpen] = React.useState(false);
-  const classes = useStyles();
-  const [numberOfRows, setNumberOfRows] = React.useState(0);
-
-  function SelectionChange(rows, id, event) {
-    console.log(rows, '::', event);
-    if (rows.length === 1) {
-      let bool = false;
-      let tmp = [];
-      var code = event.id.split('-');
-      for (let k = 0; k < list.length; k++) {
-        if (list[k].book_requisition_id !== id) {
-          console.log(list[k].book_requisition_id, id, k);
-          tmp.push({
-            book_requisition_id: list[k].book_requisition_id,
-            physical_book_id: list[k].physical_book_id,
-            book_state_id: list[k].book_state_id,
-          });
-        } else if (list[k].physical_book_id !== event.id) {
-          console.log(list[k].physical_book_id, event.id, k);
-          tmp.push({
-            book_requisition_id: id,
-            physical_book_id: rows[0].id,
-            book_state_id: rows[0].state_id,
-          });
-          bool = true;
-        }
-      }
-      if (bool) {
-        console.log('1::: ', list, tmp);
-        setList(tmp);
-      } else {
-        setList([
-          ...list,
-          {
-            book_requisition_id: id,
-            physical_book_id: rows[0].id,
-            book_state_id: rows[0].state_id,
-          },
-        ]);
-      }
-      setNumberOfRows(rows.length);
-      console.info(id);
-    } else if (event === undefined) {
-      setNumberOfRows(0);
-    }
-  }
-
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.isbn}
-        </TableCell>
-        <TableCell align="right">{row.name}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Manuais disponiveis:
-              </Typography>
-              <MaterialTable
-                title=" "
-                columns={[
-                  { title: 'Código do livro', field: 'id' },
-                  { title: 'Estado', field: 'state' },
-                ]}
-                options={{
-                  selection: true,
-                  selectionProps: (rowData) => ({
-                    disabled: rowData.id !== null && numberOfRows > 0,
-                    color: 'primary',
-                  }),
-                }}
-                onSelectionChange={(rows, event) =>
-                  SelectionChange(rows, row.id, event)
-                }
-                data={(query) =>
-                  new Promise((resolve, reject) => {
-                    let url =
-                      (process.env.REACT_APP_API_HOST ||
-                        'http://localhost:8085') +
-                      '/physical-books?available=true&book_isbn=' +
-                      row.isbn;
-                    url += '&limit=' + query.pageSize;
-                    url += '&page=' + (query.page + 1);
-                    fetch(url, {
-                      headers: {
-                        method: 'GET',
-                        Authorization: 'Bearer ' + Cookies.get('token'),
-                      },
-                    })
-                      .then((response) => response.json())
-                      .then((result) => {
-                        resolve({
-                          data: result.data,
-                          page: result.page - 1,
-                          totalCount: result.totalCount,
-                        });
-                      });
-                  })
-                }
-              />
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
 
 function TablePaginationActions(props) {
   const classes = useStyles1();
@@ -253,23 +118,29 @@ export default function BooksDeliveryANDReturnTable({
   stdnumber,
   guardianName,
 }) {
+  const [url, setUrl] = React.useState('');
   const [obs, setObs] = React.useState('');
+  const classes = useStyles();
   const [rows, setRows] = React.useState([]);
-  const [bookRequisitionsLength, setBookRequisitionsLength] = React.useState(0);
+  const [bookStates, setBooksStates] = React.useState([]);
   const [text, setText] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [list, setList] = React.useState([]);
-  const [url, setUrl] = React.useState('');
   const [bool, setBool] = React.useState(true);
 
-  if (rows.length === 0 && bool) getBookRequisitions();
+  if (bool) getBookRequisitions() && getBooksStates() && setBool(false);
 
   async function getBookRequisitions() {
-    setBool(false);
     const { data } = await api.get('/requisitions/' + requisitionId);
-    setRows(data.book_requisitions);
+    let tmp = data.book_requisitions.filter(
+      (book) => book.delivery_date && !book.return_date
+    );
+
+    if (tmp.length === 0) {
+      setText('Não existem manuais escolares para devolver!');
+      setOpen(true);
+    }
+    setRows(tmp);
     console.log('data: ', data);
-    setBookRequisitionsLength(data.book_requisitions.length);
   }
 
   const handleChangeObs = (event) => {
@@ -278,29 +149,28 @@ export default function BooksDeliveryANDReturnTable({
   };
 
   async function Submit() {
-    console.log(list);
-    if (list.length === 0) {
+    console.log(rows);
+    let tmp = [];
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i].bookstate !== undefined && rows[i].bookstate !== 0)
+        tmp.push({
+          id: rows[i].requisition_physical_book_id,
+          book_state_id: rows[i].bookstate,
+        });
+    }
+    if (tmp.length === 0) {
       setText(
-        'Para submeter a entrega é necessário selecionar os manuais (físicos) a entregar!'
+        'Para submeter necessário preencher o estado de pelo menos um livro!'
       );
       setOpen(true);
     } else {
-      try {
-        console.log({ requisitions_physical_book: list });
-        const { data } = await api.post('/physical-books/deliveries', {
-          requisitions_physical_book: list,
-          description: obs || null,
-        });
-        console.log(data);
-        generateReport(data[0].report_id);
-        setText('Efetuado com Sucesso! Aguarde pelo relatório...');
-        setOpen(true);
-      } catch (error) {
-        setText(
-          'Por favor verifique se a requisição já foi aceite ou entregue!'
-        );
-        setOpen(true);
-      }
+      console.log('tmp', tmp);
+      const { data } = await api.post('/physical-books/returns', {
+        requisitions_physical_book: tmp,
+        description: obs || null,
+      });
+      console.log(data);
+      generateReport(data[0].report_id);
     }
   }
 
@@ -310,8 +180,35 @@ export default function BooksDeliveryANDReturnTable({
     setUrl(data.file);
     console.log('url', data.file);
     /*const formData = new FormData();
-    formData.append('valid', true);
+    formData.append("valid", true);
     api.put("/reports/" + id, formData);*/
+  }
+
+  async function getBooksStates() {
+    const { data } = await api.get('/book-states');
+    console.log('bookStates List: ', data);
+    setBooksStates(data);
+  }
+
+  function SelectBooksStates({ rowId, rowbookstate }) {
+    const listItems = bookStates.map((state) => (
+      <option value={state.id}>{state.state}</option>
+    ));
+    return (
+      <Select
+        native
+        value={rowbookstate}
+        onChange={(e) => handleChange(e.target.value, rowId)}
+        label="Estado"
+        inputProps={{
+          name: 'Estado do livro',
+        }}
+        className="btn"
+      >
+        <option aria-label="None" value={''} />
+        {listItems}
+      </Select>
+    );
   }
 
   const handleClose = (event, reason) => {
@@ -320,6 +217,15 @@ export default function BooksDeliveryANDReturnTable({
     }
 
     setOpen(false);
+  };
+
+  const handleChange = (event, rowId) => {
+    console.log('event:', Number(event), rowId);
+    for (let k = 0; k < rows.length; k++) {
+      if (rows[k].id === rowId) {
+        rows[k].bookstate = Number(event);
+      }
+    }
   };
 
   const [page, setPage] = React.useState(0);
@@ -347,14 +253,14 @@ export default function BooksDeliveryANDReturnTable({
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item>
           <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
+            <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell />
-                  <TableCell>ISBN</TableCell>
-                  <TableCell align="right">Nome</TableCell>
+                  <TableCell align="right">Código do livro</TableCell>
+                  <TableCell align="right">ISBN</TableCell>
+                  <TableCell align="right">Estado</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -365,12 +271,16 @@ export default function BooksDeliveryANDReturnTable({
                     )
                   : rows
                 ).map((row) => (
-                  <Row
-                    key={row.disciplina}
-                    row={row}
-                    setList={setList}
-                    list={list}
-                  />
+                  <TableRow key={row.id}>
+                    <TableCell align="right">{row.physical_book_id}</TableCell>
+                    <TableCell align="right">{row.isbn}</TableCell>
+                    <TableCell align="right">
+                      <SelectBooksStates
+                        rowId={row.id}
+                        rowbookstate={row.bookstate}
+                      />
+                    </TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
               <TableFooter>
@@ -457,6 +367,8 @@ export default function BooksDeliveryANDReturnTable({
   );
 }
 
-/*<Grid item >
-    <TextField variant="outlined" defaultValue={stdnumber} helperText="Nº de Aluno" disabled/>
-  </Grid>*/
+/*
+<Grid item >
+   <TextField variant="outlined" defaultValue={stdnumber} helperText="Nº de Aluno" disabled/>
+</Grid>
+*/

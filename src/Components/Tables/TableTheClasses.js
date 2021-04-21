@@ -1,8 +1,8 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
-import api_multipart from '../services/api_multipart_form_data';
-import './ComponentsStyles.css';
+import api from '../../services/api';
+import api_multipart from '../../services/api_multipart_form_data';
+import '../ComponentsStyles.css';
 import Cookies from 'js-cookie';
 import Button from '@material-ui/core/Button';
 import Edit from '@material-ui/icons/Edit';
@@ -17,6 +17,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function TableTheClasses() {
   const [classID, setClassID] = React.useState(0);
@@ -185,6 +186,7 @@ export default function TableTheClasses() {
               });
           })
         }
+        localization={Localization}
         actions={[
           {
             icon: 'refresh',
@@ -300,6 +302,7 @@ export default function TableTheClasses() {
               title="Curriculos"
               tableRef={tableRef}
               columns={state2.columns}
+              localization={Localization}
               options={{
                 search: false,
                 sorting: false,

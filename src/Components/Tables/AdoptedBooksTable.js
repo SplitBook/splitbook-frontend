@@ -1,7 +1,8 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
+import api from '../../services/api';
 import Cookies from 'js-cookie';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function AdoptedBooksTable() {
   const [state, setState] = React.useState({
@@ -36,6 +37,7 @@ export default function AdoptedBooksTable() {
         title=" "
         tableRef={tableRef}
         columns={state.columns}
+        localization={Localization}
         actions={[
           {
             icon: 'refresh',

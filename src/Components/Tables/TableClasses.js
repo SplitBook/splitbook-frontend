@@ -1,6 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
+import api from '../../services/api';
 import Button from '@material-ui/core/Button';
 import AddBox from '@material-ui/icons/AddBox';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,9 +8,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import './ComponentsStyles.css';
+import '../ComponentsStyles.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function TableClasses() {
   const [bool, setBool] = React.useState(true);
@@ -105,6 +106,7 @@ export default function TableClasses() {
         title=" "
         columns={state.columns}
         data={state.data}
+        localization={Localization}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve) => {

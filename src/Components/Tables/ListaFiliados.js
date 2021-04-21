@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import './ComponentsStyles.css';
+import '../ComponentsStyles.css';
 
 const useStyles = makeStyles({
   table: {

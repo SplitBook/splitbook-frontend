@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
-import './ComponentsStyles.css';
+import api from '../../services/api';
+import '../ComponentsStyles.css';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 import Button from '@material-ui/core/Button';
@@ -15,6 +15,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useHistory } from 'react-router-dom';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function SchoolEnrollmentsTable() {
   const [bool, setBool] = React.useState(true);
@@ -94,6 +95,7 @@ export default function SchoolEnrollmentsTable() {
           title=" "
           tableRef={tableRef}
           columns={state.columns}
+          localization={Localization}
           data={(query) =>
             new Promise((resolve, reject) => {
               let url =
@@ -191,6 +193,7 @@ export default function SchoolEnrollmentsTable() {
         <MaterialTable
           title=" "
           columns={state.columns}
+          localization={Localization}
           data={(query) =>
             new Promise((resolve, reject) => {
               let url =

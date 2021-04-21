@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
 import Button from '@material-ui/core/Button';
-import api from '../services/api';
+import api from '../../services/api';
 import CropFree from '@material-ui/icons/CropFree';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
-import './ComponentsStyles.css';
+import '../ComponentsStyles.css';
 
 export default function TableNewPhysicalBooks({ physicalBooks, num }) {
   const [state, setState] = useState({
@@ -70,7 +71,7 @@ export default function TableNewPhysicalBooks({ physicalBooks, num }) {
         </Grid>
       </Grid>
 
-      <MaterialTable title=" " columns={state.columns} data={state.data} />
+      <MaterialTable title=" " columns={state.columns} data={state.data} localization={Localization} />
     </>
   );
 }

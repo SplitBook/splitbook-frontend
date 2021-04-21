@@ -5,8 +5,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import api from '../services/api';
-import api_formdata from '../services/api_multipart_form_data';
+import api from '../../services/api';
+import api_formdata from '../../services/api_multipart_form_data';
 import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import NoteAddOutlined from '@material-ui/icons/NoteAddOutlined';
 import LibraryBooks from '@material-ui/icons/LibraryBooks';
@@ -14,8 +14,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import Cookies from 'js-cookie';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import './ComponentsStyles.css';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
+import '../ComponentsStyles.css';
 import TableNewPhysicalBooks from './TableNewPhysicalBooks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -226,6 +226,7 @@ export default function TableManuais() {
         title=" "
         tableRef={tableRef}
         columns={state.columns}
+        localization={Localization}
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =

@@ -1,6 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
+import api from '../../services/api';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function SubjectsTable() {
   const [open, setOpen] = React.useState(false);
@@ -44,6 +45,7 @@ export default function SubjectsTable() {
         title=" "
         columns={state.columns}
         data={state.data}
+        localization={Localization}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve) => {

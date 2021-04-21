@@ -5,7 +5,7 @@ import './AppStyles.css';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import TabelasLivros from '../../Components/TabelasLivrosRequisicao';
+import TabelasLivros from '../../Components/Tables/TabelasLivrosRequisicao';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Cookies from 'js-cookie';

@@ -9,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-import api from '../services/api';
+import api from '../../services/api';
 import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({

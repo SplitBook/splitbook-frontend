@@ -1,6 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
+import api from '../../services/api';
 import Edit from '@material-ui/icons/Edit';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -12,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function TableSchoolYears() {
   const [newYear, setNewYear] = React.useState(null);
@@ -77,7 +78,7 @@ export default function TableSchoolYears() {
     <>
       <Grid container spacing={2} style={{ marginBottom: 10 }}>
         <Grid item>
-          <h3>Alteral ano letivo atual</h3>
+          <h3>Alterar ano letivo atual</h3>
         </Grid>
         <Grid item>
           <Edit className="pointer" onClick={() => setOpen(true)} />
@@ -129,6 +130,7 @@ export default function TableSchoolYears() {
               }, 600);
             }),
         }}
+        localization={Localization}
       />
 
       <Dialog

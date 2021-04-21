@@ -1,7 +1,8 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
+import api from '../../services/api';
 import Cookies from 'js-cookie';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function StudentsTable() {
   //const [open, setOpen] = React.useState(false);
@@ -93,6 +94,7 @@ export default function StudentsTable() {
         title=" "
         tableRef={tableRef}
         columns={state.columns}
+        localization={Localization}
         data={(query) =>
           new Promise((resolve, reject) => {
             let url =

@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
-import api_formdata from '../services/api_multipart_form_data';
+import api from '../../services/api';
+import api_formdata from '../../services/api_multipart_form_data';
 import { useParams } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Cookies from 'js-cookie';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 export default function DetailsTable() {
   let { id } = useParams();
@@ -255,6 +256,7 @@ export default function DetailsTable() {
           <MaterialTable
             title="Lista de manuais escolares"
             columns={state3.columns}
+            localization={Localization}
             data={(query) =>
               new Promise((resolve, reject) => {
                 let url =

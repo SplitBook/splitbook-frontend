@@ -1,35 +1,38 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import api from '../services/api';
+import api from '../../services/api';
+import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
-export default function BookStateTable() {
+export default function BookLocationTable() {
   const [bool, setBool] = React.useState(true);
   const [state, setState] = React.useState({
-    columns: [{ title: 'Estado', field: 'state' }],
+    columns: [{ title: 'Localização', field: 'location' }],
     data: [],
   });
 
-  if (bool) getStates();
+  if (bool) getLocation();
 
-  async function getStates() {
-    const { data } = await api.get('/book-states');
+  async function getLocation() {
+    setBool(false);
+    const { data } = await api.get('/book-locations');
     console.log(data);
     setState({ ...state, data });
-    setBool(false);
   }
 
-  async function deleteStates(id) {
-    const { data } = await api.delete('/book-states/' + id);
+  async function deleteLocation(id) {
+    const { data } = await api.delete('/book-locations/' + id);
     console.log(data);
   }
 
-  async function addStates(state) {
-    const { data } = await api.post('/book-states', { state: state });
+  async function addLocation(location) {
+    const { data } = await api.post('/book-locations', { location: location });
     console.log(data);
   }
 
-  async function EditStates(state, id) {
-    const { data } = await api.put('/book-states/' + id, { state: state });
+  async function EditLocation(location, id) {
+    const { data } = await api.put('/book-locations/' + id, {
+      location,
+    });
     console.log(data);
   }
 
@@ -39,6 +42,7 @@ export default function BookStateTable() {
         title=" "
         columns={state.columns}
         data={state.data}
+        localization={Localization}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve) => {
@@ -46,7 +50,7 @@ export default function BookStateTable() {
                 resolve();
                 setState((prevState) => {
                   console.log('Data:', newData);
-                  addStates(newData.state);
+                  addLocation(newData.location);
                   const data = [...prevState.data];
                   data.push(newData);
                   return { ...prevState, data };
@@ -59,7 +63,8 @@ export default function BookStateTable() {
                 resolve();
                 if (oldData) {
                   setState((prevState) => {
-                    EditStates(newData.state, oldData.id);
+                    console.log('edit', oldData);
+                    EditLocation(newData.location, oldData.id);
                     const data = [...prevState.data];
                     data[data.indexOf(oldData)] = newData;
                     return { ...prevState, data };
@@ -72,7 +77,7 @@ export default function BookStateTable() {
               setTimeout(() => {
                 resolve();
                 setState((prevState) => {
-                  deleteStates(oldData.id);
+                  deleteLocation(oldData.id);
                   const data = [...prevState.data];
                   data.splice(data.indexOf(oldData), 1);
                   return { ...prevState, data };
