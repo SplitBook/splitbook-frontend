@@ -58,6 +58,14 @@ export default function TableManuais() {
       { title: 'Código', field: 'code', editable: 'onAdd' },
       { title: 'Nome', field: 'name' },
       { title: 'Editora', field: 'publishing_company' },
+      { title: 'Qt. manuais', field: 'physical_books_quantity', editable: 'never'/*, render: (rowData) => (
+        let url =
+              (process.env.REACT_APP_API_HOST || 'http://localhost:8085') +
+              '/physical-books?book_isbn='+rowData.isnb;
+        <label>
+
+        </label>
+      )*/},
       {
         title: 'Capa',
         field: 'cover',
@@ -243,6 +251,7 @@ export default function TableManuais() {
             })
               .then((response) => response.json())
               .then((result) => {
+                console.log("datta --->  "+result.data);
                 resolve({
                   data: result.data,
                   page: result.page - 1,

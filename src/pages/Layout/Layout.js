@@ -21,6 +21,7 @@ import Gravatar from 'react-gravatar'
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import api from '../../services/api';
+import { Router,Redirect } from "react-router-dom";
 
 
 const drawerWidth = 285;
@@ -101,8 +102,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-
 export default function MiniDrawer({history}) {
   const classes = useStyles();
   const theme = useTheme();
@@ -114,27 +113,35 @@ export default function MiniDrawer({history}) {
   const [email, setEmail] = React.useState(null);
   const [bool, setBool] = React.useState(true);
 
+  //Comentar??? Em testes
+  var token = Cookies.get('token');
+  var tokenLogin = Cookies.get('tokenLogin');
+  if(token==undefined || tokenLogin==undefined)
+    return <Redirect to={'/login'}/>
+  //Comentar???  ---
+
   if(bool)
     setInfoAndCharge();
 
   async function setInfoAndCharge(){
     setBool(false)
+    var token = Cookies.get('token');
+    var decoded = jwt_decode(token);
     if(userInfo===null || userInfo===undefined){
-        var token = Cookies.get('token')
-        var decoded = jwt_decode(token)
-      try{
-        api.defaults.headers={'Authorization': 'Bearer '+Cookies.get("token")}
-        const {data} = await api.get('/users/'+decoded.user_id);
-        setPhoto(data.photo)
-        setEmail(data.email)
-        setUserInfo(data);
-        setCharge(decoded.charge);
-        setSetDoned(true)
-      
-      }
-      catch(error){
-        setTimeout(setInfoAndCharge, 300);
-      }
+          try{
+            api.defaults.headers={'Authorization': 'Bearer '+Cookies.get("token")}
+            const {data} = await api.get('/users/'+decoded.user_id);
+            console.log('data: ',Cookies.get('token'));
+            setPhoto(data.photo)
+            setEmail(data.email)
+            setUserInfo(data);
+            setCharge(decoded.charge);
+            setSetDoned(true)
+          
+          }
+          catch(error){
+            setTimeout(setInfoAndCharge, 300);
+          }
     }
     //console.log("userinfo2",userInfo)
   }
@@ -146,8 +153,6 @@ export default function MiniDrawer({history}) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-
   return (
     
     <div className={classes.root}>
@@ -243,6 +248,7 @@ export default function MiniDrawer({history}) {
         <RoutesLayout history={history}/>
       </main>
     </div>
+    
     
   );
   

@@ -13,11 +13,12 @@ import jwt_decode from 'jwt-decode';
 import Header from '../../Components/Header';
 import api from '../../services/api';
 
+/*
 function sleep(delay = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
-}
+}*/
 
 export default function NovoRequisito() {
   const [aluno, setAluno] = React.useState('');

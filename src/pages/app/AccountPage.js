@@ -43,7 +43,6 @@ export default function AccountPage() {
   function fileUpload(e) {
     //setFileimg(e.target.files[0])
     fileimg.file = e.target.files[0];
-    console.log('file::: ', fileimg);
   }
 
   if (user.length === 0 && bool) {
@@ -96,7 +95,6 @@ export default function AccountPage() {
     phone: null,
   });
   function ChangeUserInformation() {
-    console.log(editedInformation);
     setShowWarning(true);
   }
 
@@ -333,7 +331,7 @@ export default function AccountPage() {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Tem a certeza que pertente efetuar alterações aos seus dados de
-            utlizador.
+            utilizador.
             <br />
             Ao prosseguir com as alterações a sua conta vai ficar indesponivel
             após o próximo <i>Logout</i>, para voltar a utilizar os serviços da{' '}
@@ -350,7 +348,7 @@ export default function AccountPage() {
           </Button>
           <Button
             color="primary"
-            onClick={SubmitConfirmation} /*href='/app/account'*/
+            onClick={SubmitConfirmation} 
           >
             Continuar
           </Button>

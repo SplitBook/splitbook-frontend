@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter,Route,Redirect} from 'react-router-dom';
+import { BrowserRouter as Router,Route,Redirect} from 'react-router-dom';
 import Login from '../pages/auth/Login';
 import RecoverPassword from '../pages/auth/RecoverPassword';
 import App from '../pages/Layout/Layout';
@@ -7,47 +7,79 @@ import Error404 from '../pages/error/error404';
 import Cookies from 'js-cookie';
 import NewPassword from '../pages/auth/NewPassword';
 import jwt_decode from 'jwt-decode';
+import applicationRoutes from './appRoutes';
 
+import { createBrowserHistory } from "history";
 
-
+const customHistory = createBrowserHistory();
 
 export default function Routes(){
     var token = Cookies.get('token')
+    var isAuth = false
+    if(token!=null && token!=undefined)
+    isAuth=true
+    var loc = customHistory.location.pathname
     return(
+        <>
+        <Router>
+                    <Route path="/login" exact component={Login}/>
+                    <Route path="/404" component={Error404}/>
+                    <Route path="/recover/password" component={RecoverPassword}/>
+                    <Route path="/reset/password" component={NewPassword}/>
+
+                    <Route exact path='/' render={() => (
+                        (!isAuth)? (
+                            <Redirect to="/login"/>
+                        ) : (
+                            (jwt_decode(token).charge === 'Encarregado de Educação' || jwt_decode(token).charge === 'Professor')?
+                            (<Redirect to="/app/home"/>):
+                            (<Redirect to="/app/requests"/>)
+                        )
+                    )}/>
+                    <Route path="/app" component={App} render={() => (
+                        (!isAuth)?
+                        (<Redirect to="/login"/>):(null)
+                    )}>
+                    <> 
+                        {applicationRoutes.map(route => {
+                            return <Route path={route.path} component={App}/>        
+                        }            
+                        )}
+                    </>
+                    </Route>
+                    <Route history={customHistory} path="*" render={() => (
+                        (loc==='/')?(<Redirect to='/login'/>):(
+                            (!isAuth && (loc!=='/login' && loc!=='/recover/password' && loc!=='/reset/password'))?
+                            (<Redirect to='/404'/>):(<Redirect to={loc}/>)
+                        )
+                    )}/>
+                  
+        </Router>
+        </>
+    );
+    /*return(
             <BrowserRouter>
+            {applicationRoutes.map(route => {
+
+            })}
                 <Route path="/404" component={Error404}/>
                 <Route path="/login" exact component={Login}/>
                 <Route path="/recover/password" component={RecoverPassword}/>
                 <Route path="/reset/password" component={NewPassword}/>
-                    <Route path='/app' component={App}>
-                        <Route path='/app/home' component={App}/>
-                        <Route path='/app/new/request' component={App}/>
-                        <Route path="/app/add/manual" component={App}/>
-                        <Route path="/app/add/subjects" component={App}/>
-                        <Route path="/app/account" component={App} />
-                        <Route path="/app/permissions" component={App}/>
-                        <Route path="/app/books/delivery" component={App}/>
-                        <Route path="/app/books/return" component={App}/>
-                        <Route path="/app/requests" component={App}/>
-                        <Route path="/app/add/user" component={App}/>
-                        <Route path="/app/add/student" component={App}/>
-                        <Route path="/app/add/registration" component={App}/>
-                        <Route path="/app/requisitions/states" component={App}/>
-                        <Route path="/app/registrations" component={App}/>
-                        <Route path="/app/general/classes" component={App}/>
-                        <Route path="/app/schoolyears" component={App}/>
-                        <Route path="/app/add/resume" component={App}/>
-                        <Route path="/app/classes" component={App}/>
-                        <Route path="/app/books/states" component={App}/>
-                        <Route path="/app/books/location" component={App}/>
-                        <Route path="/app/search/physicalbook" component={App}/>
-                        <Route path="/app/aproved/requests" component={App}/>
-                        <Route path="/app/users" component={App}/>
-                        <Route path="/app/students" component={App}/>
-                        <Route path="/app/adopted/books" component={App}/>
-                        <Route path="/app/schoolenrollments/:id" component={App}/>
-                    </Route>
-                <Route path="" redirectTo="/login"/>
+            
+                    {applicationRoutes.map(route => {
+                        if(token!=null){
+                            return (<>
+                                <Route path='/app' component={App}>
+                                    <Route path={route.path} component={App}/>
+                                </Route>
+                            </>);
+                            
+                        }            
+                    })}
+                    
+                
+                <Route path='' redirectTo="/login"/>
                 <Route exact path="/" render={() => (
                 !(Cookies.get('token') && Cookies.get('tokenLogin'))? (
                     <Redirect to="/login"/>
@@ -58,11 +90,11 @@ export default function Routes(){
                 )
                 )}/>
             </BrowserRouter>
+            
         
-    );
+    );*/
 
-}
+
 
 //<Route path="/user/group" component={SelectGroup}/>
-
-
+}

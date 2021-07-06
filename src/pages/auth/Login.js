@@ -126,20 +126,28 @@ export default function Login({ history, props }) {
         Cookies.set('token', data2.data.token);
 
         localStorage.setItem('name', data.user.username);
-        if (
-          decoded.charge === 'Encarregado de Educação' ||
-          decoded.charge === 'Professor'
-        )
-          history.push('/app/home');
-        else {
-          history.push('/app/requests');
-        }
+        pollDOM(decoded);
       }
     } catch (Error) {
       Cookies.remove('tokenLogin');
       console.log('Authentication Error:', Error);
       setOpen(true);
       setPassword('');
+    }
+  }
+
+  function pollDOM (decoded) {
+    if (Cookies.get('token')!=null) {
+      if (
+        decoded.charge === 'Encarregado de Educação' ||
+        decoded.charge === 'Professor'
+      )
+        history.push('/app/home');
+      else {
+        history.push('/app/requests');
+      }
+    } else {
+      setTimeout(pollDOM, 300); // try again in 300 milliseconds
     }
   }
 

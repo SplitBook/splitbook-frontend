@@ -10,7 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Dialog from '@material-ui/core/Dialog';
 import ImageOutlined from '@material-ui/icons/ImageOutlined';
 import Slide from '@material-ui/core/Slide';
-import api from '../../services/api';
+//import api from '../../services/api';
 import Localization from '../MaterialTable-Props/material-table-txt-traduction';
 
 const Transition = React.forwardRef(function Transition(props, ref) {

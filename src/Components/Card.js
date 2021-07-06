@@ -9,7 +9,6 @@ import './ComponentsStyles.css'
 
 
 export default function SimpleCard({idStatus}) {
-  //Teste
   if(idStatus===1){
     return(
       <Card className="card">

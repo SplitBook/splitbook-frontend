@@ -4,7 +4,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import MenuBook from '@material-ui/icons/MenuBook';
 import ViewList from '@material-ui/icons/ViewList';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -31,7 +34,8 @@ import Book from '@material-ui/icons/Book';
 import Settings from '@material-ui/icons/Settings';
 import SettingsSystemDaydream from '@material-ui/icons/SettingsSystemDaydream';
 import ListAlt from '@material-ui/icons/ListAlt';
-import {Link} from 'react-router-dom';
+
+import {Link, Redirect} from 'react-router-dom';
 import './Menu.css';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,8 +49,10 @@ import api from '../../../services/api';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import PersonIcon from '@material-ui/icons/Person';
 import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+
+
+import applicationRoutes from '../../../routesService/appRoutes';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -66,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function MenuLayout({history,openMenu,setOpenDrawer}) {
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openChangeGroupDialog, setOpenChangeGroupDialog] = React.useState(false);
@@ -78,10 +85,15 @@ export default function MenuLayout({history,openMenu,setOpenDrawer}) {
 
 
   if(group===''){
+    try{
     var token = Cookies.get('token');
     var decoded = jwt_decode(token);
     console.log('decoded',decoded);
     setGroup(decoded.charge)
+    }
+    catch(error){
+      return <Redirect to={'/login'}/>
+    }
   }
   
   const handleClickOpen = () => {
@@ -148,6 +160,36 @@ const handleClick4 = () => {
     setOpen(false);
   };  
   try{
+    
+    /*return(
+      <>
+      {
+          openMenu &&
+          <center><p><b>{group}</b></p></center>
+      }
+      {applicationRoutes.map(route => {
+        return(
+          <>
+          <List
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            className={classes.root}
+          >
+              <Link to="/app/home" >
+                <ListItem button >
+                  <ListItemIcon >
+                    <ViewList />
+                  </ListItemIcon>
+                  <ListItemText primary={route.name} className="BtnMenu"/>
+                </ListItem>
+              </Link>
+          </List>
+          </>
+        );
+      })};
+      </>
+      
+    );*/
   return (
     <>
     {
